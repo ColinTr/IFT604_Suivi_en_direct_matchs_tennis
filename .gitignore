@@ -1,0 +1,4 @@
+.idea/*
+client/.idea/*
+server/.idea/*
+node_modules/
