@@ -14,6 +14,17 @@ class Joueur {
     this.rang = rang;
     this.pays = pays;
   }
+
+  toJSON () {
+    return {
+      'id_joueur': this.id_joueur,
+      'prenom': this.prenom,
+      'nom': this.nom,
+      'age': this.age,
+      'rang': this.rang,
+      'pays': this.pays
+    };
+  }
 }
 
 module.exports = Joueur;

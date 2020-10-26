@@ -8,6 +8,10 @@
 const sqlite3 = require('sqlite3').verbose();
 
 const Partie = require('./modeles/partie');
+const Manche = require('./modeles/manche');
+const Jeu = require('./modeles/jeu');
+const Echange = require('./modeles/echange');
+const Pari = require('./modeles/pari');
 
 let db = new sqlite3.Database('./src/bdd_site.db', (err) => {
     if (err) {
@@ -31,13 +35,13 @@ exports.creerJoueur = function creerJoueur(prenom, nom, age, rang, pays, callbac
 
 // ============================== Partie ==============================
 
-exports.creerPartie = function creerPartie(idJoueur1, idJoueur2, dateTimeDebutPartie, dateTimeFinPartie, etatPartie, tickDebut, callback){
-    db.run(`INSERT INTO manche(id_joueur_1, id_joueur_2, datetime_debut_partie, datetime_fin_partie, score_manche_joueur_1, score_manche_joueur_2, etat_partie) VALUES(?)`, [idJoueur1, idJoueur2, dateTimeDebutPartie, dateTimeFinPartie, 0, 0, etatPartie], function(err) {
+exports.creerPartie = function creerPartie(joueur1, joueur2, dateTimeDebutPartie, dateTimeFinPartie, etatPartie, tickDebut, callback){
+    db.run(`INSERT INTO manche(id_joueur_1, id_joueur_2, datetime_debut_partie, datetime_fin_partie, score_manche_joueur_1, score_manche_joueur_2, etat_partie) VALUES(?)`, [joueur1.id_joueur, idJoueur2.id_joueur, dateTimeDebutPartie, dateTimeFinPartie, 0, 0, etatPartie], function(err) {
         if (err) {
             return console.log(err.message);
         }
         // Retourne la partie créée en BDD
-        callback(new Partie(this.lastID, idJoueur1, idJoueur2, undefined, undefined, dateTimeDebutPartie, tickDebut, etatPartie, 0, 0, tickDebut));
+        callback(new Partie(this.lastID, joueur1, joueur2, undefined, undefined, dateTimeDebutPartie, tickDebut, etatPartie, 0, 0, tickDebut));
     });
 };
 
@@ -80,7 +84,7 @@ exports.creerManche = function creerManche(idPartie, etatManche, callback){
             return console.log(err.message);
         }
         // return the last insert id
-        callback(this.lastID);
+        callback(new Manche(this.lastID, idPartie, 0, 0, 3, 3, etatManche));
     });
 };
 
@@ -137,13 +141,13 @@ exports.updateEtatManche = function updateEtatManche(idManche, nouvelEtat, callb
 
 // ============================== Jeu ==============================
 
-exports.creerJeu = function creerJeu(idManche, etatJeu, callback){
-    db.run(`INSERT INTO jeu(id_manche, score_echanges_joueur_1, score_echanges_joueur_2, etat_jeu) VALUES(?)`, [idManche, 0, 0, etatJeu], function(err) {
+exports.creerJeu = function creerJeu(idManche, idJoueurAuService, etatJeu, callback){
+    db.run(`INSERT INTO jeu(id_manche, id_joueur_au_service, score_echanges_joueur_1, score_echanges_joueur_2, etat_jeu) VALUES(?)`, [idManche, idJoueurAuService, 0, 0, etatJeu], function(err) {
         if (err) {
             return console.log(err.message);
         }
         // return the last insert id
-        callback(this.lastID);
+        callback(new Jeu(this.lastID, idManche, idJoueurAuService, 0, 0, etatJeu));
     });
 };
 
@@ -190,13 +194,13 @@ exports.updateEtatJeu = function updateEtatJeu(idJeu, nouvelEtat, callback){
 
 // ============================== Échange ==============================
 
-exports.creerEchange = function creerEchange(idJeu, etatEchange, callback){
+exports.creerEchange = function creerEchange(idJeu, gagne_par_joueur, conteste_par_joueur, contestation_acceptee, etatEchange, callback){
     db.run(`INSERT INTO echange(idJeu, etat_echange) VALUES(?)`, [idJeu, etatEchange], function(err) {
         if (err) {
             return console.log(err.message);
         }
         // return the last insert id
-        callback(this.lastID);
+        callback(new Echange(this.lastID, idJeu, gagne_par_joueur, conteste_par_joueur, contestation_acceptee, etatEchange));
     });
 };
 
@@ -250,7 +254,7 @@ exports.creerPari = function creerPari(montant, idPartie, idUtilisateur, idJoueu
             return console.log(err.message);
         }
         // return the last insert id
-        callback(this.lastID);
+        callback(new Pari(this.lastID, montant, idPartie, idUtilisateur, idJoueur));
     });
 };
 
