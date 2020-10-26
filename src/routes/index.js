@@ -18,49 +18,4 @@ router.get('/', function (req, res, next) {
   res.send(p);
 });
 
-//Liste des parties du jour (en cours, à venir et terminées)
-router.get('/parties', (req, res) =>{
-
-});
-
-//Informations sur une partie
-router.get('/parties/:id_partie', (req, res) =>{
-
-});
-
-//Évènements d’un match (points et contestations)
-router.get('/parties/:id_partie/evenements', (req, res) =>{
-
-});
-
-//Créer un nouveau pari
-router.post('/paris', (req, res) =>{
-
-});
-
-//Affichage du gain réalisé par l’utilisateur à la fin de la partie
-router.get('/paris/utilisateur/:id_utilisateur/partie/:id_partie', (req, res) =>{
-
-});
-
-//Le serveur renvoie l’id_utilisateur correspondant.
-router.get('/utilisateur/:nom_utilisateur', (req, res) =>{
-
-});
-
-//La liste de tous les joueurs enregistrés.
-router.get('/joueurs', (req, res) =>{
-
-});
-
-//Les horaires de la parties.
-router.get('/parties/:id_partie/horaires', (req, res) =>{
-
-});
-
-//Les résultats de la partie.
-router.get('parties/:id_partie/resultats', (req, res) =>{
-
-});
-
 module.exports = router;

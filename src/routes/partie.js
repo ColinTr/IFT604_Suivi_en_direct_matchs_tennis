@@ -19,4 +19,29 @@ router.get('/:id', function (req, res, next) {
   res.send(gen.liste_partie[req.params.id]);
 });
 
+//GET Les horaires de la parties.
+router.get('/parties/:id_partie/horaires', (req, res) =>{
+
+});
+
+//GET Les résultats de la partie.
+router.get('parties/:id_partie/resultats', (req, res) =>{
+
+});
+
+//GET Liste des parties du jour (en cours, à venir et terminées)
+router.get('/parties', (req, res) =>{
+
+});
+
+//GET Informations sur une partie
+router.get('/parties/:id_partie', (req, res) =>{
+
+});
+
+//GET Évènements d’un match (points et contestations)
+router.get('/parties/:id_partie/evenements', (req, res) =>{
+
+});
+
 module.exports = router;
