@@ -10,10 +10,10 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 const indexRouter = require('./src/routes/index');
-const partiesRouter = require('./src/routes/partie');
-const utilisateurRouter = require('./src/routes/utilisateur');
-const parisRouter = require('./src/routes/pari');
-const joueursRouter = require('./src/routes/joueur');
+const partiesRouter = require('./src/routes/parties');
+const utilisateurRouter = require('./src/routes/utilisateurs');
+const parisRouter = require('./src/routes/paris');
+const joueursRouter = require('./src/routes/joueurs');
 
 const app = express();
 

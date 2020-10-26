@@ -49,22 +49,32 @@ router.get('/:id_partie/evenements', (req, res) =>{
 
 //POST creer une partie
 router.post('/', (req, res) =>{
-  const body = req.body
+  const body = req.body;
 
-  console.log("BODY : " +req.body)
-
-  if (!body.id_joueur_1 || !body.id_joueur_2 || !body.datetime_debut_partie || !body.tick_debut ) {
-    return res.status(400).json({
+  if (body.id_joueur_1===undefined || body.id_joueur_2===undefined || body.datetime_debut_partie===undefined || body.tick_debut===undefined) {
+    res.status(400).json({
       erreur: 'Contenu manquant'
-    })
+    }).end();
   }
 
-  const joueur_1 = database.trouverJoueurViaIdJoueur(body.id_joueur_1)
-  const joueur_2 = database.trouverJoueurViaIdJoueur(body.id_joueur_2)
-
-  database.creerPartie(joueur_1, joueur_2, body.datetime_debut_partie, undefined, body.tick_debut, function(partie){
-    gen.ajouterPartie(partie)
-  } )
+  database.trouverJoueurViaIdJoueur(body.id_joueur_1, function(joueur_1) {
+    if(joueur_1 !== undefined){
+      database.trouverJoueurViaIdJoueur(body.id_joueur_2, function(joueur_2){
+        if(joueur_2 !== undefined){
+          database.creerPartie(joueur_1, joueur_2, body.datetime_debut_partie, undefined, 0, body.tick_debut, function(partie){
+            gen.ajouterPartie(partie);
+            res.status(200).end(); // OK status code
+          });
+        } else {
+          console.log('Unable to create Partie : No user with id', body.id_joueur_2, 'were found in database');
+          res.status(400).end(); // Bad request status code
+        }
+      });
+    } else {
+      console.log('Unable to create Partie : No user with id', body.id_joueur_1, 'were found in database');
+      res.status(400).end(); // Bad request status code
+    }
+  });
 });
 
 module.exports = router;

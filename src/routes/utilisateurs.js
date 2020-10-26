@@ -51,7 +51,7 @@ router.put('/', (req, res) =>{
             res.status(400).end(); // Bad request status code
         } else {
             console.log('Name of user', req.body.id_utilisateur, 'updated');
-            res.status(204).end(); // No content status code
+            res.status(200).end(); // OK status code
         }
     });
 });

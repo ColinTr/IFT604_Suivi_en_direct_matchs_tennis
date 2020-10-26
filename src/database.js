@@ -52,7 +52,7 @@ exports.trouverJoueurViaIdJoueur =  function trouverJoueurViaIdJoueur(idJoueur, 
 // ============================== Partie ==============================
 
 exports.creerPartie = function creerPartie(joueur1, joueur2, dateTimeDebutPartie, dateTimeFinPartie, etatPartie, tickDebut, callback){
-    db.run(`INSERT INTO manche(id_joueur_1, id_joueur_2, datetime_debut_partie, datetime_fin_partie, score_manche_joueur_1, score_manche_joueur_2, etat_partie) VALUES(?)`, [joueur1.id_joueur, idJoueur2.id_joueur, dateTimeDebutPartie, dateTimeFinPartie, 0, 0, etatPartie], function(err) {
+    db.run(`INSERT INTO partie(id_joueur_1, id_joueur_2, datetime_debut_partie, datetime_fin_partie, score_manche_joueur_1, score_manche_joueur_2, etat_partie) VALUES(?, ?, ?, ?, ?, ?, ?)`, [joueur1.id_joueur, joueur2.id_joueur, dateTimeDebutPartie, dateTimeFinPartie, 0, 0, etatPartie], function(err) {
         if (err) {
             return console.log(err.message);
         }
