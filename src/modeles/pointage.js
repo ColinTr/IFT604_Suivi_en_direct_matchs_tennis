@@ -10,7 +10,7 @@ class Pointage {
   constructor (parent) {
     this.manches = [0, 0];
     this.jeu = [[0, 0]];
-    this.echange = new Echange();
+    this.echange = [0, 0];
     this.final = false;
 
     this.parent = parent;
