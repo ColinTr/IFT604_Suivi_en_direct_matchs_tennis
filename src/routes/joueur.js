@@ -12,7 +12,7 @@ const gen = require('../generateur');
 
 //GET La liste de tous les joueurs enregistrés.
 router.get('/joueurs', (req, res) =>{
-
+    // TODO
 });
 
 module.exports = router;

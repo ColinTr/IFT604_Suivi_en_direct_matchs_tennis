@@ -6,7 +6,8 @@
  */
 
 class Joueur {
-  constructor (prenom, nom, age, rang, pays) {
+  constructor (id_joueur, prenom, nom, age, rang, pays) {
+    this.id_joueur = id_joueur;
     this.prenom = prenom;
     this.nom = nom;
     this.age = age;

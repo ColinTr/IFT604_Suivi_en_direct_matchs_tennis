@@ -8,9 +8,10 @@
 const Pointage = require('./pointage.js');
 
 class Partie {
-  constructor (joueur1, joueur2, terrain, tournoi, heureDebut, tickDebut) {
-    this.joueur1 = joueur1;
-    this.joueur2 = joueur2;
+  constructor (id_partie, id_joueur_1, id_joueur_2, terrain, tournoi, heureDebut, tickDebut) {
+    this.id_partie = id_partie;
+    this.joueur1 = id_joueur_1;
+    this.joueur2 = id_joueur_2;
     this.terrain = terrain;
     this.tournoi = tournoi;
     this.heure_debut = heureDebut;

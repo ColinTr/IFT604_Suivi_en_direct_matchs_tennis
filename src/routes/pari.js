@@ -12,7 +12,7 @@ const gen = require('../generateur');
 
 //POST Créer un nouveau pari
 router.post('/paris', (req, res) =>{
-
+    // TODO
 });
 
 //GET Affichage du gain réalisé par l’utilisateur à la fin de la partie
