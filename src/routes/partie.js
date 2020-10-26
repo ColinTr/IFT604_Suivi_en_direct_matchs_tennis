@@ -12,10 +12,12 @@ const gen = require('../generateur');
 
 /* GET parties listing. */
 router.get('/', function (req, res, next) {
+  // TODO
   res.send(gen.liste_partie);
 });
 
 router.get('/:id', function (req, res, next) {
+  // TODO
   res.send(gen.liste_partie[req.params.id]);
 });
 
@@ -31,12 +33,12 @@ router.get(':id_partie/resultats', (req, res) =>{
 
 //GET Informations sur une partie
 router.get('/:id_partie', (req, res) =>{
-
+  // TODO
 });
 
 //GET Évènements d’un match (points et contestations)
 router.get('/:id_partie/evenements', (req, res) =>{
-
+  // TODO
 });
 
 //POST creer une partie

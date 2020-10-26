@@ -4,12 +4,13 @@
  * Verdier Adrien (matricule 20 088 959)
  * Alexandre Turpin (matricule 20 088 156)
  */
+const Echange = require('./echange.js');
 
 class Pointage {
   constructor (parent) {
     this.manches = [0, 0];
     this.jeu = [[0, 0]];
-    this.echange = [0, 0];
+    this.echange = new Echange();
     this.final = false;
 
     this.parent = parent;

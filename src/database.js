@@ -7,6 +7,8 @@
 
 const sqlite3 = require('sqlite3').verbose();
 
+const Partie = require('./modeles/partie');
+
 let db = new sqlite3.Database('./src/bdd_site.db', (err) => {
     if (err) {
         return console.error(err.message);
@@ -29,13 +31,13 @@ exports.creerJoueur = function creerJoueur(prenom, nom, age, rang, pays, callbac
 
 // ============================== Partie ==============================
 
-exports.creerPartie = function creerPartie(idJoueur1, idJoueur2, dateTimeDebutPartie, dateTimeFinPartie, etatPartie, callback){
+exports.creerPartie = function creerPartie(idJoueur1, idJoueur2, dateTimeDebutPartie, dateTimeFinPartie, etatPartie, tickDebut, callback){
     db.run(`INSERT INTO manche(id_joueur_1, id_joueur_2, datetime_debut_partie, datetime_fin_partie, score_manche_joueur_1, score_manche_joueur_2, etat_partie) VALUES(?)`, [idJoueur1, idJoueur2, dateTimeDebutPartie, dateTimeFinPartie, 0, 0, etatPartie], function(err) {
         if (err) {
             return console.log(err.message);
         }
-        // return the last insert id
-        callback(this.lastID);
+        // Retourne la partie créée en BDD
+        callback(new Partie(this.lastID, idJoueur1, idJoueur2, undefined, undefined, dateTimeDebutPartie, tickDebut, etatPartie, 0, 0, tickDebut));
     });
 };
 

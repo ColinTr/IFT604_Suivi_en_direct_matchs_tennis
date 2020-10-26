@@ -17,7 +17,7 @@ router.post('/', (req, res) =>{
 
 //GET Affichage du gain réalisé par l’utilisateur à la fin de la partie
 router.get('/utilisateur/:id_utilisateur/partie/:id_partie', (req, res) =>{
-
+    // TODO
 });
 
 module.exports = router;

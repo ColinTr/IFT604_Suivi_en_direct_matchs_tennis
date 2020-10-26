@@ -8,13 +8,18 @@
 const Pointage = require('./pointage.js');
 
 class Partie {
-  constructor (id_partie, id_joueur_1, id_joueur_2, terrain, tournoi, heureDebut, tickDebut) {
+  constructor (id_partie, id_joueur_1, id_joueur_2, terrain, tournoi, datetime_debut_partie, datetime_fin_partie, etat_partie, score_manche_joueur_1, score_manche_joueur_2, tickDebut) {
     this.id_partie = id_partie;
     this.joueur1 = id_joueur_1;
     this.joueur2 = id_joueur_2;
     this.terrain = terrain;
     this.tournoi = tournoi;
-    this.heure_debut = heureDebut;
+    this.datetime_debut_partie = datetime_debut_partie;
+    this.datetime_fin_partie = datetime_fin_partie;
+    this.etat_partie = etat_partie;
+    this.score_manche_joueur_1 = score_manche_joueur_1;
+    this.score_manche_joueur_2 = score_manche_joueur_2;
+
     this.pointage = new Pointage(this);
     this.temps_partie = 0;
     this.joueur_au_service = Math.floor(Math.random() * 2);
@@ -25,24 +30,26 @@ class Partie {
   }
 
   jouerTour () {
-    let contestationReussi = false;
+    let contestationReussie = false;
     if ((Math.random() * 100) < 3) { // 3% de contestation
       if (!Partie.contester()) {
         const contestant = Math.floor(Math.random() * 2);
         this.constestation[contestant] = Math.max(0, this.constestation[contestant] - 1);
         console.log('contestation echouee');
       } else {
-        contestationReussi = true;
+        contestationReussie = true;
         console.log('contestation reussie');
       }
     }
 
-    if (!contestationReussi) {
+    if (!contestationReussie) {
       this.pointage.ajouterPoint(Math.floor(Math.random() * 2));
     }
     this.temps_partie += Math.floor(Math.random() * 60); // entre 0 et 60 secondes entre chaque point
     this.vitesse_dernier_service = Math.floor(Math.random() * (250 - 60 + 1)) + 60; // entre 60 et 250 km/h
     this.nombre_coup_dernier_echange = Math.floor(Math.random() * (30 - 1 + 1)) + 1; // entre 1 et 30 coups par échange
+
+
   }
 
   static contester () {
@@ -67,7 +74,12 @@ class Partie {
       'joueur2': this.joueur2,
       'terrain': this.terrain,
       'tournoi': this.tournoi,
-      'heure_debut': this.heure_debut,
+      'datetime_debut_partie': this.datetime_debut_partie,
+      'datetime_fin_partie': this.datetime_fin_partie,
+      'etat_partie': this.etat_partie,
+      'score_manche_joueur_1': this.score_manche_joueur_1,
+      'score_manche_joueur_2': this.score_manche_joueur_2,
+
       'pointage': this.pointage,
       'temps_partie': this.temps_partie,
       'serveur': this.joueur_au_service,
@@ -77,4 +89,5 @@ class Partie {
     };
   }
 }
+
 module.exports = Partie;
