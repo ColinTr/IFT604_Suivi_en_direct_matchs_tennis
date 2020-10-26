@@ -17,18 +17,26 @@ let db = new sqlite3.Database('./src/bdd_site.db', (err) => {
 
 // ============================== Joueur ==============================
 
-exports.creerJoueur = function creerJoueur(nomJoueur, callback){
-    // TODO
-};
-
-exports.updateNomJoueur = function updateNomJoueur(idJoueur, callback){
-    // TODO
+exports.creerJoueur = function creerJoueur(prenom, nom, age, rang, pays, callback){
+    db.run(`INSERT INTO manche(prenom, nom, age, rang, pays) VALUES(?)`, [prenom, nom, age, rang, pays], function(err) {
+        if (err) {
+            return console.log(err.message);
+        }
+        // return the last insert id
+        callback(this.lastID);
+    });
 };
 
 // ============================== Partie ==============================
 
-exports.creerPartie = function creerPartie(idPartie, idJoueur1, idJoueur2, dateTimeDebutPartie, dateTimeFinPartie, etatPartie, callback){
-    // TODO
+exports.creerPartie = function creerPartie(idJoueur1, idJoueur2, dateTimeDebutPartie, dateTimeFinPartie, etatPartie, callback){
+    db.run(`INSERT INTO manche(id_joueur_1, id_joueur_2, datetime_debut_partie, datetime_fin_partie, score_manche_joueur_1, score_manche_joueur_2, etat_partie) VALUES(?)`, [idJoueur1, idJoueur2, dateTimeDebutPartie, dateTimeFinPartie, 0, 0, etatPartie], function(err) {
+        if (err) {
+            return console.log(err.message);
+        }
+        // return the last insert id
+        callback(this.lastID);
+    });
 };
 
 exports.updateScoreMancheJoueur1Partie = function updateScoreMancheJoueur1Partie(idPartie, nouveauScore, callback){
@@ -46,8 +54,14 @@ exports.updateEtatPartie = function updateEtatPartie(idPartie, nouvelEtat, callb
 
 // ============================== Manche ==============================
 
-exports.creerManche = function creerManche(idPartie, callback){
-    // TODO
+exports.creerManche = function creerManche(idPartie, etatManche, callback){
+    db.run(`INSERT INTO manche(id_partie, score_jeux_joueur_1, score_jeux_joueur_2, nb_contestations_joueur_1, nb_contestations_joueur_2, etat_manche) VALUES(?)`, [idPartie, 0, 0, 3, 3, etatManche], function(err) {
+        if (err) {
+            return console.log(err.message);
+        }
+        // return the last insert id
+        callback(this.lastID);
+    });
 };
 
 exports.updateScoreJeuxJoueur1Manche = function updateScoreJeuxJoueur1Manche(idManche, nouveauScore, callback){
@@ -73,8 +87,14 @@ exports.updateEtatManche = function updateEtatManche(idManche, nouvelEtat, callb
 
 // ============================== Jeu ==============================
 
-exports.creerJeu = function creerJeu(idManche, callback){
-    // TODO
+exports.creerJeu = function creerJeu(idManche, etatJeu, callback){
+    db.run(`INSERT INTO jeu(id_manche, score_echanges_joueur_1, score_echanges_joueur_2, etat_jeu) VALUES(?)`, [idManche, 0, 0, etatJeu], function(err) {
+        if (err) {
+            return console.log(err.message);
+        }
+        // return the last insert id
+        callback(this.lastID);
+    });
 };
 
 exports.updateScoreEchangesJoueur1Jeu = function updateScoreEchangesJoueur1Jeu(idJeu, nouveauScore, callback){
@@ -96,8 +116,14 @@ exports.updateEtatJeu = function updateEtatJeu(idJeu, nouvelEtat, callback){
 
 // ============================== Échange ==============================
 
-exports.creerEchange = function creerEchange(idJeu, callback){
-    // TODO
+exports.creerEchange = function creerEchange(idJeu, etatEchange, callback){
+    db.run(`INSERT INTO echange(idJeu, etat_echange) VALUES(?)`, [idJeu, etatEchange], function(err) {
+        if (err) {
+            return console.log(err.message);
+        }
+        // return the last insert id
+        callback(this.lastID);
+    });
 };
 
 exports.setGagneParJoueur = function setGagneParJoueur(idEchange, idJoueur, callback){
@@ -121,13 +147,29 @@ exports.updateEtatEchange = function updateEtatEchange(idEchange, nouvelEtat, ca
 // ============================== Pari ==============================
 
 exports.creerPari = function creerPari(montant, idPartie, idUtilisateur, idJoueur, callback){
-    // TODO
+    db.run(`INSERT INTO pari(montant, id_partie, id_utilisateur, id_joueur) VALUES(?)`, [montant, idPartie, idUtilisateur, idJoueur], function(err) {
+        if (err) {
+            return console.log(err.message);
+        }
+        // return the last insert id
+        callback(this.lastID);
+    });
 };
 
 // ============================== Utilisateur ==============================
 
-exports.findIdUtilisateurByNomUtilisateur = function findIdUtilisateurByNomUtilisateur(username, callback) {
-    db.get(`SELECT * FROM utilisateur WHERE nom_utilisateur = ?`, [username], (err, row) => {
+exports.creerUtilisateur = function creerUtilisateur(nomUtilisateur, callback){
+    db.run(`INSERT INTO utilisateur(nom_utilisateur) VALUES(?)`, [nomUtilisateur], function(err) {
+        if (err) {
+            return console.log(err.message);
+        }
+        // return the last insert id
+        callback(this.lastID);
+    });
+};
+
+exports.trouverIdUtilisateurViaNomUtilisateur = function trouverIdUtilisateurViaNomUtilisateur(nomUtilisateur, callback) {
+    db.get(`SELECT * FROM utilisateur WHERE nom_utilisateur = ?`, [nomUtilisateur], (err, row) => {
         if (err) {
             return console.log(err.message);
         }
@@ -140,18 +182,18 @@ exports.findIdUtilisateurByNomUtilisateur = function findIdUtilisateurByNomUtili
     });
 };
 
-exports.insertUtilisateur = function insertUtilisateur(username, callback){
-    db.run(`INSERT INTO utilisateur(nom_utilisateur) VALUES(?)`, [username], function(err) {
+exports.updateNomUtilisateur = function updateNomUtilisateur(idUtilisateur, nouveauNomUtilisateur, callback){
+    db.run(`UPDATE utilisateur SET nom_utilisateur = ? WHERE id_utilisateur = ?`, [nouveauNomUtilisateur, idUtilisateur], function(err) {
         if (err) {
             return console.log(err.message);
         }
-        // return the last insert id
-        callback(this.lastID);
+        // return the number of rows updated
+        callback(this.changes);
     });
 };
 
-exports.deleteUtilisateur = function deleteUtilisateur(id_utilisateur, callback){
-    db.run(`DELETE FROM utilisateur WHERE id_utilisateur = ?`, [id_utilisateur], function(err) {
+exports.supprimerUtilisateur = function supprimerUtilisateur(idUtilisateur, callback){
+    db.run(`DELETE FROM utilisateur WHERE id_utilisateur = ?`, [idUtilisateur], function(err) {
         if (err) {
             return console.log(err.message);
         }

@@ -8,6 +8,8 @@
 const express = require('express');
 const router = express.Router();
 
+var app = express();
+
 const gen = require('../generateur');
 
 const database = require('../database');
@@ -15,10 +17,10 @@ const database = require('../database');
 //GET Le serveur renvoie l’id_utilisateur correspondant.
 router.get('/:nom_utilisateur', (req, res) =>{
     // On vérifie si l'utilisateur existe
-    database.findIdUtilisateurByNomUtilisateur(req.params['nom_utilisateur'], function(idUtilisateur) {
+    database.trouverIdUtilisateurViaNomUtilisateur(req.params['nom_utilisateur'], function(idUtilisateur) {
         // S'il n'existe pas, on le crée
         if(idUtilisateur === undefined){
-            database.insertUtilisateur(req.params['nom_utilisateur'], function (lastInsertedId) {
+            database.creerUtilisateur(req.params['nom_utilisateur'], function (lastInsertedId) {
                 console.log(`Created user`, lastInsertedId);
                 // Et on renvoie l'id de l'utilisateur ainsi créé
                 res.send(`{ id_utilisateur : ` + lastInsertedId + `}`);
@@ -33,14 +35,16 @@ router.get('/:nom_utilisateur', (req, res) =>{
     });
 });
 
+
 //UPDATE Le serveur modifie le nom de l'utilisateur correspondant.
 router.put('/', (req, res) =>{
-    // TODO
+    console.log("req.body =", req.body);
+    res.end();
 });
 
 //DELETE Le serveur supprime l'utilisateur correspondant.
 router.delete('/:id_utilisateur', (req, res) =>{
-    database.deleteUtilisateur(req.params['id_utilisateur'], function (numberOfUpdatedRows) {
+    database.supprimerUtilisateur(req.params['id_utilisateur'], function (numberOfUpdatedRows) {
         if(numberOfUpdatedRows === 0){
             console.log('Unable to delete user : No user with id', req.params['id_utilisateur'], 'were found in database');
             res.status(400); // Bad request status code
