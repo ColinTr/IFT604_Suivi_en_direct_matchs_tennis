@@ -10,6 +10,9 @@ const router = express.Router();
 
 var app = express();
 
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
 const gen = require('../generateur');
 
 const database = require('../database');
@@ -38,8 +41,21 @@ router.get('/:nom_utilisateur', (req, res) =>{
 
 //UPDATE Le serveur modifie le nom de l'utilisateur correspondant.
 router.put('/', (req, res) =>{
-    console.log("req.body =", req.body);
-    res.end();
+    if(req.body.id_utilisateur === undefined || req.body.nom_utilisateur === undefined) {
+        res.status(400); // Bad request status code
+        res.end();
+    }
+
+    database.updateNomUtilisateur(req.body.id_utilisateur, req.body.nom_utilisateur, function (numberOfUpdatedRows) {
+        if(numberOfUpdatedRows === 0){
+            console.log('Unable to update name of user : No user with id', req.body.id_utilisateur, 'were found in database');
+            res.status(400); // Bad request status code
+        } else {
+            console.log('Name of user', req.body.id_utilisateur, 'updated');
+            res.status(204); // No content status code
+        }
+        res.end();
+    });
 });
 
 //DELETE Le serveur supprime l'utilisateur correspondant.
