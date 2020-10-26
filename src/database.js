@@ -17,18 +17,112 @@ let db = new sqlite3.Database('./src/bdd_site.db', (err) => {
 
 // ============================== Joueur ==============================
 
+exports.creerJoueur = function creerJoueur(nomJoueur, callback){
+    // TODO
+};
+
+exports.updateNomJoueur = function updateNomJoueur(idJoueur, callback){
+    // TODO
+};
 
 // ============================== Partie ==============================
 
+exports.creerPartie = function creerPartie(idPartie, idJoueur1, idJoueur2, dateTimeDebutPartie, dateTimeFinPartie, etatPartie, callback){
+    // TODO
+};
+
+exports.updateScoreMancheJoueur1Partie = function updateScoreMancheJoueur1Partie(idPartie, nouveauScore, callback){
+    // TODO
+};
+
+exports.updateScoreMancheJoueur2Partie = function updateScoreMancheJoueur2Partie(idPartie, nouveauScore, callback){
+    // TODO
+};
+
+// (0=à_venir, 1=en_cours, 2=terminé)
+exports.updateEtatPartie = function updateEtatPartie(idPartie, nouvelEtat, callback){
+    // TODO
+};
 
 // ============================== Manche ==============================
 
+exports.creerManche = function creerManche(idPartie, callback){
+    // TODO
+};
+
+exports.updateScoreJeuxJoueur1Manche = function updateScoreJeuxJoueur1Manche(idManche, nouveauScore, callback){
+    // TODO
+};
+
+exports.updateScoreJeuxJoueur2Manche = function updateScoreJeuxJoueur2Manche(idManche, nouveauScore, callback){
+    // TODO
+};
+
+exports.updateContestationsJoueur1Manche = function updateContestationsJoueur1Manche(idManche, nouveauNbContestations, callback){
+    // TODO
+};
+
+exports.updateContestationsJoueur2Manche = function updateContestationsJoueur2Manche(idManche, nouveauNbContestations, callback){
+    // TODO
+};
+
+// (0=en_cours, 1=terminé)
+exports.updateEtatManche = function updateEtatManche(idManche, nouvelEtat, callback){
+    // TODO
+};
 
 // ============================== Jeu ==============================
 
+exports.creerJeu = function creerJeu(idManche, callback){
+    // TODO
+};
+
+exports.updateScoreEchangesJoueur1Jeu = function updateScoreEchangesJoueur1Jeu(idJeu, nouveauScore, callback){
+    // TODO
+};
+
+exports.updateScoreEchangesJoueur2Jeu = function updateScoreEchangesJoueur2Jeu(idJeu, nouveauScore, callback){
+    // TODO
+};
+
+exports.setJoueurAuServiceJeu = function setJoueurAuServiceJeu(idJeu, idJoueurAuService, callback){
+    // TODO
+};
+
+// (0=en_cours, 1=terminé)
+exports.updateEtatJeu = function updateEtatJeu(idJeu, nouvelEtat, callback){
+    // TODO
+};
+
+// ============================== Échange ==============================
+
+exports.creerEchange = function creerEchange(idJeu, callback){
+    // TODO
+};
+
+exports.setGagneParJoueur = function setGagneParJoueur(idEchange, idJoueur, callback){
+    // TODO
+};
+
+exports.setContesteParJoueur = function setContesteParJoueur(idEchange, idJoueur, callback){
+    // TODO
+};
+
+// (0=non, 1=oui)
+exports.setContestationAcceptee = function setContestationAcceptee(idEchange, bool, callback){
+    // TODO
+};
+
+// (0=en_cours, 1=terminé)
+exports.updateEtatEchange = function updateEtatEchange(idEchange, nouvelEtat, callback){
+    // TODO
+};
 
 // ============================== Pari ==============================
 
+exports.creerPari = function creerPari(montant, idPartie, idUtilisateur, idJoueur, callback){
+    // TODO
+};
 
 // ============================== Utilisateur ==============================
 
