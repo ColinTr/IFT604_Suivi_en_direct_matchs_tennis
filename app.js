@@ -12,6 +12,8 @@ const logger = require('morgan');
 const indexRouter = require('./src/routes/index');
 const partiesRouter = require('./src/routes/partie');
 const utilisateurRouter = require('./src/routes/utilisateur');
+const parisRouter = require('./src/routes/pari');
+const joueursRouter = require('./src/routes/joueur');
 
 const app = express();
 
@@ -23,6 +25,8 @@ app.use(cookieParser());
 app.use('/', indexRouter);
 app.use('/parties', partiesRouter);
 app.use('/utilisateur', utilisateurRouter);
+app.use('/joueurs', joueursRouter);
+app.use('/paris', parisRouter);
 
 const generateur = require('./src/generateur');
 generateur.demarrer();

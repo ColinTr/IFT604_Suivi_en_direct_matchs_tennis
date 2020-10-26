@@ -20,27 +20,22 @@ router.get('/:id', function (req, res, next) {
 });
 
 //GET Les horaires de la parties.
-router.get('/parties/:id_partie/horaires', (req, res) =>{
+router.get('/:id_partie/horaires', (req, res) =>{
   // TODO
 });
 
 //GET Les résultats de la partie.
-router.get('parties/:id_partie/resultats', (req, res) =>{
+router.get(':id_partie/resultats', (req, res) =>{
   // TODO
 });
 
-//GET Liste des parties du jour (en cours, à venir et terminées)
-router.get('/parties', (req, res) =>{
-
-});
-
 //GET Informations sur une partie
-router.get('/parties/:id_partie', (req, res) =>{
+router.get('/:id_partie', (req, res) =>{
 
 });
 
 //GET Évènements d’un match (points et contestations)
-router.get('/parties/:id_partie/evenements', (req, res) =>{
+router.get('/:id_partie/evenements', (req, res) =>{
 
 });
 

@@ -11,12 +11,12 @@ const router = express.Router();
 const gen = require('../generateur');
 
 //POST Créer un nouveau pari
-router.post('/paris', (req, res) =>{
+router.post('/', (req, res) =>{
     // TODO
 });
 
 //GET Affichage du gain réalisé par l’utilisateur à la fin de la partie
-router.get('/paris/utilisateur/:id_utilisateur/partie/:id_partie', (req, res) =>{
+router.get('/utilisateur/:id_utilisateur/partie/:id_partie', (req, res) =>{
 
 });
 
