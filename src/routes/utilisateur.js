@@ -42,19 +42,17 @@ router.get('/:nom_utilisateur', (req, res) =>{
 //UPDATE Le serveur modifie le nom de l'utilisateur correspondant.
 router.put('/', (req, res) =>{
     if(req.body.id_utilisateur === undefined || req.body.nom_utilisateur === undefined) {
-        res.status(400); // Bad request status code
-        res.end();
+        res.status(400).end(); // Bad request status code
     }
 
     database.updateNomUtilisateur(req.body.id_utilisateur, req.body.nom_utilisateur, function (numberOfUpdatedRows) {
         if(numberOfUpdatedRows === 0){
             console.log('Unable to update name of user : No user with id', req.body.id_utilisateur, 'were found in database');
-            res.status(400); // Bad request status code
+            res.status(400).end(); // Bad request status code
         } else {
             console.log('Name of user', req.body.id_utilisateur, 'updated');
-            res.status(204); // No content status code
+            res.status(204).end(); // No content status code
         }
-        res.end();
     });
 });
 
@@ -63,12 +61,11 @@ router.delete('/:id_utilisateur', (req, res) =>{
     database.supprimerUtilisateur(req.params['id_utilisateur'], function (numberOfUpdatedRows) {
         if(numberOfUpdatedRows === 0){
             console.log('Unable to delete user : No user with id', req.params['id_utilisateur'], 'were found in database');
-            res.status(400); // Bad request status code
+            res.status(400).end(); // Bad request status code
         } else {
             console.log('User of id', req.params['id_utilisateur'], 'deleted from database');
-            res.status(204); // No content status code
+            res.status(204).end(); // No content status code
         }
-        res.end();
     });
 });
 

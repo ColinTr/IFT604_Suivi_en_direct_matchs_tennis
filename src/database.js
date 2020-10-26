@@ -40,16 +40,34 @@ exports.creerPartie = function creerPartie(idJoueur1, idJoueur2, dateTimeDebutPa
 };
 
 exports.updateScoreMancheJoueur1Partie = function updateScoreMancheJoueur1Partie(idPartie, nouveauScore, callback){
-    // TODO
+    db.run(`UPDATE partie SET score_manche_joueur_1 = ? WHERE id_partie = ?`, [nouveauScore, idPartie], function(err) {
+        if (err) {
+            return console.log(err.message);
+        }
+        // return the number of rows updated
+        callback(this.changes);
+    });
 };
 
 exports.updateScoreMancheJoueur2Partie = function updateScoreMancheJoueur2Partie(idPartie, nouveauScore, callback){
-    // TODO
+    db.run(`UPDATE partie SET score_manche_joueur_2 = ? WHERE id_partie = ?`, [nouveauScore, idPartie], function(err) {
+        if (err) {
+            return console.log(err.message);
+        }
+        // return the number of rows updated
+        callback(this.changes);
+    });
 };
 
 // (0=à_venir, 1=en_cours, 2=terminé)
 exports.updateEtatPartie = function updateEtatPartie(idPartie, nouvelEtat, callback){
-    // TODO
+    db.run(`UPDATE partie SET etat_partie = ? WHERE id_partie = ?`, [nouvelEtat, idPartie], function(err) {
+        if (err) {
+            return console.log(err.message);
+        }
+        // return the number of rows updated
+        callback(this.changes);
+    });
 };
 
 // ============================== Manche ==============================
@@ -65,24 +83,54 @@ exports.creerManche = function creerManche(idPartie, etatManche, callback){
 };
 
 exports.updateScoreJeuxJoueur1Manche = function updateScoreJeuxJoueur1Manche(idManche, nouveauScore, callback){
-    // TODO
+    db.run(`UPDATE manche SET score_jeux_joueur_1 = ? WHERE id_manche = ?`, [nouveauScore, idManche], function(err) {
+        if (err) {
+            return console.log(err.message);
+        }
+        // return the number of rows updated
+        callback(this.changes);
+    });
 };
 
 exports.updateScoreJeuxJoueur2Manche = function updateScoreJeuxJoueur2Manche(idManche, nouveauScore, callback){
-    // TODO
+    db.run(`UPDATE manche SET score_jeux_joueur_2 = ? WHERE id_manche = ?`, [nouveauScore, idManche], function(err) {
+        if (err) {
+            return console.log(err.message);
+        }
+        // return the number of rows updated
+        callback(this.changes);
+    });
 };
 
 exports.updateContestationsJoueur1Manche = function updateContestationsJoueur1Manche(idManche, nouveauNbContestations, callback){
-    // TODO
+    db.run(`UPDATE manche SET nb_contestations_joueur_1 = ? WHERE id_manche = ?`, [nouveauNbContestations, idManche], function(err) {
+        if (err) {
+            return console.log(err.message);
+        }
+        // return the number of rows updated
+        callback(this.changes);
+    });
 };
 
 exports.updateContestationsJoueur2Manche = function updateContestationsJoueur2Manche(idManche, nouveauNbContestations, callback){
-    // TODO
+    db.run(`UPDATE manche SET nb_contestations_joueur_2 = ? WHERE id_manche = ?`, [nouveauNbContestations, idManche], function(err) {
+        if (err) {
+            return console.log(err.message);
+        }
+        // return the number of rows updated
+        callback(this.changes);
+    });
 };
 
 // (0=en_cours, 1=terminé)
 exports.updateEtatManche = function updateEtatManche(idManche, nouvelEtat, callback){
-    // TODO
+    db.run(`UPDATE manche SET etat_manche = ? WHERE id_manche = ?`, [nouvelEtat, idManche], function(err) {
+        if (err) {
+            return console.log(err.message);
+        }
+        // return the number of rows updated
+        callback(this.changes);
+    });
 };
 
 // ============================== Jeu ==============================
@@ -98,20 +146,44 @@ exports.creerJeu = function creerJeu(idManche, etatJeu, callback){
 };
 
 exports.updateScoreEchangesJoueur1Jeu = function updateScoreEchangesJoueur1Jeu(idJeu, nouveauScore, callback){
-    // TODO
+    db.run(`UPDATE jeu SET score_echanges_joueur_1 = ? WHERE id_jeu = ?`, [nouveauScore, idJeu], function(err) {
+        if (err) {
+            return console.log(err.message);
+        }
+        // return the number of rows updated
+        callback(this.changes);
+    });
 };
 
 exports.updateScoreEchangesJoueur2Jeu = function updateScoreEchangesJoueur2Jeu(idJeu, nouveauScore, callback){
-    // TODO
+    db.run(`UPDATE jeu SET score_echanges_joueur_2 = ? WHERE id_jeu = ?`, [nouveauScore, idJeu], function(err) {
+        if (err) {
+            return console.log(err.message);
+        }
+        // return the number of rows updated
+        callback(this.changes);
+    });
 };
 
 exports.setJoueurAuServiceJeu = function setJoueurAuServiceJeu(idJeu, idJoueurAuService, callback){
-    // TODO
+    db.run(`UPDATE jeu SET joueur_au_service = ? WHERE id_jeu = ?`, [idJoueurAuService, idJeu], function(err) {
+        if (err) {
+            return console.log(err.message);
+        }
+        // return the number of rows updated
+        callback(this.changes);
+    });
 };
 
 // (0=en_cours, 1=terminé)
 exports.updateEtatJeu = function updateEtatJeu(idJeu, nouvelEtat, callback){
-    // TODO
+    db.run(`UPDATE jeu SET etat_jeu = ? WHERE id_jeu = ?`, [nouvelEtat, idJeu], function(err) {
+        if (err) {
+            return console.log(err.message);
+        }
+        // return the number of rows updated
+        callback(this.changes);
+    });
 };
 
 // ============================== Échange ==============================
@@ -127,21 +199,45 @@ exports.creerEchange = function creerEchange(idJeu, etatEchange, callback){
 };
 
 exports.setGagneParJoueur = function setGagneParJoueur(idEchange, idJoueur, callback){
-    // TODO
+    db.run(`UPDATE echange SET gagne_par_joueur = ? WHERE id_echange = ?`, [idJoueur, idEchange], function(err) {
+        if (err) {
+            return console.log(err.message);
+        }
+        // return the number of rows updated
+        callback(this.changes);
+    });
 };
 
 exports.setContesteParJoueur = function setContesteParJoueur(idEchange, idJoueur, callback){
-    // TODO
+    db.run(`UPDATE echange SET conteste_par_joueur = ? WHERE id_echange = ?`, [idJoueur, idEchange], function(err) {
+        if (err) {
+            return console.log(err.message);
+        }
+        // return the number of rows updated
+        callback(this.changes);
+    });
 };
 
 // (0=non, 1=oui)
 exports.setContestationAcceptee = function setContestationAcceptee(idEchange, bool, callback){
-    // TODO
+    db.run(`UPDATE echange SET contestation_acceptee = ? WHERE id_echange = ?`, [bool, idEchange], function(err) {
+        if (err) {
+            return console.log(err.message);
+        }
+        // return the number of rows updated
+        callback(this.changes);
+    });
 };
 
 // (0=en_cours, 1=terminé)
 exports.updateEtatEchange = function updateEtatEchange(idEchange, nouvelEtat, callback){
-    // TODO
+    db.run(`UPDATE echange SET etat_echange = ? WHERE id_echange = ?`, [nouvelEtat, idEchange], function(err) {
+        if (err) {
+            return console.log(err.message);
+        }
+        // return the number of rows updated
+        callback(this.changes);
+    });
 };
 
 // ============================== Pari ==============================
