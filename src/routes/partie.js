@@ -39,4 +39,9 @@ router.get('/:id_partie/evenements', (req, res) =>{
 
 });
 
+//POST creer une partie
+router.post('/', (req, res) =>{
+
+});
+
 module.exports = router;

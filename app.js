@@ -24,7 +24,7 @@ app.use(cookieParser());
 
 app.use('/', indexRouter);
 app.use('/parties', partiesRouter);
-app.use('/utilisateur', utilisateurRouter);
+app.use('/utilisateurs', utilisateurRouter);
 app.use('/joueurs', joueursRouter);
 app.use('/paris', parisRouter);
 
