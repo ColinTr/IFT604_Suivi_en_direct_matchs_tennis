@@ -5,10 +5,11 @@
  * Alexandre Turpin (matricule 20 088 156)
  */
 
-const Pointage = require('./pointage.js');
+const database = require('../database');
+const Manche = require('./manche');
 
 class Partie {
-  constructor (id_partie, joueur1, joueur2, terrain, tournoi, datetime_debut_partie, datetime_fin_partie, etat_partie, score_manche_joueur_1, score_manche_joueur_2, tickDebut) {
+  constructor(id_partie, joueur1, joueur2, terrain, tournoi, datetime_debut_partie, datetime_fin_partie, etat_partie, score_manche_joueur_1, score_manche_joueur_2, tickDebut) {
     this.id_partie = id_partie;
     this.joueur1 = joueur1;
     this.joueur2 = joueur2;
@@ -19,53 +20,72 @@ class Partie {
     this.etat_partie = etat_partie;
     this.score_manche_joueur_1 = score_manche_joueur_1;
     this.score_manche_joueur_2 = score_manche_joueur_2;
-
-    this.pointage = new Pointage(this);
     this.temps_partie = 0;
-    this.joueur_au_service = Math.floor(Math.random() * 2);
-    this.vitesse_dernier_service = 0;
-    this.nombre_coup_dernier_echange = 0;
-    this.constestation = [3, 3];
     this.tick_debut = tickDebut;
+
+    this.manche = new Manche(this,-1, this.id_partie, 0, 0, 3, 3, 0);
+    database.creerManche(this.manche.id_partie, this.manche.score_jeux_joueur_1, this.manche.score_jeux_joueur_2, this.manche.nb_contestations_joueur_1, this.manche.nb_contestations_joueur_2, this.manche.etat_manche, function(dbManche){
+      this.manche.id_manche = dbManche.id_manche;
+    });
+
+    this.modificateurVitesse = Math.max(process.argv[2], 1);
   }
 
-  jouerTour () {
-    let contestationReussie = false;
-    if ((Math.random() * 100) < 3) { // 3% de contestation
-      if (!Partie.contester()) {
-        const contestant = Math.floor(Math.random() * 2);
-        this.constestation[contestant] = Math.max(0, this.constestation[contestant] - 1);
-        console.log('contestation echouee');
-      } else {
-        contestationReussie = true;
-        console.log('contestation reussie');
+  jouerPartie() {
+    let that = this;
+
+    // La partie commence, donc on passe son état à 1 (= "en cours")
+    database.updateEtatPartie(this.id_partie, 1, function(linesChanged){
+      if(linesChanged <= 0) {
+        return console.log('Critical Error : Unable to update etat_partie of partie ', that.id_partie);
       }
-    }
+    });
 
-    if (!contestationReussie) {
-      this.pointage.ajouterPoint(Math.floor(Math.random() * 2));
-    }
-    this.temps_partie += Math.floor(Math.random() * 60); // entre 0 et 60 secondes entre chaque point
-    this.vitesse_dernier_service = Math.floor(Math.random() * (250 - 60 + 1)) + 60; // entre 60 et 250 km/h
-    this.nombre_coup_dernier_echange = Math.floor(Math.random() * (30 - 1 + 1)) + 1; // entre 1 et 30 coups par échange
+    const timer = setInterval(function () {
+      this.manche.updateManche();
 
+      // Si la manche en cours est terminée, on met à jour les scores
+      if(this.manche.etat_manche === 1) {
+        if(this.manche.score_jeux_joueur_1 > this.manche.score_jeux_joueur_2) {
+          this.score_manche_joueur_1 += 1;
+          database.updateScoreMancheJoueur1Partie(this.id_partie, this.score_manche_joueur_1, function(linesChanged){
+            if(linesChanged <= 0) {
+              return console.log('Critical Error : Unable to update score_manche_joueur_1 of partie ', that.id_partie);
+            }
+          });
+        } else {
+          this.score_manche_joueur_2 += 1;
+          database.updateScoreMancheJoueur2Partie(this.id_partie, this.score_manche_joueur_2, function(linesChanged){
+            if(linesChanged <= 0) {
+              return console.log('Critical Error : Unable to update score_manche_joueur_2 of partie ', that.id_partie);
+            }
+          });
+        }
 
-  }
+        // Si l'un des deux joueurs a remporté 2 manches, la partie est terminée
+        if(this.score_manche_joueur_1 >= 2 || this.score_manche_joueur_2 >= 2) {
+          // On passe l'état de la partie à 2 (= "terminée")
+          this.etat_partie = 1;
+          database.updateEtatPartie(this.id_partie, 2, function(linesChanged){
+            if(linesChanged <= 0) {
+              return console.log('Critical Error : Unable to update etat_partie of partie ', that.id_partie);
+            }
+          });
+          clearInterval(timer);
+        }
 
-  static contester () {
-    return (Math.random() * 100) > 25; // 75% de chance que la contestation passe
-  }
+        //Si la manche est terminée et que la partie est toujours en cours, on commence une nouvelle manche
+        if(this.manche.etat_manche === 1 && this.etat_partie !== 1) {
+          this.manche = new Manche(this,-1, this.id_partie, 0, 0, 3, 3, 0);
+          let that = this;
+          database.creerManche(this.manche.id_partie, this.manche.score_jeux_joueur_1, this.manche.score_jeux_joueur_2, this.manche.nb_contestations_joueur_1, this.manche.nb_contestations_joueur_2, this.manche.etat_manche, function(dbManche){
+            that.manche.id_manche = dbManche.id_manche;
+          });
+        }
+      }
 
-  changerServeur () {
-    this.joueur_au_service = (this.joueur_au_service + 1) % 2;
-  }
-
-  nouvelleManche () {
-    this.constestation = [3, 3];
-  }
-
-  estTerminee () {
-    return this.pointage.final;
+      this.temps_partie += Math.floor(Math.random() * 60); // entre 0 et 60 secondes entre chaque point
+    }, Math.floor(1000 / this.modificateurVitesse));
   }
 
   toJSON () {
@@ -79,13 +99,7 @@ class Partie {
       'etat_partie': this.etat_partie,
       'score_manche_joueur_1': this.score_manche_joueur_1,
       'score_manche_joueur_2': this.score_manche_joueur_2,
-
-      'pointage': this.pointage,
-      'temps_partie': this.temps_partie,
-      'serveur': this.joueur_au_service,
-      'vitesse_dernier_service': this.vitesse_dernier_service,
-      'nombre_coup_dernier_echange': this.nombre_coup_dernier_echange,
-      'constestation': this.constestation
+      'temps_partie': this.temps_partie
     };
   }
 }
