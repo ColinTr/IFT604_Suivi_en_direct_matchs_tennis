@@ -9,6 +9,7 @@ const express = require('express');
 const router = express.Router();
 
 const gen = require('../generateur');
+const database = require('../database');
 
 /* GET parties listing. */
 router.get('/', function (req, res, next) {
@@ -43,6 +44,20 @@ router.get('/:id_partie/evenements', (req, res) =>{
 
 //POST creer une partie
 router.post('/', (req, res) =>{
+  const body = req.body
+
+  if (!body.id_joueur_1 || !body.id_joueur_2 || !body.datetime_debut_partie || !body.tick_debut ) {
+    return response.status(400).json({
+      erreur: 'Contenu manquant'
+    })
+  }
+
+  const joueur_1 = database.trouverJoueurViaIdJoueur(body.id_joueur_1)
+  const joueur_2 = database.trouverJoueurViaIdJoueur(body.id_joueur_2)
+
+
+
+  gen.ajouterPartie()
 
 });
 

@@ -6,6 +6,9 @@
  */
 
 const sqlite3 = require('sqlite3').verbose();
+const Partie = require('./modeles/partie');
+const Joueur = require('./modeles/joueur');
+
 
 const Partie = require('./modeles/partie');
 
@@ -26,6 +29,21 @@ exports.creerJoueur = function creerJoueur(prenom, nom, age, rang, pays, callbac
         }
         // return the last insert id
         callback(this.lastID);
+    });
+};
+
+exports.trouverJoueurViaIdJoueur =  function trouverJoueurViaIdJoueur(idJoueur, callback) {
+    db.get(`SELECT * FROM joueur_tennis WHERE id_joueur = ?`, [idJoueur], (err, row) => {
+        if (err) {
+            return console.log(err.message);
+        }
+        // return the player
+        if(row !== undefined){
+            const joueur = new Joueur(idJoueur, row.prenom, row.nom, row.age, row.rang, row.pays)
+            callback(joueur);
+        } else {
+            callback(undefined);
+        }
     });
 };
 
@@ -299,3 +317,4 @@ exports.supprimerUtilisateur = function supprimerUtilisateur(idUtilisateur, call
         callback(this.changes);
     });
 };
+
