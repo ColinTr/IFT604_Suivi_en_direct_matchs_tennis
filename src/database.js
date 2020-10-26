@@ -6,10 +6,8 @@
  */
 
 const sqlite3 = require('sqlite3').verbose();
-const Partie = require('./modeles/partie');
+
 const Joueur = require('./modeles/joueur');
-
-
 const Partie = require('./modeles/partie');
 const Manche = require('./modeles/manche');
 const Jeu = require('./modeles/jeu');

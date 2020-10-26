@@ -8,6 +8,11 @@
 const express = require('express');
 const router = express.Router();
 
+var app = express();
+
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
 const gen = require('../generateur');
 const database = require('../database');
 
@@ -46,8 +51,10 @@ router.get('/:id_partie/evenements', (req, res) =>{
 router.post('/', (req, res) =>{
   const body = req.body
 
+  console.log("BODY : " +req.body)
+
   if (!body.id_joueur_1 || !body.id_joueur_2 || !body.datetime_debut_partie || !body.tick_debut ) {
-    return response.status(400).json({
+    return res.status(400).json({
       erreur: 'Contenu manquant'
     })
   }
@@ -55,10 +62,9 @@ router.post('/', (req, res) =>{
   const joueur_1 = database.trouverJoueurViaIdJoueur(body.id_joueur_1)
   const joueur_2 = database.trouverJoueurViaIdJoueur(body.id_joueur_2)
 
-
-
-  gen.ajouterPartie()
-
+  database.creerPartie(joueur_1, joueur_2, body.datetime_debut_partie, undefined, body.tick_debut, function(partie){
+    gen.ajouterPartie(partie)
+  } )
 });
 
 module.exports = router;
