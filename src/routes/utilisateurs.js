@@ -37,6 +37,7 @@ router.get('/:nom_utilisateur', (req, res) =>{
 router.put('/', (req, res) =>{
     if(req.body.id_utilisateur === undefined || req.body.nom_utilisateur === undefined) {
         res.status(400).end(); // Bad request status code
+        return;
     }
 
     database.updateNomUtilisateur(req.body.id_utilisateur, req.body.nom_utilisateur, function (numberOfUpdatedRows) {

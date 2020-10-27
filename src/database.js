@@ -56,7 +56,6 @@ exports.creerPartie = function creerPartie(joueur1, joueur2, dateTimeDebutPartie
             resolve(this.lastID);
         });
     })
-
 };
 
 exports.updateScoreMancheJoueur1Partie = function updateScoreMancheJoueur1Partie(idPartie, nouveauScore, callback){
@@ -87,6 +86,19 @@ exports.updateEtatPartie = function updateEtatPartie(idPartie, nouvelEtat, callb
         }
         // return the number of rows updated
         callback(this.changes);
+    });
+};
+
+exports.nombreDeManchesDeLaPartieTerminees = function nombreDeManchesDeLaPartieTerminees(idPartie) {
+    return new Promise((resolve, reject) => {
+        db.get(`SELECT count(*) as nombreManchesTerminees FROM partie INNER JOIN manche ON partie.id_partie = manche.id_partie WHERE manche.etat_manche = 1 AND partie.id_partie = ?`, [idPartie], (err, row) => {
+            if (err) {
+                reject(err.message);
+            } else {
+                // return the found id
+                resolve(row.nombreManchesTerminees);
+            }
+        });
     });
 };
 
@@ -165,6 +177,18 @@ exports.creerJeu = function creerJeu(id_manche, gagne_par_joueur, joueur_au_serv
             }
             // return the last insert id
             resolve(this.lastID);
+        });
+    });
+};
+
+exports.updateJeu = function updateJeu(id_jeu, gagne_par_joueur, joueur_au_service, score_echanges_joueur_1, score_echanges_joueur_2, etat_jeu, callback){
+    return new Promise((resolve, reject) => {
+        db.run(`UPDATE jeu SET gagne_par_joueur = ?, joueur_au_service = ?, score_echanges_joueur_1 = ?, score_echanges_joueur_2 = ?, etat_jeu = ? WHERE id_jeu = ?`, [gagne_par_joueur, joueur_au_service, score_echanges_joueur_1, score_echanges_joueur_2, etat_jeu, id_jeu], function(err) {
+            if (err) {
+                reject(err.message);
+            }
+            // return the number of rows updated
+            callback(this.changes);
         });
     });
 };

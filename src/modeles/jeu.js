@@ -51,51 +51,25 @@ class Jeu {
                     // Si le joueur 1 était à 40 points et qu'il gagne un échange
                     if (this.score_echanges_joueur_1 === 40) {
                         this.gagne_par_joueur = 1;
-                        database.setJeuGagneParJoueur(this.id_jeu, 1, function (linesChanged) {
-                            if (linesChanged <= 0) {
-                                return console.log('Critical Error : Unable to set gagne_par_joueur of jeu ', that.id_jeu);
-                            }
-                        });
                         this.etat_Jeu = 1;
-                        database.updateEtatJeu(this.id_jeu, 1, function (linesChanged) {
-                            if (linesChanged <= 0) {
-                                return console.log('Critical Error : Unable to update etat_Jeu of jeu ', that.id_jeu);
-                            }
-                        });
                     } else {
                         this.score_echanges_joueur_1 = incrementScoreJeu(this.score_echanges_joueur_1);
-                        database.updateScoreEchangesJoueur1Jeu(this.id_jeu, this.score_echanges_joueur_1, function (linesChanged) {
-                            if (linesChanged <= 0) {
-                                return console.log('Critical Error : Unable to update score_echanges_joueur_1 of jeu ', that.id_jeu);
-                            }
-                        });
                     }
-                }
-                // Si l'échange est gagné par le joueur 2
-                if(this.echange.gagne_par_joueur === 2) {
+                } else {// Si l'échange est gagné par le joueur 2
                     // Si le joueur 2 était à 40 points et qu'il gagne un échange
                     if(this.score_echanges_joueur_2 === 40){
                         this.gagne_par_joueur = 2;
-                        database.setJeuGagneParJoueur(this.id_jeu, 2, function(linesChanged){
-                            if(linesChanged <= 0) {
-                                return console.log('Critical Error : Unable to set gagne_par_joueur of jeu ', that.id_jeu);
-                            }
-                        });
                         this.etat_Jeu = 1;
-                        database.updateEtatJeu(this.id_jeu, 1, function(linesChanged){
-                            if(linesChanged <= 0) {
-                                return console.log('Critical Error : Unable to update etat_Jeu of jeu ', that.id_jeu);
-                            }
-                        });
                     } else {
                         this.score_echanges_joueur_2 = incrementScoreJeu(this.score_echanges_joueur_2);
-                        database.updateScoreEchangesJoueur2Jeu(this.id_jeu, this.score_echanges_joueur_2, function(linesChanged){
-                            if(linesChanged <= 0) {
-                                return console.log('Critical Error : Unable to update score_echanges_joueur_2 of jeu ', that.id_jeu);
-                            }
-                        });
                     }
                 }
+
+                database.updateJeu(this.id_jeu, this.gagne_par_joueur, this.joueur_au_service, this.score_echanges_joueur_1, this.score_echanges_joueur_2, this.etat_Jeu, function(nbRows){
+                    if(nbRows <= 0) {
+                        return console.log('Critical Error : Unable to update all infos of jeu', that.id_jeu);
+                    }
+                });
 
                 // Si l'échange est terminé et que le jeu n'est pas fini, on commence un nouvel échange
                 if(this.echange.etat_echange === 1 && this.etat_Jeu !== 1){

@@ -51,6 +51,7 @@ router.post('/', (req, res) =>{
         res.status(400).json({
             erreur: 'Contenu manquant'
         }).end();
+        return;
     }
 
     database.trouverJoueurViaIdJoueur(body.id_joueur_1, function(joueur_1) {
