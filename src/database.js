@@ -313,6 +313,18 @@ exports.creerPari = function creerPari(montant, idPartie, idUtilisateur, idJoueu
     });
 };
 
+exports.updateMontantParisGagnes = function updateMontantParisGagnes(idPari, montantGagne){
+    return new Promise((resolve, reject) => {
+        db.run(`UPDATE pari SET montant_gagne = ? WHERE id_pari = ?`, [idPari, montantGagne], (err) => {
+            if (err) {
+               reject(err.message);
+            }
+            // return the number of rows updated
+            resolve(this.changes);
+        });
+    })
+}
+
 // ============================== Utilisateur ==============================
 
 exports.creerUtilisateur = function creerUtilisateur(nomUtilisateur, callback){
