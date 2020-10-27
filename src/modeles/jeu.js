@@ -10,6 +10,7 @@ const Echange = require('./echange');
 
 class Jeu {
     constructor(parent, id_jeu, id_manche, gagne_par_joueur, joueur_au_service, score_echanges_joueur_1, score_echanges_joueur_2, etat_Jeu) {
+        let that = this;
         this.parent = parent;
         this.id_jeu = id_jeu;
         this.id_manche = id_manche;
@@ -21,7 +22,7 @@ class Jeu {
 
         this.echange = new Echange(this, -1, this.id_jeu, -1, -1, -1, 0, 0, 0);
         database.creerEchange(this.echange.id_jeu, this.echange.gagne_par_joueur, this.echange.conteste_par_joueur, this.echange.contestation_acceptee, this.echange.etat_echange, this.echange.vitesse_service, this.echange.nombre_coup_echange,  function(insertedId){
-            this.echange.id_echange = insertedId;
+            that.echange.id_echange = insertedId;
         });
     }
 
@@ -59,7 +60,7 @@ class Jeu {
             // Si l'échange est gagné par le joueur 2
             if(this.echange.gagne_par_joueur === 2) {
                 // Si le joueur 2 était à 40 points et qu'il gagne un échange
-                if(this.score_echanges_joueur_1 === 40){
+                if(this.score_echanges_joueur_2 === 40){
                     this.gagne_par_joueur = 2;
                     database.setJeuGagneParJoueur(this.id_jeu, 2, function(linesChanged){
                         if(linesChanged <= 0) {
@@ -73,8 +74,8 @@ class Jeu {
                         }
                     });
                 } else {
-                    this.score_echanges_joueur_2 += 1;
-                    database.updateScoreEchangesJoueur1Jeu(this.id_jeu, this.score_echanges_joueur_2, function(linesChanged){
+                    this.score_echanges_joueur_2 = incrementScoreJeu(this.score_echanges_joueur_2);
+                    database.updateScoreEchangesJoueur2Jeu(this.id_jeu, this.score_echanges_joueur_2, function(linesChanged){
                         if(linesChanged <= 0) {
                             return console.log('Critical Error : Unable to update score_echanges_joueur_2 of jeu ', that.id_jeu);
                         }
@@ -86,7 +87,7 @@ class Jeu {
             if(this.echange.etat_echange === 1 && this.etat_Jeu !== 1){
                 this.echange = new Echange(this, -1, this.id_jeu, -1, -1, -1, 0, 0, 0);
                 database.creerEchange(this.echange.id_jeu, this.echange.gagne_par_joueur, this.echange.conteste_par_joueur, this.echange.contestation_acceptee, this.echange.etat_echange, this.echange.vitesse_service, this.echange.nombre_coup_echange,  function(insertedId){
-                    this.echange.id_echange = insertedId;
+                    that.echange.id_echange = insertedId;
                 });
             }
         }
@@ -105,8 +106,6 @@ class Jeu {
     }
 }
 
-
-
 function incrementScoreJeu(score){
     switch(score){
         case 0:
@@ -115,8 +114,8 @@ function incrementScoreJeu(score){
             return 30;
         case 30:
             return 40;
-        case 40:
-            return 40;
+        default:
+            return -1;
     }
 }
 

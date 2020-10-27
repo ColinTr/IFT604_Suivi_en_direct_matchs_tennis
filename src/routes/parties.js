@@ -8,19 +8,19 @@
 const express = require('express');
 const router = express.Router();
 
-const gen = require('../generateur');
+const generateur = require('../generateur');
 const database = require('../database');
 const Partie = require('../modeles/partie');
 
 /* GET parties listing. */
 router.get('/', function (req, res, next) {
   // TODO
-  res.send(gen.liste_partie);
+  res.send(generateur.liste_partie);
 });
 
 router.get('/:id', function (req, res, next) {
   // TODO
-  res.send(gen.liste_partie[req.params.id]);
+  res.send(generateur.liste_partie[req.params.id]);
 });
 
 //GET Les horaires de la parties.
@@ -60,7 +60,7 @@ router.post('/', (req, res) =>{
           let newPartie = new Partie(-1, joueur_1, joueur_2, undefined, undefined, body.datetime_debut_partie, undefined, 0, 0, 0, body.tick_debut);
           database.creerPartie(joueur_1, joueur_2, body.datetime_debut_partie, undefined, 0, body.tick_debut, function(insertedId){
             newPartie.id_partie = insertedId;
-            gen.ajouterPartie(newPartie);
+            generateur.ajouterPartie(newPartie);
             res.status(200).end(); // OK status code
           });
         } else {

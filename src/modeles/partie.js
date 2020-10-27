@@ -10,6 +10,7 @@ const Manche = require('./manche');
 
 class Partie {
   constructor(id_partie, joueur1, joueur2, terrain, tournoi, datetime_debut_partie, datetime_fin_partie, etat_partie, score_manche_joueur_1, score_manche_joueur_2, tickDebut) {
+    let that = this;
     this.id_partie = id_partie;
     this.joueur1 = joueur1;
     this.joueur2 = joueur2;
@@ -23,9 +24,9 @@ class Partie {
     this.temps_partie = 0;
     this.tick_debut = tickDebut;
 
-    this.manche = new Manche(this,-1, this.id_partie, 0, 0, 3, 3, 0);
+    this.manche = new Manche(this,-1, this.id_partie, 0, 0, 3, 3,0);
     database.creerManche(this.manche.id_partie, this.manche.score_jeux_joueur_1, this.manche.score_jeux_joueur_2, this.manche.nb_contestations_joueur_1, this.manche.nb_contestations_joueur_2, this.manche.etat_manche, function(insertedId){
-      this.manche.id_manche = insertedId;
+      that.manche.id_manche = insertedId;
     });
 
     this.modificateurVitesse = Math.max(process.argv[2], 1);

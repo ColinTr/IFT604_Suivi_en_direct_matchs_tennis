@@ -182,8 +182,8 @@ exports.updateScoreEchangesJoueur2Jeu = function updateScoreEchangesJoueur2Jeu(i
     });
 };
 
-exports.setJeuGagneParJoueur = function setJeuGagneParJoueur(idJeu, idJoueur, callback){
-    db.run(`UPDATE jeu SET gagne_par_joueur = ? WHERE id_jeu = ?`, [idJoueur, idJeu], function(err) {
+exports.setJeuGagneParJoueur = function setJeuGagneParJoueur(idJeu, gagneParJoueur, callback){
+    db.run(`UPDATE jeu SET gagne_par_joueur = ? WHERE id_jeu = ?`, [gagneParJoueur, idJeu], function(err) {
         if (err) {
             return console.log(err.message);
         }
