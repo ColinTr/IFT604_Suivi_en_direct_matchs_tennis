@@ -29,19 +29,20 @@ exports.creerJoueur = function creerJoueur(prenom, nom, age, rang, pays, callbac
     });
 };
 
-exports.trouverJoueurViaIdJoueur =  function trouverJoueurViaIdJoueur(idJoueur, callback) {
-    db.get(`SELECT * FROM joueur_tennis WHERE id_joueur = ?`, [idJoueur], (err, row) => {
-        if (err) {
-            return console.log(err.message);
-        }
-        // return the player
-        if(row !== undefined){
-            const joueur = new Joueur(idJoueur, row.prenom, row.nom, row.age, row.rang, row.pays);
-            callback(joueur);
-        } else {
-            callback(undefined);
-        }
-    });
+exports.trouverJoueurViaIdJoueur =  function trouverJoueurViaIdJoueur(idJoueur) {
+
+        db.get(`SELECT * FROM joueur_tennis WHERE id_joueur = ?`, [idJoueur], (err, row) => {
+            if (err) {
+                return console.log(err.message);
+            }
+            // return the player
+            if(row !== undefined){
+                const joueur = new Joueur(idJoueur, row.prenom, row.nom, row.age, row.rang, row.pays);
+                callback(joueur);
+            } else {
+                callback(undefined);
+            }
+        });
 };
 
 // ============================== Partie ==============================
@@ -324,18 +325,20 @@ exports.creerUtilisateur = function creerUtilisateur(nomUtilisateur, callback){
     });
 };
 
-exports.trouverIdUtilisateurViaNomUtilisateur = function trouverIdUtilisateurViaNomUtilisateur(nomUtilisateur, callback) {
-    db.get(`SELECT * FROM utilisateur WHERE nom_utilisateur = ?`, [nomUtilisateur], (err, row) => {
-        if (err) {
-            return console.log(err.message);
-        }
-        // return the found id
-        if(row !== undefined){
-            callback(row.id_utilisateur);
-        } else {
-            callback(undefined);
-        }
-    });
+exports.trouverIdUtilisateurViaNomUtilisateur = function trouverIdUtilisateurViaNomUtilisateur(nomUtilisateur) {
+    return new Promise((resolve, reject) => {
+        db.get(`SELECT * FROM utilisateur WHERE nom_utilisateur = ?`, [nomUtilisateur], (err, row) => {
+            if (err) {
+                reject(err.message);
+            }
+            // return the found id
+            if(row !== undefined){
+                resolve(row.id_utilisateur);
+            } else {
+                reject(undefined);
+            }
+        });
+    })
 };
 
 exports.updateNomUtilisateur = function updateNomUtilisateur(idUtilisateur, nouveauNomUtilisateur, callback){

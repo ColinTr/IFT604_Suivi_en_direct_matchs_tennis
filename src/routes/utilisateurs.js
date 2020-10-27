@@ -13,23 +13,22 @@ const database = require('../database');
 
 //GET Le serveur renvoie l’id_utilisateur correspondant.
 router.get('/:nom_utilisateur', (req, res) =>{
+    console.log("ROUTE GET USER")
     // On vérifie si l'utilisateur existe
-    database.trouverIdUtilisateurViaNomUtilisateur(req.params['nom_utilisateur'], function(idUtilisateur) {
-        // S'il n'existe pas, on le crée
-        if(idUtilisateur === undefined){
+    database.trouverIdUtilisateurViaNomUtilisateur(req.params['nom_utilisateur'])
+        .then((idUtilisateur)=> {
+            userId = idUtilisateur;
+            console.log(`Found user`, idUtilisateur);
+            // Sinon on renvoie l'id de l'utilisateur créé
+            res.send(`{ id_utilisateur : ` + idUtilisateur + `}`);
+        })
+        .catch((erreur)=>{
             database.creerUtilisateur(req.params['nom_utilisateur'], function (lastInsertedId) {
                 console.log(`Created user`, lastInsertedId);
                 // Et on renvoie l'id de l'utilisateur ainsi créé
                 res.send(`{ id_utilisateur : ` + lastInsertedId + `}`);
             });
-        }
-        else{
-            userId = idUtilisateur;
-            console.log(`Found user`, idUtilisateur);
-            // Sinon on renvoie l'id de l'utilisateur créé
-            res.send(`{ id_utilisateur : ` + idUtilisateur + `}`);
-        }
-    });
+        });
 });
 
 
