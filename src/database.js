@@ -90,7 +90,7 @@ exports.updateEtatPartie = function updateEtatPartie(idPartie, nouvelEtat, callb
 // ============================== Manche ==============================
 
 exports.creerManche = function creerManche(id_partie, score_jeux_joueur_1, score_jeux_joueur_2, nb_contestations_joueur_1, nb_contestations_joueur_2, etat_manche, callback){
-    db.run(`INSERT INTO manche(id_partie, score_jeux_joueur_1, score_jeux_joueur_2, nb_contestations_joueur_1, nb_contestations_joueur_2, etat_manche) VALUES(?)`, [id_partie, score_jeux_joueur_1, score_jeux_joueur_2, nb_contestations_joueur_1, nb_contestations_joueur_2, etat_manche], function(err) {
+    db.run(`INSERT INTO manche(id_partie, score_jeux_joueur_1, score_jeux_joueur_2, nb_contestations_joueur_1, nb_contestations_joueur_2, etat_manche) VALUES(?, ?, ?, ?, ?, ?)`, [id_partie, score_jeux_joueur_1, score_jeux_joueur_2, nb_contestations_joueur_1, nb_contestations_joueur_2, etat_manche], function(err) {
         if (err) {
             return console.log(err.message);
         }
@@ -153,7 +153,7 @@ exports.updateEtatManche = function updateEtatManche(idManche, nouvelEtat, callb
 // ============================== Jeu ==============================
 
 exports.creerJeu = function creerJeu(id_manche, gagne_par_joueur, joueur_au_service, score_echanges_joueur_1, score_echanges_joueur_2, etat_jeu, callback){
-    db.run(`INSERT INTO jeu(id_manche, gagne_par_joueur, joueur_au_service, score_echanges_joueur_1, score_echanges_joueur_2, etat_jeu) VALUES(?)`, [id_manche, gagne_par_joueur, joueur_au_service, score_echanges_joueur_1, score_echanges_joueur_2, etat_jeu], function(err) {
+    db.run(`INSERT INTO jeu(id_manche, gagne_par_joueur, joueur_au_service, score_echanges_joueur_1, score_echanges_joueur_2, etat_jeu) VALUES(?, ?, ?, ?, ?, ?)`, [id_manche, gagne_par_joueur, joueur_au_service, score_echanges_joueur_1, score_echanges_joueur_2, etat_jeu], function(err) {
         if (err) {
             return console.log(err.message);
         }
@@ -206,7 +206,7 @@ exports.updateEtatJeu = function updateEtatJeu(idJeu, nouvelEtat, callback){
 // ============================== Échange ==============================
 
 exports.creerEchange = function creerEchange(id_jeu, gagne_par_joueur, conteste_par_joueur, contestation_acceptee, etat_echange, vitesse_service, nombre_coup_echange, callback){
-    db.run(`INSERT INTO echange(id_jeu, gagne_par_joueur, conteste_par_joueur, contestation_acceptee, etat_echange, vitesse_service, nombre_coup_echange) VALUES(?)`, [id_jeu, gagne_par_joueur, conteste_par_joueur, contestation_acceptee, etat_echange, vitesse_service, nombre_coup_echange], function(err) {
+    db.run(`INSERT INTO echange(id_jeu, gagne_par_joueur, conteste_par_joueur, contestation_acceptee, etat_echange, vitesse_service, nombre_coup_echange) VALUES(?, ?, ?, ?, ?, ?, ?)`, [id_jeu, gagne_par_joueur, conteste_par_joueur, contestation_acceptee, etat_echange, vitesse_service, nombre_coup_echange], function(err) {
         if (err) {
             return console.log(err.message);
         }
@@ -270,7 +270,7 @@ exports.updateEtatEchange = function updateEtatEchange(idEchange, nouvelEtat, ca
 // ============================== Pari ==============================
 
 exports.creerPari = function creerPari(montant, idPartie, idUtilisateur, idJoueur, callback){
-    db.run(`INSERT INTO pari(montant, id_partie, id_utilisateur, id_joueur) VALUES(?)`, [montant, idPartie, idUtilisateur, idJoueur], function(err) {
+    db.run(`INSERT INTO pari(montant, id_partie, id_utilisateur, id_joueur) VALUES(?, ?, ?, ?)`, [montant, idPartie, idUtilisateur, idJoueur], function(err) {
         if (err) {
             return console.log(err.message);
         }

@@ -27,7 +27,7 @@ class Partie {
     database.creerManche(this.manche.id_partie, this.manche.score_jeux_joueur_1, this.manche.score_jeux_joueur_2, this.manche.nb_contestations_joueur_1, this.manche.nb_contestations_joueur_2, this.manche.etat_manche, function(insertedId){
       this.manche.id_manche = insertedId;
     });
-    console.log(this.manche);
+
     this.modificateurVitesse = Math.max(process.argv[2], 1);
   }
 
@@ -42,20 +42,20 @@ class Partie {
     });
 
     const timer = setInterval(function () {
-      this.manche.updateManche();
+      that.manche.updateManche();
 
       // Si la manche en cours est terminée, on met à jour les scores
-      if(this.manche.etat_manche === 1) {
-        if(this.manche.score_jeux_joueur_1 > this.manche.score_jeux_joueur_2) {
-          this.score_manche_joueur_1 += 1;
-          database.updateScoreMancheJoueur1Partie(this.id_partie, this.score_manche_joueur_1, function(linesChanged){
+      if(that.manche.etat_manche === 1) {
+        if(that.manche.score_jeux_joueur_1 > that.manche.score_jeux_joueur_2) {
+          that.score_manche_joueur_1 += 1;
+          database.updateScoreMancheJoueur1Partie(that.id_partie, that.score_manche_joueur_1, function(linesChanged){
             if(linesChanged <= 0) {
               return console.log('Critical Error : Unable to update score_manche_joueur_1 of partie ', that.id_partie);
             }
           });
         } else {
           this.score_manche_joueur_2 += 1;
-          database.updateScoreMancheJoueur2Partie(this.id_partie, this.score_manche_joueur_2, function(linesChanged){
+          database.updateScoreMancheJoueur2Partie(that.id_partie, that.score_manche_joueur_2, function(linesChanged){
             if(linesChanged <= 0) {
               return console.log('Critical Error : Unable to update score_manche_joueur_2 of partie ', that.id_partie);
             }
@@ -63,10 +63,10 @@ class Partie {
         }
 
         // Si l'un des deux joueurs a remporté 2 manches, la partie est terminée
-        if(this.score_manche_joueur_1 >= 2 || this.score_manche_joueur_2 >= 2) {
+        if(that.score_manche_joueur_1 >= 2 || that.score_manche_joueur_2 >= 2) {
           // On passe l'état de la partie à 2 (= "terminée")
-          this.etat_partie = 1;
-          database.updateEtatPartie(this.id_partie, 2, function(linesChanged){
+          that.etat_partie = 1;
+          database.updateEtatPartie(that.id_partie, 2, function(linesChanged){
             if(linesChanged <= 0) {
               return console.log('Critical Error : Unable to update etat_partie of partie ', that.id_partie);
             }
@@ -75,16 +75,15 @@ class Partie {
         }
 
         //Si la manche est terminée et que la partie est toujours en cours, on commence une nouvelle manche
-        if(this.manche.etat_manche === 1 && this.etat_partie !== 1) {
-          this.manche = new Manche(this,-1, this.id_partie, 0, 0, 3, 3, 0);
-          let that = this;
-          database.creerManche(this.manche.id_partie, this.manche.score_jeux_joueur_1, this.manche.score_jeux_joueur_2, this.manche.nb_contestations_joueur_1, this.manche.nb_contestations_joueur_2, this.manche.etat_manche, function(insertedId){
+        if(that.manche.etat_manche === 1 && that.etat_partie !== 1) {
+          that.manche = new Manche(that,-1, that.id_partie, 0, 0, 3, 3, 0);
+          database.creerManche(that.manche.id_partie, that.manche.score_jeux_joueur_1, that.manche.score_jeux_joueur_2, that.manche.nb_contestations_joueur_1, that.manche.nb_contestations_joueur_2, that.manche.etat_manche, function(insertedId){
             that.manche.id_manche = insertedId;
           });
         }
       }
 
-      this.temps_partie += Math.floor(Math.random() * 60); // entre 0 et 60 secondes entre chaque point
+      that.temps_partie += Math.floor(Math.random() * 60); // entre 0 et 60 secondes entre chaque point
     }, Math.floor(1000 / this.modificateurVitesse));
   }
 
