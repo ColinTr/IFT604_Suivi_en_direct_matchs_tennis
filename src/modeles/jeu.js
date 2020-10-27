@@ -33,7 +33,7 @@ class Jeu {
                     resolve();
                 })
                 .catch((msg) => {
-                    console.log(msg);
+                    return console.log(msg);
                 });
         });
     }
@@ -65,11 +65,15 @@ class Jeu {
                     }
                 }
 
-                database.updateJeu(this.id_jeu, this.gagne_par_joueur, this.joueur_au_service, this.score_echanges_joueur_1, this.score_echanges_joueur_2, this.etat_Jeu, function(nbRows){
-                    if(nbRows <= 0) {
-                        return console.log('Critical Error : Unable to update all infos of jeu', that.id_jeu);
-                    }
-                });
+                database.updateJeu(this.id_jeu, this.gagne_par_joueur, this.joueur_au_service, this.score_echanges_joueur_1, this.score_echanges_joueur_2, this.etat_Jeu)
+                    .then((nbRows) => {
+                        if (nbRows <= 0) {
+                            return console.log('Critical Error : Unable to update all infos of jeu', that.id_jeu);
+                        }
+                    })
+                    .catch((errMsg) => {
+                        return console.log(errMsg);
+                    });
 
                 // Si l'échange est terminé et que le jeu n'est pas fini, on commence un nouvel échange
                 if(this.echange.etat_echange === 1 && this.etat_Jeu !== 1){

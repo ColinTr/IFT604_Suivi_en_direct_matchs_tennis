@@ -29,20 +29,19 @@ exports.creerJoueur = function creerJoueur(prenom, nom, age, rang, pays, callbac
     });
 };
 
-exports.trouverJoueurViaIdJoueur =  function trouverJoueurViaIdJoueur(idJoueur) {
-
-        db.get(`SELECT * FROM joueur_tennis WHERE id_joueur = ?`, [idJoueur], (err, row) => {
-            if (err) {
-                return console.log(err.message);
-            }
-            // return the player
-            if(row !== undefined){
-                const joueur = new Joueur(idJoueur, row.prenom, row.nom, row.age, row.rang, row.pays);
-                callback(joueur);
-            } else {
-                callback(undefined);
-            }
-        });
+exports.trouverJoueurViaIdJoueur =  function trouverJoueurViaIdJoueur(idJoueur, callback) {
+    db.get(`SELECT * FROM joueur_tennis WHERE id_joueur = ?`, [idJoueur], (err, row) => {
+        if (err) {
+            return console.log(err.message);
+        }
+        // return the player
+        if(row !== undefined){
+            const joueur = new Joueur(idJoueur, row.prenom, row.nom, row.age, row.rang, row.pays);
+            callback(joueur);
+        } else {
+            callback(undefined);
+        }
+    });
 };
 
 // ============================== Partie ==============================
@@ -182,14 +181,14 @@ exports.creerJeu = function creerJeu(id_manche, gagne_par_joueur, joueur_au_serv
     });
 };
 
-exports.updateJeu = function updateJeu(id_jeu, gagne_par_joueur, joueur_au_service, score_echanges_joueur_1, score_echanges_joueur_2, etat_jeu, callback){
+exports.updateJeu = function updateJeu(id_jeu, gagne_par_joueur, joueur_au_service, score_echanges_joueur_1, score_echanges_joueur_2, etat_jeu){
     return new Promise((resolve, reject) => {
         db.run(`UPDATE jeu SET gagne_par_joueur = ?, joueur_au_service = ?, score_echanges_joueur_1 = ?, score_echanges_joueur_2 = ?, etat_jeu = ? WHERE id_jeu = ?`, [gagne_par_joueur, joueur_au_service, score_echanges_joueur_1, score_echanges_joueur_2, etat_jeu, id_jeu], function(err) {
             if (err) {
                 reject(err.message);
             }
             // return the number of rows updated
-            callback(this.changes);
+            resolve(this.changes);
         });
     });
 };
@@ -303,19 +302,21 @@ exports.updateEtatEchange = function updateEtatEchange(idEchange, nouvelEtat, ca
 
 // ============================== Pari ==============================
 
-exports.creerPari = function creerPari(montant, idPartie, idUtilisateur, idJoueur, callback){
-    db.run(`INSERT INTO pari(montant, id_partie, id_utilisateur, id_joueur) VALUES(?, ?, ?, ?)`, [montant, idPartie, idUtilisateur, idJoueur], function(err) {
-        if (err) {
-            return console.log(err.message);
-        }
-        // return the last insert id
-        callback(this.lastID);
+exports.creerPari = function creerPari(montant_parie, montant_gagne, id_partie, idUtilisateur, idJoueur){
+    return new Promise((resolve, reject) => {
+        db.run(`INSERT INTO pari(montant_parie, id_partie, id_utilisateur, id_joueur) VALUES(?, ?, ?, ?)`, [montant_parie, id_partie, idUtilisateur, idJoueur], function(err) {
+            if (err) {
+                reject(err.message);
+            }
+            // return the last insert id
+            resolve(this.lastID);
+        });
     });
 };
 
 exports.updateMontantParisGagnes = function updateMontantParisGagnes(idPari, montantGagne){
     return new Promise((resolve, reject) => {
-        db.run(`UPDATE pari SET montant_gagne = ? WHERE id_pari = ?`, [idPari, montantGagne], (err) => {
+        db.run(`UPDATE pari SET montant_gagne = ? WHERE id_pari = ?`, [montantGagne, idPari], (err) => {
             if (err) {
                reject(err.message);
             }
@@ -323,7 +324,19 @@ exports.updateMontantParisGagnes = function updateMontantParisGagnes(idPari, mon
             resolve(this.changes);
         });
     })
-}
+};
+
+exports.listeParisPourPartie = function listeParisPourPartie(idPartie) {
+    return new Promise((resolve, reject) => {
+        db.all(`SELECT * FROM pari WHERE id_partie = ?`, [idPartie], (err, row) => {
+            if (err) {
+                reject(err.message);
+            }
+            // return the found id
+            resolve(row);
+        });
+    });
+};
 
 // ============================== Utilisateur ==============================
 
@@ -351,6 +364,18 @@ exports.trouverIdUtilisateurViaNomUtilisateur = function trouverIdUtilisateurVia
             }
         });
     })
+};
+
+exports.idUtilisateurExisteTIl = function idUtilisateurExisteTIl(idUtilisateur) {
+    return new Promise((resolve, reject) => {
+        db.get(`SELECT count(*) as nbUtilAvecCetId FROM utilisateur WHERE id_utilisateur = ?`, [idUtilisateur], (err, row) => {
+            if (err) {
+                reject(err.message);
+            }
+            // return the found id
+            resolve(row.nbUtilAvecCetId);
+        });
+    });
 };
 
 exports.updateNomUtilisateur = function updateNomUtilisateur(idUtilisateur, nouveauNomUtilisateur, callback){

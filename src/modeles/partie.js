@@ -88,6 +88,53 @@ class Partie {
                             return console.log('Critical Error : Unable to update etat_partie of partie ', that.id_partie);
                         }
                     });
+
+                    let id_du_joueur_qui_a_gagne = -1;
+                    if(that.score_manche_joueur_1 >= 2) {
+                        id_du_joueur_qui_a_gagne = that.joueur1.id_joueur;
+                    } else {
+                        id_du_joueur_qui_a_gagne = that.joueur2.id_joueur;
+                    }
+
+                    database.listeParisPourPartie(that.id_partie)
+                        .then((rows) => {
+                            let sommeDesParis = 0;
+                            let sommeDesParisGagnants = 0;
+                            rows.forEach(row => {
+                                sommeDesParis = sommeDesParis + row.montant_parie;
+                                if(row.id_joueur === id_du_joueur_qui_a_gagne) {
+                                    sommeDesParisGagnants = sommeDesParisGagnants + row.montant_parie;
+                                }
+                            });
+
+                            rows.forEach(row => {
+                                let montantGagne = 0;
+                                if(row.id_joueur === id_du_joueur_qui_a_gagne){
+                                    montantGagne = row.montant_parie * sommeDesParis * 0.75 / sommeDesParisGagnants;
+                                }
+
+                                database.updateMontantParisGagnes(row.id_pari, montantGagne)
+                                    .then((nbRowsAffected) => {
+                                        if(nbRowsAffected <= 0){
+                                            return console.log("Critical error : pari of id " + row.id_pari + " couldn\'t be updated.");
+                                        } else {
+                                            console.log("Sending notification for pari " + row.id_pari + "...");
+                                            // TODO envoyer des notifications PUSH
+                                        }
+                                    }).catch((msg) => {
+                                        return console.log(msg);
+                                    });
+                            });
+
+                        })
+                        .catch((err) => {
+                            return console.log('SQL Error in paris : ', err);
+                        });
+
+                    // TODO : Calculer le gain de tous les joueurs
+
+                    // TODO Envoyer une notification PUSH du gain réalisé
+
                     clearInterval(timer);
                 }
 
@@ -98,7 +145,7 @@ class Partie {
             }
 
             that.temps_partie += Math.floor(Math.random() * 60); // entre 0 et 60 secondes entre chaque point
-        }, Math.floor(1000 / this.modificateurVitesse));
+        }, Math.floor(100 / this.modificateurVitesse));
     }
 
     toJSON () {

@@ -6,9 +6,10 @@
  */
 
 class Pari {
-    constructor(id_pari, montant, id_partie, id_utilisateur, id_joueur) {
+    constructor(id_pari, montant_parie, montant_gagne, id_partie, id_utilisateur, id_joueur) {
         this.id_pari = id_pari;
-        this.montant = montant;
+        this.montant_parie = montant_parie;
+        this.montant_gagne = montant_gagne;
         this.id_partie = id_partie;
         this.id_utilisateur = id_utilisateur;
         this.id_joueur = id_joueur;
@@ -17,7 +18,8 @@ class Pari {
     toJSON () {
         return {
             'id_pari': this.id_pari,
-            'montant': this.montant,
+            'montant_parie': this.montant_parie,
+            'montant_gagne': this.montant_gagne,
             'id_partie': this.id_partie,
             'id_utilisateur': this.id_utilisateur,
             'id_joueur': this.id_joueur

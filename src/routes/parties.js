@@ -48,10 +48,9 @@ router.post('/', (req, res) =>{
     const body = req.body;
 
     if (body.id_joueur_1===undefined || body.id_joueur_2===undefined || body.datetime_debut_partie===undefined || body.tick_debut===undefined) {
-        res.status(400).json({
+        return res.status(400).json({
             erreur: 'Contenu manquant'
         }).end();
-        return;
     }
 
     database.trouverJoueurViaIdJoueur(body.id_joueur_1, function(joueur_1) {
@@ -76,12 +75,12 @@ router.post('/', (req, res) =>{
                         });
                 } else {
                     console.log('Unable to create Partie : No user with id', body.id_joueur_2, 'were found in database');
-                    res.status(400).end(); // Bad request status code
+                    return res.status(400).end(); // Bad request status code
                 }
             });
         } else {
             console.log('Unable to create Partie : No user with id', body.id_joueur_1, 'were found in database');
-            res.status(400).end(); // Bad request status code
+            return res.status(400).end(); // Bad request status code
         }
     });
 });
