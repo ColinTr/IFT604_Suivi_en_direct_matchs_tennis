@@ -22,16 +22,26 @@ class Jeu {
         this.echange = undefined;
     }
 
+    initNewEchange() {
+        return new Promise((resolve, reject) => {
+            let that = this;
+            let newEchange = new Echange(this, -1, this.id_jeu, -1, -1, -1, 0, 0,0);
+            database.creerEchange(newEchange.id_jeu, newEchange.gagne_par_joueur, newEchange.conteste_par_joueur, newEchange.contestation_acceptee, newEchange.etat_echange, newEchange.vitesse_service, newEchange.nombre_coup_echange)
+                .then((insertedId) => {
+                    newEchange.id_echange = insertedId;
+                    that.echange = newEchange;
+                    resolve();
+                })
+                .catch((msg) => {
+                    console.log(msg);
+                });
+        });
+    }
+
     updateJeu(){
         let that = this;
 
-        if(this.id_jeu !== -1){
-            if(this.echange === undefined) {
-                this.echange = new Echange(this, -1, this.id_jeu, -1, -1, -1, 0, 0,0);
-                database.creerEchange(this.echange.id_jeu, this.echange.gagne_par_joueur, this.echange.conteste_par_joueur, this.echange.contestation_acceptee, this.echange.etat_echange, this.echange.vitesse_service, this.echange.nombre_coup_echange,  function(insertedId){
-                    that.echange.id_echange = insertedId;
-                });
-            }
+        if(this.echange !== undefined){
 
             this.echange.updateEchange();
 
@@ -89,10 +99,8 @@ class Jeu {
 
                 // Si l'échange est terminé et que le jeu n'est pas fini, on commence un nouvel échange
                 if(this.echange.etat_echange === 1 && this.etat_Jeu !== 1){
-                    this.echange = new Echange(this, -1, this.id_jeu, -1, -1, -1, 0, 0, 0);
-                    database.creerEchange(this.echange.id_jeu, this.echange.gagne_par_joueur, this.echange.conteste_par_joueur, this.echange.contestation_acceptee, this.echange.etat_echange, this.echange.vitesse_service, this.echange.nombre_coup_echange,  function(insertedId){
-                        that.echange.id_echange = insertedId;
-                    });
+                    this.echange = undefined;
+                    this.initNewEchange();
                 }
             }
         }

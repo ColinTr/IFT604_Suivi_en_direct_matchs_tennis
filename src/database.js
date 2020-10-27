@@ -46,14 +46,17 @@ exports.trouverJoueurViaIdJoueur =  function trouverJoueurViaIdJoueur(idJoueur, 
 
 // ============================== Partie ==============================
 
-exports.creerPartie = function creerPartie(joueur1, joueur2, dateTimeDebutPartie, dateTimeFinPartie, etatPartie, tickDebut, callback){
-    db.run(`INSERT INTO partie(id_joueur_1, id_joueur_2, datetime_debut_partie, datetime_fin_partie, score_manche_joueur_1, score_manche_joueur_2, etat_partie) VALUES(?, ?, ?, ?, ?, ?, ?)`, [joueur1.id_joueur, joueur2.id_joueur, dateTimeDebutPartie, dateTimeFinPartie, 0, 0, etatPartie], function(err) {
-        if (err) {
-            return console.log(err.message);
-        }
-        // Retourne la partie créée en BDD
-        callback(this.lastID);
-    });
+exports.creerPartie = function creerPartie(joueur1, joueur2, dateTimeDebutPartie, dateTimeFinPartie, etatPartie){
+    return new Promise((resolve, reject) => {
+        db.run(`INSERT INTO partie(id_joueur_1, id_joueur_2, datetime_debut_partie, datetime_fin_partie, score_manche_joueur_1, score_manche_joueur_2, etat_partie) VALUES(?, ?, ?, ?, ?, ?, ?)`, [joueur1.id_joueur, joueur2.id_joueur, dateTimeDebutPartie, dateTimeFinPartie, 0, 0, etatPartie], function(err) {
+            if (err) {
+                reject(err.message);
+            }
+            // Retourne la partie créée en BDD
+            resolve(this.lastID);
+        });
+    })
+
 };
 
 exports.updateScoreMancheJoueur1Partie = function updateScoreMancheJoueur1Partie(idPartie, nouveauScore, callback){
@@ -89,13 +92,15 @@ exports.updateEtatPartie = function updateEtatPartie(idPartie, nouvelEtat, callb
 
 // ============================== Manche ==============================
 
-exports.creerManche = function creerManche(id_partie, score_jeux_joueur_1, score_jeux_joueur_2, nb_contestations_joueur_1, nb_contestations_joueur_2, etat_manche, callback){
-    db.run(`INSERT INTO manche(id_partie, score_jeux_joueur_1, score_jeux_joueur_2, nb_contestations_joueur_1, nb_contestations_joueur_2, etat_manche) VALUES(?, ?, ?, ?, ?, ?)`, [id_partie, score_jeux_joueur_1, score_jeux_joueur_2, nb_contestations_joueur_1, nb_contestations_joueur_2, etat_manche], function(err) {
-        if (err) {
-            return console.log(err.message);
-        }
-        // return the last insert id
-        callback(this.lastID);
+exports.creerManche = function creerManche(id_partie, score_jeux_joueur_1, score_jeux_joueur_2, nb_contestations_joueur_1, nb_contestations_joueur_2, etat_manche){
+    return new Promise((resolve, reject) => {
+        db.run(`INSERT INTO manche(id_partie, score_jeux_joueur_1, score_jeux_joueur_2, nb_contestations_joueur_1, nb_contestations_joueur_2, etat_manche) VALUES(?, ?, ?, ?, ?, ?)`, [id_partie, score_jeux_joueur_1, score_jeux_joueur_2, nb_contestations_joueur_1, nb_contestations_joueur_2, etat_manche], function(err) {
+            if (err) {
+                reject(err.message);
+            }
+            // return the last insert id
+            resolve(this.lastID);
+        });
     });
 };
 
@@ -152,13 +157,15 @@ exports.updateEtatManche = function updateEtatManche(idManche, nouvelEtat, callb
 
 // ============================== Jeu ==============================
 
-exports.creerJeu = function creerJeu(id_manche, gagne_par_joueur, joueur_au_service, score_echanges_joueur_1, score_echanges_joueur_2, etat_jeu, callback){
-    db.run(`INSERT INTO jeu(id_manche, gagne_par_joueur, joueur_au_service, score_echanges_joueur_1, score_echanges_joueur_2, etat_jeu) VALUES(?, ?, ?, ?, ?, ?)`, [id_manche, gagne_par_joueur, joueur_au_service, score_echanges_joueur_1, score_echanges_joueur_2, etat_jeu], function(err) {
-        if (err) {
-            return console.log(err.message);
-        }
-        // return the last insert id
-        callback(this.lastID);
+exports.creerJeu = function creerJeu(id_manche, gagne_par_joueur, joueur_au_service, score_echanges_joueur_1, score_echanges_joueur_2, etat_jeu){
+    return new Promise((resolve, reject) => {
+        db.run(`INSERT INTO jeu(id_manche, gagne_par_joueur, joueur_au_service, score_echanges_joueur_1, score_echanges_joueur_2, etat_jeu) VALUES(?, ?, ?, ?, ?, ?)`, [id_manche, gagne_par_joueur, joueur_au_service, score_echanges_joueur_1, score_echanges_joueur_2, etat_jeu], function(err) {
+            if (err) {
+                reject(err.message);
+            }
+            // return the last insert id
+            resolve(this.lastID);
+        });
     });
 };
 
@@ -205,13 +212,15 @@ exports.updateEtatJeu = function updateEtatJeu(idJeu, nouvelEtat, callback){
 
 // ============================== Échange ==============================
 
-exports.creerEchange = function creerEchange(id_jeu, gagne_par_joueur, conteste_par_joueur, contestation_acceptee, etat_echange, vitesse_service, nombre_coup_echange, callback){
-    db.run(`INSERT INTO echange(id_jeu, gagne_par_joueur, conteste_par_joueur, contestation_acceptee, etat_echange, vitesse_service, nombre_coup_echange) VALUES(?, ?, ?, ?, ?, ?, ?)`, [id_jeu, gagne_par_joueur, conteste_par_joueur, contestation_acceptee, etat_echange, vitesse_service, nombre_coup_echange], function(err) {
-        if (err) {
-            return console.log(err.message);
-        }
-        // return the last insert id
-        callback(this.lastID);
+exports.creerEchange = function creerEchange(id_jeu, gagne_par_joueur, conteste_par_joueur, contestation_acceptee, etat_echange, vitesse_service, nombre_coup_echange){
+    return new Promise((resolve, reject) => {
+        db.run(`INSERT INTO echange(id_jeu, gagne_par_joueur, conteste_par_joueur, contestation_acceptee, etat_echange, vitesse_service, nombre_coup_echange) VALUES(?, ?, ?, ?, ?, ?, ?)`, [id_jeu, gagne_par_joueur, conteste_par_joueur, contestation_acceptee, etat_echange, vitesse_service, nombre_coup_echange], function(err) {
+            if (err) {
+                reject(err.message);
+            }
+            // return the last insert id
+            resolve(this.lastID);
+        });
     });
 };
 
