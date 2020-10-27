@@ -24,10 +24,10 @@ class Partie {
     this.tick_debut = tickDebut;
 
     this.manche = new Manche(this,-1, this.id_partie, 0, 0, 3, 3, 0);
-    database.creerManche(this.manche.id_partie, this.manche.score_jeux_joueur_1, this.manche.score_jeux_joueur_2, this.manche.nb_contestations_joueur_1, this.manche.nb_contestations_joueur_2, this.manche.etat_manche, function(dbManche){
-      this.manche.id_manche = dbManche.id_manche;
+    database.creerManche(this.manche.id_partie, this.manche.score_jeux_joueur_1, this.manche.score_jeux_joueur_2, this.manche.nb_contestations_joueur_1, this.manche.nb_contestations_joueur_2, this.manche.etat_manche, function(insertedId){
+      this.manche.id_manche = insertedId;
     });
-
+    console.log(this.manche);
     this.modificateurVitesse = Math.max(process.argv[2], 1);
   }
 
@@ -78,8 +78,8 @@ class Partie {
         if(this.manche.etat_manche === 1 && this.etat_partie !== 1) {
           this.manche = new Manche(this,-1, this.id_partie, 0, 0, 3, 3, 0);
           let that = this;
-          database.creerManche(this.manche.id_partie, this.manche.score_jeux_joueur_1, this.manche.score_jeux_joueur_2, this.manche.nb_contestations_joueur_1, this.manche.nb_contestations_joueur_2, this.manche.etat_manche, function(dbManche){
-            that.manche.id_manche = dbManche.id_manche;
+          database.creerManche(this.manche.id_partie, this.manche.score_jeux_joueur_1, this.manche.score_jeux_joueur_2, this.manche.nb_contestations_joueur_1, this.manche.nb_contestations_joueur_2, this.manche.etat_manche, function(insertedId){
+            that.manche.id_manche = insertedId;
           });
         }
       }

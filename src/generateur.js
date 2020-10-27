@@ -30,7 +30,7 @@ const demarrer = function () {
     for (const partie in listePartie) {
       if (listePartie[partie].tick_debut === tick) {
         console.log('La partie d\'id', listePartie[partie].id_partie, 'commence');
-        demarrerPartie(listePartie[partie]);
+        // demarrerPartie(listePartie[partie]);
         listePartie[partie].jouerPartie();
       }
     }

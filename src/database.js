@@ -8,11 +8,6 @@
 const sqlite3 = require('sqlite3').verbose();
 
 const Joueur = require('./modeles/joueur');
-const Partie = require('./modeles/partie');
-const Manche = require('./modeles/manche');
-const Jeu = require('./modeles/jeu');
-const Echange = require('./modeles/echange');
-const Pari = require('./modeles/pari');
 
 let db = new sqlite3.Database('./src/bdd_site.db', (err) => {
     if (err) {
@@ -41,7 +36,7 @@ exports.trouverJoueurViaIdJoueur =  function trouverJoueurViaIdJoueur(idJoueur, 
         }
         // return the player
         if(row !== undefined){
-            const joueur = new Joueur(idJoueur, row.prenom, row.nom, row.age, row.rang, row.pays)
+            const joueur = new Joueur(idJoueur, row.prenom, row.nom, row.age, row.rang, row.pays);
             callback(joueur);
         } else {
             callback(undefined);
@@ -57,13 +52,7 @@ exports.creerPartie = function creerPartie(joueur1, joueur2, dateTimeDebutPartie
             return console.log(err.message);
         }
         // Retourne la partie créée en BDD
-        console.log(Joueur);
-        console.log(Partie);
-        console.log(Manche);
-        console.log(Jeu);
-        console.log(Echange);
-        console.log(Pari);
-        callback(new Partie(this.lastID, joueur1, joueur2, undefined, undefined, dateTimeDebutPartie, dateTimeFinPartie, etatPartie, 0, 0, tickDebut));
+        callback(this.lastID);
     });
 };
 
@@ -106,7 +95,7 @@ exports.creerManche = function creerManche(id_partie, score_jeux_joueur_1, score
             return console.log(err.message);
         }
         // return the last insert id
-        callback(new Manche(undefined, this.lastID, idPartie, 0, 0, 3, 3, etatManche));
+        callback(this.lastID);
     });
 };
 
@@ -169,7 +158,7 @@ exports.creerJeu = function creerJeu(id_manche, gagne_par_joueur, joueur_au_serv
             return console.log(err.message);
         }
         // return the last insert id
-        callback(new Jeu(undefined, this.lastID, id_manche, gagne_par_joueur, joueur_au_service, 0, 0, etat_jeu));
+        callback(this.lastID);
     });
 };
 
@@ -222,7 +211,7 @@ exports.creerEchange = function creerEchange(id_jeu, gagne_par_joueur, conteste_
             return console.log(err.message);
         }
         // return the last insert id
-        callback(new Echange(undefined, this.lastID, id_jeu, gagne_par_joueur, conteste_par_joueur, contestation_acceptee, etat_echange, vitesse_service, nombre_coup_echange));
+        callback(this.lastID);
     });
 };
 
@@ -286,7 +275,7 @@ exports.creerPari = function creerPari(montant, idPartie, idUtilisateur, idJoueu
             return console.log(err.message);
         }
         // return the last insert id
-        callback(new Pari(this.lastID, montant, idPartie, idUtilisateur, idJoueur));
+        callback(this.lastID);
     });
 };
 

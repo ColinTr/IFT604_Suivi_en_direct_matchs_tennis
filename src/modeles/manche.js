@@ -20,8 +20,8 @@ class Manche {
         this.etat_manche = etat_manche;
 
         this.jeu = new Jeu(this,-1, this.id_manche, -1, 1, 0, 0, 0);
-        database.creerJeu(this.jeu.id_manche, this.jeu.joueur_au_service, this.jeu.score_echanges_joueur_1, this.jeu.score_echanges_joueur_2, this.jeu.etat_Jeu, function(dbJeu){
-            this.jeu.id_jeu = dbJeu.id_jeu;
+        database.creerJeu(this.jeu.id_manche, this.jeu.joueur_au_service, this.jeu.score_echanges_joueur_1, this.jeu.score_echanges_joueur_2, this.jeu.etat_Jeu, function(insertedId){
+            this.jeu.id_jeu = insertedId;
         });
     }
 
@@ -63,8 +63,8 @@ class Manche {
             if(this.jeu.etat_Jeu === 1 && this.etat_manche !== 1) {
                 let joueur_au_service_du_nouveau_jeu = (this.jeu.joueur_au_service + 1) % 2;
                 this.jeu = new Jeu(this,-1, this.id_manche, 1, joueur_au_service_du_nouveau_jeu, 0, 0);
-                database.creerJeu(this.jeu.id_manche, -1, this.jeu.joueur_au_service, this.jeu.score_echanges_joueur_1, this.jeu.score_echanges_joueur_2, this.jeu.etat_Jeu, function(dbJeu){
-                    that.jeu.id_jeu = dbJeu.id_jeu;
+                database.creerJeu(this.jeu.id_manche, -1, this.jeu.joueur_au_service, this.jeu.score_echanges_joueur_1, this.jeu.score_echanges_joueur_2, this.jeu.etat_Jeu, function(insertedId){
+                    that.jeu.id_jeu = insertedId;
                 });
             }
         }

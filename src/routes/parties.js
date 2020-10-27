@@ -10,6 +10,7 @@ const router = express.Router();
 
 const gen = require('../generateur');
 const database = require('../database');
+const Partie = require('../modeles/partie');
 
 /* GET parties listing. */
 router.get('/', function (req, res, next) {
@@ -56,8 +57,10 @@ router.post('/', (req, res) =>{
     if(joueur_1 !== undefined){
       database.trouverJoueurViaIdJoueur(body.id_joueur_2, function(joueur_2){
         if(joueur_2 !== undefined){
-          database.creerPartie(joueur_1, joueur_2, body.datetime_debut_partie, undefined, 0, body.tick_debut, function(partie){
-            gen.ajouterPartie(partie);
+          let newPartie = new Partie(-1, joueur_1, joueur_2, undefined, undefined, body.datetime_debut_partie, undefined, 0, 0, 0, body.tick_debut);
+          database.creerPartie(joueur_1, joueur_2, body.datetime_debut_partie, undefined, 0, body.tick_debut, function(insertedId){
+            newPartie.id_partie = insertedId;
+            gen.ajouterPartie(newPartie);
             res.status(200).end(); // OK status code
           });
         } else {

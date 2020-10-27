@@ -20,8 +20,8 @@ class Jeu {
         this.etat_Jeu = etat_Jeu;
 
         this.echange = new Echange(this, -1, this.id_jeu, -1, -1, -1, 0, 0, 0);
-        database.creerEchange(this.echange.id_jeu, this.echange.gagne_par_joueur, this.echange.conteste_par_joueur, this.echange.contestation_acceptee, this.echange.etat_echange, this.echange.vitesse_service, this.echange.nombre_coup_echange,  function(dbEchange){
-            this.echange.id_echange = dbEchange.id_echange;
+        database.creerEchange(this.echange.id_jeu, this.echange.gagne_par_joueur, this.echange.conteste_par_joueur, this.echange.contestation_acceptee, this.echange.etat_echange, this.echange.vitesse_service, this.echange.nombre_coup_echange,  function(insertedId){
+            this.echange.id_echange = insertedId;
         });
     }
 
@@ -85,8 +85,8 @@ class Jeu {
             // Si l'échange est terminé et que le jeu n'est pas fini, on commence un nouvel échange
             if(this.echange.etat_echange === 1 && this.etat_Jeu !== 1){
                 this.echange = new Echange(this, -1, this.id_jeu, -1, -1, -1, 0, 0, 0);
-                database.creerEchange(this.echange.id_jeu, this.echange.gagne_par_joueur, this.echange.conteste_par_joueur, this.echange.contestation_acceptee, this.echange.etat_echange, this.echange.vitesse_service, this.echange.nombre_coup_echange,  function(dbEchange){
-                    this.echange.id_echange = dbEchange.id_echange;
+                database.creerEchange(this.echange.id_jeu, this.echange.gagne_par_joueur, this.echange.conteste_par_joueur, this.echange.contestation_acceptee, this.echange.etat_echange, this.echange.vitesse_service, this.echange.nombre_coup_echange,  function(insertedId){
+                    this.echange.id_echange = insertedId;
                 });
             }
         }
