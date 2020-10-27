@@ -10,7 +10,6 @@ const Jeu = require('./jeu');
 
 class Manche {
     constructor(parent, id_manche, id_partie, score_jeux_joueur_1, score_jeux_joueur_2, nb_contestations_joueur_1, nb_contestations_joueur_2, etat_manche) {
-        let that = this;
         this.parent = parent;
         this.id_manche = id_manche;
         this.id_partie = id_partie;
@@ -20,14 +19,18 @@ class Manche {
         this.nb_contestations_joueur_2 = nb_contestations_joueur_2;
         this.etat_manche = etat_manche;
 
-        this.jeu = new Jeu(this,-1, this.id_manche, -1, 1, 0, 0, 0);
-        database.creerJeu(this.jeu.id_manche, -1, this.jeu.joueur_au_service, this.jeu.score_echanges_joueur_1, this.jeu.score_echanges_joueur_2, this.jeu.etat_Jeu, function(insertedId){
-            that.jeu.id_jeu = insertedId;
-        });
+        this.jeu = undefined;
     }
 
     updateManche(){
         let that = this;
+
+        if(this.jeu === undefined) {
+            this.jeu = new Jeu(this,-1, this.id_manche, -1, 1, 0, 0, 0);
+            database.creerJeu(this.jeu.id_manche, -1, this.jeu.joueur_au_service, this.jeu.score_echanges_joueur_1, this.jeu.score_echanges_joueur_2, this.jeu.etat_Jeu, function(insertedId){
+                that.jeu.id_jeu = insertedId;
+            });
+        }
 
         this.jeu.updateJeu();
 
