@@ -32,7 +32,7 @@ class Echange {
                 if ((Math.random() * 100) < 3) { // 3% de contestation
                     this.conteste_par_joueur = 2;
                     this.contestation_acceptee = false;
-                    if (!(Math.random() * 100) > 25) { // 75% de chance que la contestation passe
+                    if (!((Math.random() * 100) > 25)) { // 75% de chance que la contestation passe
                         console.log('contestation du joueur 2 echouee');
                     } else {
                         this.contestation_acceptee = true;

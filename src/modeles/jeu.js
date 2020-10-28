@@ -76,7 +76,7 @@ class Jeu {
                     });
 
                 // Si l'échange est terminé et que le jeu n'est pas fini, on commence un nouvel échange
-                if(this.echange.etat_echange === 1 && this.etat_Jeu !== 1){
+                if(this.etat_Jeu !== 1){
                     this.echange = undefined;
                     this.initNewEchange();
                 }

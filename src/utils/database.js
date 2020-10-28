@@ -105,7 +105,6 @@ exports.updatePartie = function updatePartie(id_partie, score_manche_joueur_1, s
 
 exports.updateDateTimeFinPartie = function updateDateTimeFinPartie(id_partie, dateTimeFinPartie){
     return new Promise((resolve, reject) => {
-        console.log(datetimeUtils.formaterJsonEnTimeStamp(dateTimeFinPartie));
         db.run(`UPDATE partie SET datetime_fin_partie = datetime(?, 'unixepoch', 'localtime') WHERE id_partie = ?`, [datetimeUtils.formaterJsonEnTimeStamp(dateTimeFinPartie)/1000, id_partie], function(err) {
             if (err) {
                 reject(err.message);
