@@ -8,6 +8,7 @@
 const sqlite3 = require('sqlite3').verbose();
 
 const Joueur = require('../modeles/joueur');
+const datetimeUtils = require('../utils/dateTimeUtils');
 
 let db = new sqlite3.Database('./src/bdd_site.db', (err) => {
     if (err) {
@@ -78,9 +79,9 @@ exports.recupererToutesLesParties =  function recupererToutesLesParties() {
     });
 };
 
-exports.creerPartie = function creerPartie(joueur1, joueur2, dateTimeDebutPartie, dateTimeFinPartie, etatPartie){
+exports.creerPartie = function creerPartie(joueur1, joueur2, dateTimeDebutPartie, etatPartie){
     return new Promise((resolve, reject) => {
-        db.run(`INSERT INTO partie(id_joueur_1, id_joueur_2, datetime_debut_partie, datetime_fin_partie, score_manche_joueur_1, score_manche_joueur_2, etat_partie) VALUES(?, ?, ?, ?, ?, ?, ?)`, [joueur1.id_joueur, joueur2.id_joueur, dateTimeDebutPartie, dateTimeFinPartie, 0, 0, etatPartie], function(err) {
+        db.run(`INSERT INTO partie(id_joueur_1, id_joueur_2, datetime_debut_partie, score_manche_joueur_1, score_manche_joueur_2, etat_partie) VALUES(?, ?, datetime(?, 'unixepoch', 'localtime'), ?, ?, ?)`, [joueur1.id_joueur, joueur2.id_joueur, datetimeUtils.formaterJsonEnTimeStamp(dateTimeDebutPartie)/1000, 0, 0, etatPartie], function(err) {
             if (err) {
                 reject(err.message);
             }
@@ -90,9 +91,22 @@ exports.creerPartie = function creerPartie(joueur1, joueur2, dateTimeDebutPartie
     })
 };
 
-exports.updatePartie = function updatePartie(id_partie, dateTimeDebutPartie, dateTimeFinPartie, score_manche_joueur_1, score_manche_joueur_2, etatPartie){
+exports.updatePartie = function updatePartie(id_partie, score_manche_joueur_1, score_manche_joueur_2, etatPartie){
     return new Promise((resolve, reject) => {
-        db.run(`UPDATE partie SET datetime_debut_partie = ?, datetime_fin_partie = ?, score_manche_joueur_1 = ?, score_manche_joueur_2 = ?, etat_partie = ? WHERE id_partie = ?`, [dateTimeDebutPartie, dateTimeFinPartie, score_manche_joueur_1, score_manche_joueur_2, etatPartie, id_partie], function(err) {
+        db.run(`UPDATE partie SET score_manche_joueur_1 = ?, score_manche_joueur_2 = ?, etat_partie = ? WHERE id_partie = ?`, [score_manche_joueur_1, score_manche_joueur_2, etatPartie, id_partie], function(err) {
+            if (err) {
+                reject(err.message);
+            }
+            // return the number of rows updated
+            resolve(this.changes);
+        });
+    });
+};
+
+exports.updateDateTimeFinPartie = function updateDateTimeFinPartie(id_partie, dateTimeFinPartie){
+    return new Promise((resolve, reject) => {
+        console.log(datetimeUtils.formaterJsonEnTimeStamp(dateTimeFinPartie));
+        db.run(`UPDATE partie SET datetime_fin_partie = datetime(?, 'unixepoch', 'localtime') WHERE id_partie = ?`, [datetimeUtils.formaterJsonEnTimeStamp(dateTimeFinPartie)/1000, id_partie], function(err) {
             if (err) {
                 reject(err.message);
             }

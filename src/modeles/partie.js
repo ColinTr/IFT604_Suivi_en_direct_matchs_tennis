@@ -7,6 +7,7 @@
 
 const database = require('../utils/database');
 const Manche = require('./manche');
+const dateTimeUtils = require('../utils/dateTimeUtils');
 
 class Partie {
     constructor(id_partie, joueur1, joueur2, terrain, tournoi, datetime_debut_partie, datetime_fin_partie, etat_partie, score_manche_joueur_1, score_manche_joueur_2, tickDebut) {
@@ -123,10 +124,21 @@ class Partie {
 
                     // ==================== FIN GESTION DES PARIS ====================
 
+                    // On met à jour la datetime de fin de partie
+                    that.datetime_fin_partie = dateTimeUtils.formaterTimeStampEnJson(dateTimeUtils.formaterJsonEnTimeStamp(that.datetime_debut_partie)  + that.temps_partie*1000);
+                    database.updateDateTimeFinPartie(that.id_partie, that.datetime_fin_partie)
+                        .then((nbRowsAffected) => {
+                            if (nbRowsAffected <= 0) {
+                                return console.log('Critical Error : Unable to update datetime_fin_partie of partie', that.id_partie);
+                            }
+                        }).catch((errMsg) => {
+                            return console.log(errMsg);
+                        });
+
                     clearInterval(timer);
                 }
 
-                database.updatePartie(that.id_partie, that.datetime_debut_partie, that.datetime_fin_partie, that.score_manche_joueur_1, that.score_manche_joueur_2, that.etat_partie)
+                database.updatePartie(that.id_partie, that.score_manche_joueur_1, that.score_manche_joueur_2, that.etat_partie)
                     .then((nbRowsAffected) => {
                         if (nbRowsAffected <= 0) {
                             return console.log('Critical Error : Unable to update all infos of partie', that.id_partie);
@@ -142,7 +154,7 @@ class Partie {
             }
 
             that.temps_partie += Math.floor(Math.random() * 60); // entre 0 et 60 secondes entre chaque point
-        }, Math.floor(1000 / this.modificateurVitesse));
+        }, Math.floor(100 / this.modificateurVitesse));
     }
 
     toJSON () {

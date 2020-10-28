@@ -25,7 +25,7 @@ router.get('/:id_partie', function (req, res, next) {
     database.idPartieExisteTIl(req.params['id_partie'])
         .then((nbPartiesAvecId) => {
             if (nbPartiesAvecId !== 1) {
-                return res.status(400).send('{ \"erreur\" : \"La partie d\'id ' + req.params['id_partie'] + ' n\'existe pas.\"}');
+                return res.status(400).send(new Erreur('La partie d\'id ' + req.params['id_partie'] + ' n\'existe pas.')).end();
             } else {
                 database.recupererPartieViaId(req.params['id_partie'])
                     .then((rowPartie) => {
@@ -37,13 +37,13 @@ router.get('/:id_partie', function (req, res, next) {
                                             if (joueur_2 !== undefined) {
                                                 return res.status(200).send(new Partie(rowPartie.id_partie, joueur_1, joueur_2, rowPartie.terrain, rowPartie.tournoi, rowPartie.datetime_debut_partie, rowPartie.datetime_fin_partie, rowPartie.etat_partie, rowPartie.score_manche_joueur_1, rowPartie.score_manche_joueur_2, rowPartie.tick_debut)).end();
                                             } else {
-                                                return res.status(400).send('{ \"erreur\" : \"Unable to get infos of Partie : No joueur with id' + rowPartie.id_joueur_2 + 'were found in database\"}').end(); // Bad request status code
+                                                return res.status(400).send(new Erreur('Unable to get infos of Partie : No joueur with id' + rowPartie.id_joueur_2 + 'were found in database')).end(); // Bad request status code
                                             }
                                         }).catch((errMsg) => {
                                         return console.log(errMsg);
                                     });
                                 } else {
-                                    return res.status(400).send('{ \"erreur\" : \"Unable to get infos of Partie : No joueur with id', rowPartie.id_joueur_1, 'were found in database\"}').end(); // Bad request status code
+                                    return res.status(400).send(new Erreur('Unable to get infos of Partie : No joueur with id' + rowPartie.id_joueur_1 + 'were found in database')).end(); // Bad request status code
                                 }
                             }).catch((errMsg) => {
                             return console.log(errMsg);
@@ -73,7 +73,7 @@ router.post('/', (req, res) =>{
     }
 
     if( !dateTimeUtils.verifierChampsValide(body.datetime_debut_partie) ) {
-        return res.status(400).send('{ \"erreur\" : \"Les champs de datetime_debut_partie ne sont pas valides.\"}').end(); // Bad request status code
+        return res.status(400).send(new Erreur('Les champs de datetime_debut_partie ne sont pas valides.')).end(); // Bad request status code
     }
 
     database.trouverJoueurViaIdJoueur(body.id_joueur_1)
@@ -83,7 +83,7 @@ router.post('/', (req, res) =>{
                     .then((joueur_2) => {
                         if(joueur_2 !== undefined){
                             let newPartie = new Partie(-1, joueur_1, joueur_2, undefined, undefined, body.datetime_debut_partie, undefined, 0, 0, 0, body.tick_debut);
-                            database.creerPartie(newPartie.joueur1, newPartie.joueur2, newPartie.datetime_debut_partie, newPartie.datetime_fin_partie, newPartie.etat_partie)
+                            database.creerPartie(newPartie.joueur1, newPartie.joueur2, newPartie.datetime_debut_partie, newPartie.etat_partie)
                                 .then((insertedId)=> {
                                     newPartie.id_partie = insertedId;
                                     newPartie.initNewManche()
@@ -99,13 +99,13 @@ router.post('/', (req, res) =>{
                                     return console.log(msg);
                                 });
                         } else {
-                            return res.status(400).send('{ \"erreur\" : \"Unable to create Partie : No joueur with id', body.id_joueur_2, 'were found in database\"}').end(); // Bad request status code
+                            return res.status(400).send(new Erreur('Unable to create Partie : No joueur with id' + body.id_joueur_2 + 'were found in database')).end(); // Bad request status code
                         }
                     }).catch((errMsg) => {
                         return console.log(errMsg);
                     });
             } else {
-                return res.status(400).send('{ \"erreur\" : \"Unable to create Partie : No joueur with id', body.id_joueur_1, 'were found in database\"}').end(); // Bad request status code
+                return res.status(400).send(new Erreur('Unable to create Partie : No joueur with id' + body.id_joueur_1 + 'were found in database')).end(); // Bad request status code
             }
     }).catch((errMsg) => {
         return console.log(errMsg);

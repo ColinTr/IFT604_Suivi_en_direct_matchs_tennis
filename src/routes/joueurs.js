@@ -18,8 +18,7 @@ router.get('/', (req, res) =>{
             return res.status(200).send(joueurs).end()
         })
         .catch(errMsg =>{
-            const erreur = new Erreur(errMsg);
-            return res.status(400).send(erreur.toJSON()).end()
+            return res.status(400).send(new Erreur(errMsg)).end()
         })
 });
 

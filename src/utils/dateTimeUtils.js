@@ -6,37 +6,57 @@
  */
 
 exports.verifierChampsValide = function verifierChampsValide(jsonObject) {
-    return toutLesChampsSontPresents() && estUneAnneeValide(jsonObject.annee) && estUnMoisValide(jsonObject.mois) && estUnJourValide(jsonObject.jour) && estUneHeureValide(jsonObject.heure) && estUneMinuteValide(jsonObject.minute);
+    return this.toutLesChampsSontPresents(jsonObject) && this.estUneAnneeValide(jsonObject.annee) && this.estUnMoisValide(jsonObject.mois) && this.estUnJourValide(jsonObject.jour) && this.estUneHeureValide(jsonObject.heure) && this.estUneMinuteValide(jsonObject.minute);
+};
+
+exports.formaterJsonEnTimeStamp = function formaterJsonEnTimeStamp(jsonObject) {
+    let sec = jsonObject.seconde;
+    if(sec === undefined){
+        sec = 0;
+    }
+    return (new Date(jsonObject.annee, jsonObject.mois, jsonObject.jour, jsonObject.heure, jsonObject.minute, sec, 0)).getTime();
+};
+
+exports.formaterTimeStampEnJson = function formaterTimeStampEnJson(UNIX_timestamp){
+    const a = new Date(UNIX_timestamp);
+    const year = a.getFullYear();
+    const month = a.getMonth();
+    const date = a.getDate();
+    const hour = a.getHours();
+    const min = a.getMinutes();
+    const sec = a.getSeconds();
+    return JSON.parse("{ \"annee\" : " + year + ", \"mois\" : " + month + ", \"jour\" : " + date + ", \"heure\" : "  + hour + ", \"minute\" : " + min + ", \"seconde\" : " + sec + " }");
 };
 
 exports.toutLesChampsSontPresents = function toutLesChampsSontPresents(jsonObject) {
     const champsDate = ["annee", "mois", "jour", "heure", "minute"];
+    let tousLesChampsSontPresents = true;
     champsDate.forEach(champ => {
         if (!jsonObject.hasOwnProperty(champ)) {
-            return false;
+            tousLesChampsSontPresents = false;
         }
     });
-    return true;
+    return tousLesChampsSontPresents;
 };
 
 exports.estUneAnneeValide = function estUneAnneeValide(annee) {
-    return estUnNombreEntier(annee);
+    return this.estUnNombreEntier(annee);
 };
 
 exports.estUnMoisValide = function estUnMoisValide(mois) {
-    return estUnNombreEntier(mois) && mois >= 1 && mois <= 12;
+    return this.estUnNombreEntier(mois) && mois >= 0 && mois <= 11;
 };
 
 exports.estUnJourValide = function estUnJourValide(jour) {
-    return estUnNombreEntier(jour) && jour >= 1 && jour <= 31;
+    return this.estUnNombreEntier(jour) && jour >= 1 && jour <= 31;
 };
 
 exports.estUneHeureValide = function estUneHeureValide(heure) {
-    return estUnNombreEntier(heure) && heure >= 0 && heure <= 23;
+    return this.estUnNombreEntier(heure) && heure >= 0 && heure <= 23;
 };
 
 exports.estUneMinuteValide = function estUneMinuteValide(minute) {
-    return estUnNombreEntier(minute) && minute >= 0 && minute <= 60;
+    return this.estUnNombreEntier(minute) && minute >= 0 && minute <= 60;
 };
 
 exports.estUnNombreEntier = function estUnNombreEntier(n) {
