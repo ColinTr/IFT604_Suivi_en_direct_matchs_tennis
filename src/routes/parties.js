@@ -15,9 +15,16 @@ const dateTimeUtils = require('../utils/dateTimeUtils');
 const Erreur = require('../utils/erreur');
 
 // GET la liste des parties du jour
-router.get('/', function (req, res, next) {
-    // TODO
-    res.send(generateur.liste_partie);
+router.get('/', function (req, res) {
+    database.recupererToutesLesPartiesDuJour()
+        .then(partiesDuJour => {
+            console.log("Partie du jour ",partiesDuJour)
+            res.send(partiesDuJour);
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
 });
 
 // GET informations d'une partie

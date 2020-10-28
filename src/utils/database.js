@@ -65,9 +65,10 @@ exports.recupererTousLesJoueurs =  function recupererTousLesJoueurs() {
 
 // ============================== Partie ==============================
 
-exports.recupererToutesLesParties =  function recupererToutesLesParties() {
+exports.recupererToutesLesPartiesDuJour =  function recupererToutesLesPartiesDuJour() {
+//strftime('%Y-%m-%d %H:%M:%S'
     return new Promise((resolve, reject) => {
-        db.all(`SELECT * FROM partie`, [], (err, rows) => {
+        db.all(`SELECT * FROM partie WHERE strftime('%Y-%m-%d', datetime_debut_partie) = strftime('%Y-%m-%d', 'now')`, [], (err, rows) => {
             if (err) {
                 reject(err.message);
             }
