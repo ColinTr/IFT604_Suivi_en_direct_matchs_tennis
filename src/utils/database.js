@@ -21,7 +21,7 @@ let db = new sqlite3.Database('./src/bdd_site.db', (err) => {
 
 exports.creerJoueur = function creerJoueur(prenom, nom, age, rang, pays){
     return new Promise((resolve, reject) => {
-        db.run(`INSERT INTO manche(prenom, nom, age, rang, pays) VALUES(?)`, [prenom, nom, age, rang, pays], function(err) {
+        db.run(`INSERT INTO joueur_tennis(prenom, nom, age, rang, pays) VALUES(?, ?, ?, ?, ?)`, [prenom, nom, age, rang, pays], function(err) {
             if (err) {
                 reject(err.message);
             }
@@ -92,7 +92,7 @@ exports.creerPartie = function creerPartie(joueur1, joueur2, dateTimeDebutPartie
 
 exports.updatePartie = function updatePartie(id_partie, dateTimeDebutPartie, dateTimeFinPartie, score_manche_joueur_1, score_manche_joueur_2, etatPartie){
     return new Promise((resolve, reject) => {
-        db.run(`UPDATE partie SET dateTimeDebutPartie = ?, dateTimeFinPartie = ?, score_manche_joueur_1 = ?, score_manche_joueur_2 = ?, etatPartie = ? WHERE id_partie = ?`, [dateTimeDebutPartie, dateTimeFinPartie, score_manche_joueur_1, score_manche_joueur_2, etatPartie, id_partie], function(err) {
+        db.run(`UPDATE partie SET datetime_debut_partie = ?, datetime_fin_partie = ?, score_manche_joueur_1 = ?, score_manche_joueur_2 = ?, etat_partie = ? WHERE id_partie = ?`, [dateTimeDebutPartie, dateTimeFinPartie, score_manche_joueur_1, score_manche_joueur_2, etatPartie, id_partie], function(err) {
             if (err) {
                 reject(err.message);
             }

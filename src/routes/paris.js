@@ -8,7 +8,6 @@
 const express = require('express');
 const router = express.Router();
 
-const gen = require('../utils/generateur');
 const database = require("../utils/database");
 
 // POST Créer un nouveau pari
