@@ -8,7 +8,6 @@
 const express = require('express');
 const router = express.Router();
 
-const gen = require('../generateur');
 const database = require('../database');
 
 //GET Le serveur renvoie l’id_utilisateur correspondant.

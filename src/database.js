@@ -114,6 +114,32 @@ exports.nombreDeManchesDeLaPartieTerminees = function nombreDeManchesDeLaPartieT
     });
 };
 
+exports.idPartieExisteTIl = function idPartieExisteTIl(idPartie) {
+    return new Promise((resolve, reject) => {
+        db.get(`SELECT count(*) as nombrePartiesAvecId FROM partie WHERE id_partie = ?`, [idPartie], (err, row) => {
+            if (err) {
+                reject(err.message);
+            } else {
+                // return the number of parties with idPartie found
+                resolve(row.nombrePartiesAvecId);
+            }
+        });
+    });
+};
+
+exports.recupererPartieViaId = function recupererPartieViaId(idPartie) {
+    return new Promise((resolve, reject) => {
+        db.get(`SELECT * FROM partie WHERE id_partie = ?`, [idPartie], (err, row) => {
+            if (err) {
+                reject(err.message);
+            } else {
+                // return the partie with idPartie found
+                resolve(row);
+            }
+        });
+    });
+};
+
 // ============================== Manche ==============================
 
 exports.creerManche = function creerManche(id_partie, score_jeux_joueur_1, score_jeux_joueur_2, nb_contestations_joueur_1, nb_contestations_joueur_2, etat_manche){
@@ -245,6 +271,18 @@ exports.updateMontantParisGagnes = function updateMontantParisGagnes(idPari, mon
 exports.listeParisPourPartie = function listeParisPourPartie(idPartie) {
     return new Promise((resolve, reject) => {
         db.all(`SELECT * FROM pari WHERE id_partie = ?`, [idPartie], (err, row) => {
+            if (err) {
+                reject(err.message);
+            }
+            // return the found id
+            resolve(row);
+        });
+    });
+};
+
+exports.listeParisDuJoueurPourPartie = function listeParisDuJoueurPourPartie(idPartie, idUtilisateur) {
+    return new Promise((resolve, reject) => {
+        db.all(`SELECT * FROM pari WHERE id_partie = ? AND id_utilisateur = ?`, [idPartie, idUtilisateur], (err, row) => {
             if (err) {
                 reject(err.message);
             }

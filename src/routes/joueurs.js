@@ -18,10 +18,9 @@ router.get('/', (req, res) =>{
             return res.status(200).send(joueurs).end()
         })
         .catch(errMsg =>{
-            var erreur = new Erreur(errMsg);
+            const erreur = new Erreur(errMsg);
             return res.status(400).send(erreur.toJSON()).end()
-        })
-
+        });
 });
 
 module.exports = router;

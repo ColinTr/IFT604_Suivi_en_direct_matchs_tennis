@@ -12,30 +12,49 @@ const generateur = require('../generateur');
 const database = require('../database');
 const Partie = require('../modeles/partie');
 
-/* GET parties listing. */
+// GET la liste des parties du jour
 router.get('/', function (req, res, next) {
     // TODO
     res.send(generateur.liste_partie);
 });
 
-router.get('/:id', function (req, res, next) {
-    // TODO
-    res.send(generateur.liste_partie[req.params.id]);
-});
-
-//GET Les horaires de la parties.
-router.get('/:id_partie/horaires', (req, res) =>{
-    // TODO
-});
-
-//GET Les résultats de la partie.
-router.get(':id_partie/resultats', (req, res) =>{
-    // TODO
-});
-
-//GET Informations sur une partie
-router.get('/:id_partie', (req, res) =>{
-    // TODO
+// GET informations d'une partie
+router.get('/:id_partie', function (req, res, next) {
+    database.idPartieExisteTIl(req.params['id_partie'])
+        .then((nbPartiesAvecId) => {
+            if (nbPartiesAvecId !== 1) {
+                return res.status(400).send('{ \"erreur\" : \"La partie d\'id ' + req.params['id_partie'] + ' n\'existe pas.\"}');
+            } else {
+                database.recupererPartieViaId(req.params['id_partie'])
+                    .then((rowPartie) => {
+                        database.trouverJoueurViaIdJoueur(rowPartie.id_joueur_1)
+                            .then((joueur_1) => {
+                                if (joueur_1 !== undefined) {
+                                    database.trouverJoueurViaIdJoueur(rowPartie.id_joueur_2)
+                                        .then((joueur_2) => {
+                                            if (joueur_2 !== undefined) {
+                                                return res.status(200).send(new Partie(rowPartie.id_partie, joueur_1, joueur_2, rowPartie.terrain, rowPartie.tournoi, rowPartie.datetime_debut_partie, rowPartie.datetime_fin_partie, rowPartie.etat_partie, rowPartie.score_manche_joueur_1, rowPartie.score_manche_joueur_2, rowPartie.tick_debut)).end();
+                                            } else {
+                                                console.log('Unable to create Partie : No joueur with id', rowPartie.id_joueur_2, 'were found in database');
+                                                return res.status(400).end(); // Bad request status code
+                                            }
+                                        }).catch((errMsg) => {
+                                        return console.log(errMsg);
+                                    });
+                                } else {
+                                    console.log('Unable to create Partie : No joueur with id', rowPartie.id_joueur_1, 'were found in database');
+                                    return res.status(400).end(); // Bad request status code
+                                }
+                            }).catch((errMsg) => {
+                            return console.log(errMsg);
+                        });
+                    }).catch((errMsg) => {
+                    return console.log(errMsg);
+                });
+            }
+        }).catch((errMsg) => {
+            return console.log(errMsg);
+        });
 });
 
 //GET Évènements d’un match (points et contestations)
@@ -76,19 +95,29 @@ router.post('/', (req, res) =>{
                                     return console.log(msg);
                                 });
                         } else {
-                            console.log('Unable to create Partie : No user with id', body.id_joueur_2, 'were found in database');
+                            console.log('Unable to create Partie : No joueur with id', body.id_joueur_2, 'were found in database');
                             return res.status(400).end(); // Bad request status code
                         }
                     }).catch((errMsg) => {
                         return console.log(errMsg);
                     });
             } else {
-                console.log('Unable to create Partie : No user with id', body.id_joueur_1, 'were found in database');
+                console.log('Unable to create Partie : No joueur with id', body.id_joueur_1, 'were found in database');
                 return res.status(400).end(); // Bad request status code
             }
     }).catch((errMsg) => {
         return console.log(errMsg);
     });
+});
+
+//GET Les horaires de la parties.
+router.get('/:id_partie/horaires', (req, res) =>{
+    // TODO TP3
+});
+
+//GET Les résultats de la partie.
+router.get(':id_partie/resultats', (req, res) =>{
+    // TODO TP3
 });
 
 module.exports = router;
