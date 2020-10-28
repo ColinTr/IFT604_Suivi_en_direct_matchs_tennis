@@ -26,8 +26,6 @@ class Partie {
         this.modificateurVitesse = Math.max(process.argv[2], 1);
 
         this.manche = undefined;
-
-        //
     }
 
     initNewManche() {
@@ -40,13 +38,13 @@ class Partie {
                     newManche.initNewJeu(1).then(() => {
                         that.manche = newManche;
                         resolve();
-                    })
-                    .catch((msg) => {
-                        console.log(msg);
+                    }).catch((errMsg) => {
+                        console.log(errMsg);
+                        reject(errMsg);
                     });
-                })
-                .catch((msg) => {
-                    console.log(msg);
+                }).catch((errMsg) => {
+                    console.log(errMsg);
+                    reject(errMsg);
                 });
         });
     }

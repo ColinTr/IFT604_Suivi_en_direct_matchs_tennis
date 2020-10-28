@@ -9,60 +9,72 @@ const express = require('express');
 const router = express.Router();
 
 const database = require("../utils/database");
+const Erreur = require("../utils/erreur");
 
 // POST Créer un nouveau pari
 router.post('/', (req, res) =>{
     // On vérifie s'il manque des informations
     const body = req.body;
     if (body.id_utilisateur===undefined || body.id_partie===undefined || body.id_joueur===undefined || body.montant_pari===undefined) {
-        return res.status(400).send('{ \"erreur\" : \"Contenu manquant.\"}');
+        console.log(new Erreur('Contenu manquant.'));
+        return res.status(400).send(new Erreur('Contenu manquant.'));
     }
     if (body.montant_pari <= 0) {
-        return res.status(400).send('{ \"erreur\" : \"Impossible de parier un chiffre inférieur ou égal à 0.\"}');
+        console.log(new Erreur('Impossible de parier un chiffre inférieur ou égal à 0.'));
+        return res.status(400).send(new Erreur('Impossible de parier un chiffre inférieur ou égal à 0.'));
     }
 
     // On vérifie que l'utilisateur existe
     database.idUtilisateurExisteTIl(body.id_utilisateur)
         .then((nbUtilisateur) => {
             if(nbUtilisateur <= 0) {
-                return res.status(400).send('{ \"erreur\" : \"L\'utilisateur d\'id ' + body.id_utilisateur + ' n\'existe pas.\"}');
+                console.log(new Erreur('L\'utilisateur d\'id ' + body.id_utilisateur + ' n\'existe pas.'));
+                return res.status(400).send(new Erreur('L\'utilisateur d\'id ' + body.id_utilisateur + ' n\'existe pas.'));
             } else {
                 // On vérifie que l'utilisateur existe
                 database.trouverJoueurViaIdJoueur(body.id_joueur)
                     .then((joueur) => {
                         if(joueur === undefined){
-                            return res.status(400).send('{ \"erreur\" : \"Le joueur d\'id ' + body.id_joueur + ' n\'existe pas.\"}');
+                            console.log(new Erreur('Le joueur d\'id ' + body.id_joueur + ' n\'existe pas.'));
+                            return res.status(400).send(new Erreur('Le joueur d\'id ' + body.id_joueur + ' n\'existe pas.'));
                         } else {
                             // On vérifie si la partie existe
                             database.idPartieExisteTIl(body.id_partie)
                                 .then((nbPartiesAvecId) => {
                                     if(nbPartiesAvecId !== 1) {
-                                        return res.status(400).send('{ \"erreur\" : \"La partie d\'id ' + body.id_partie + ' n\'existe pas.\"}');
+                                        console.log(new Erreur('La partie d\'id ' + body.id_partie + ' n\'existe pas.'));
+                                        return res.status(400).send(new Erreur('La partie d\'id ' + body.id_partie + ' n\'existe pas.'));
                                     } else {
                                         // On vérifie que la partie que la partie n'a pas de manche terminée
                                         database.nombreDeManchesDeLaPartieTerminees(body.id_partie)
                                             .then((nbManchesTerminees) => {
                                                 if(nbManchesTerminees >= 1) {
-                                                    return res.status(400).send('{ \"erreur\" : \"la première manche est terminée, impossible de parier.\"}');
+                                                    console.log(new Erreur('La partie d\'id ' + body.id_partie + ' n\'existe pas.'));
+                                                    return res.status(400).send(new Erreur('la première manche est terminée, impossible de parier.'));
                                                 } else {
                                                     database.creerPari(body.montant_pari, 0, body.id_partie, body.id_utilisateur, body.id_joueur)
                                                         .then(idPari => {
+                                                            console.log('Création d\'un nouveau pari...');
                                                             return res.status(200).send('id pari cree en bdd : ' + idPari);
                                                             // TODO : Méthode push pour informer que le pari a été enregistré par le système
-                                                        }).catch((err) => {
-                                                            return res.status(400).send('error : ' + err);
+                                                        }).catch((errMsg) => {
+                                                            console.log(new Erreur(errMsg));
+                                                            return res.status(400).send(new Erreur(errMsg)).end();
                                                         });
                                                 }
-                                            }).catch((err) => {
-                                                return res.status(400).send('error : ' + err);
+                                            }).catch((errMsg) => {
+                                                console.log(new Erreur(errMsg));
+                                                return res.status(400).send(new Erreur(errMsg)).end();
                                             });
                                     }
                                 }).catch((errMsg) => {
-                                    return console.log(errMsg);
+                                    console.log(new Erreur(errMsg));
+                                    return res.status(400).send(new Erreur(errMsg)).end();
                                 });
                         }
                     }).catch((errMsg) => {
-                        return console.log(errMsg);
+                        console.log(new Erreur(errMsg));
+                        return res.status(400).send(new Erreur(errMsg)).end();
                     });
             }
         });
@@ -82,26 +94,32 @@ router.get('/utilisateur/:id_utilisateur/partie/:id_partie', (req, res) =>{
         database.idUtilisateurExisteTIl(req.params['id_utilisateur'])
             .then((nbUtilisateur) => {
                 if(nbUtilisateur <= 0) {
-                    return res.status(400).send('{ \"erreur\" : \"L\'utilisateur d\'id ' + req.params['id_utilisateur'] + ' n\'existe pas.\"}');
+                    console.log(new Erreur('L\'utilisateur d\'id ' + req.params['id_utilisateur'] + ' n\'existe pas.'));
+                    return res.status(400).send(new Erreur('L\'utilisateur d\'id ' + req.params['id_utilisateur'] + ' n\'existe pas.'));
                 } else {
                     database.idPartieExisteTIl(req.params['id_partie'])
                         .then((nbPartiesAvecId) => {
                             if(nbPartiesAvecId !== 1) {
-                                return res.status(400).send('{ \"erreur\" : \"La partie d\'id ' + req.params['id_partie'] + ' n\'existe pas.\"}');
+                                console.log(new Erreur('La partie d\'id ' + req.params['id_partie'] + ' n\'existe pas.'));
+                                return res.status(400).send(new Erreur('La partie d\'id ' + req.params['id_partie'] + ' n\'existe pas.'));
                             } else {
                                 database.listeParisDuJoueurPourPartie(req.params['id_partie'], req.params['id_utilisateur'])
                                     .then((paris) => {
+                                        console.log('Envoi des paris d\'un utilisateur pour la partie d\'id ' + req.params['id_partie']);
                                         return res.status(200).send(paris).end()
                                     }).catch((errMsg) => {
-                                        return console.log(errMsg);
+                                        console.log(new Erreur(errMsg));
+                                        return res.status(400).send(new Erreur(errMsg)).end();
                                     });
                             }
                         }).catch((errMsg) => {
-                            return console.log(errMsg);
+                            console.log(new Erreur(errMsg));
+                            return res.status(400).send(new Erreur(errMsg)).end();
                         });
                 }
             }).catch((errMsg) => {
-                return console.log(errMsg);
+                console.log(new Erreur(errMsg));
+                return res.status(400).send(new Erreur(errMsg)).end();
             });
     }
 });

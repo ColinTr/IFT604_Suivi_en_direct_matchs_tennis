@@ -218,6 +218,18 @@ exports.updateContestationsJoueur2Manche = function updateContestationsJoueur2Ma
     });
 };
 
+exports.recupererToutesLesManchesDePartie = function recupererToutesLesManchesDePartie(idPartie) {
+    return new Promise((resolve, reject) => {
+        db.all(`SELECT * FROM manche WHERE id_partie = ?`, [idPartie], (err, row) => {
+            if (err) {
+                reject(err.message);
+            }
+            // return the found manches
+            resolve(row);
+        });
+    });
+};
+
 // ============================== Jeu ==============================
 
 exports.creerJeu = function creerJeu(id_manche, gagne_par_joueur, joueur_au_service, score_echanges_joueur_1, score_echanges_joueur_2, etat_jeu){
@@ -244,6 +256,18 @@ exports.updateJeu = function updateJeu(id_jeu, gagne_par_joueur, joueur_au_servi
     });
 };
 
+exports.recupererTousLesJeuxDeLaManche = function recupererTousLesJeuxDeLaManche(idManche) {
+    return new Promise((resolve, reject) => {
+        db.all(`SELECT * FROM jeu WHERE id_manche = ?`, [idManche], (err, row) => {
+            if (err) {
+                reject(err.message);
+            }
+            // return the found jeux
+            resolve(row);
+        });
+    });
+};
+
 // ============================== Échange ==============================
 
 exports.creerEchange = function creerEchange(id_jeu, gagne_par_joueur, conteste_par_joueur, contestation_acceptee, etat_echange, vitesse_service, nombre_coup_echange){
@@ -266,6 +290,18 @@ exports.updateEchange = function updateEchange(idEchange, gagne_par_joueur, cont
             }
             // return the number of rows updated
             resolve(this.changes);
+        });
+    });
+};
+
+exports.recupererTousLesEchangesDuJeu = function recupererTousLesEchangesDuJeu(idJeu) {
+    return new Promise((resolve, reject) => {
+        db.all(`SELECT * FROM echange WHERE id_jeu = ?`, [idJeu], (err, row) => {
+            if (err) {
+                reject(err.message);
+            }
+            // return the found echanges
+            resolve(row);
         });
     });
 };
