@@ -29,11 +29,14 @@ router.post('/', (req, res) =>{
             }
         });
     // On vérifie que l'utilisateur existe
-    database.trouverJoueurViaIdJoueur(body.id_joueur, function(resultat){
-       if(resultat === undefined){
-           return res.status(400).send('{ \"erreur\" : \"Aucun joueur avec l\'id renseigné pour le pari n\'existe.\"}');
-       }
-    });
+    database.trouverJoueurViaIdJoueur(body.id_joueur)
+        .then((joueur) => {
+           if(joueur === undefined){
+               return res.status(400).send('{ \"erreur\" : \"Aucun joueur avec l\'id renseigné pour le pari n\'existe.\"}');
+           }
+        }).catch((errMsg) => {
+            return console.log(errMsg);
+        });
     // On vérifie si la partie existe
     // TODO
 

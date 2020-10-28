@@ -53,35 +53,41 @@ router.post('/', (req, res) =>{
         }).end();
     }
 
-    database.trouverJoueurViaIdJoueur(body.id_joueur_1, function(joueur_1) {
-        if(joueur_1 !== undefined){
-            database.trouverJoueurViaIdJoueur(body.id_joueur_2, function(joueur_2){
-                if(joueur_2 !== undefined){
-                    let newPartie = new Partie(-1, joueur_1, joueur_2, undefined, undefined, body.datetime_debut_partie, undefined, 0, 0, 0, body.tick_debut);
-                    database.creerPartie(newPartie.joueur1, newPartie.joueur2, newPartie.datetime_debut_partie, newPartie.datetime_fin_partie, newPartie.etat_partie)
-                        .then((insertedId)=> {
-                            newPartie.id_partie = insertedId;
-                            newPartie.initNewManche()
-                                .then(() => {
-                                    generateur.ajouterPartie(newPartie);
-                                    res.status(200).end(); // OK status code
+    database.trouverJoueurViaIdJoueur(body.id_joueur_1)
+        .then((joueur_1) => {
+            if(joueur_1 !== undefined){
+                database.trouverJoueurViaIdJoueur(body.id_joueur_2)
+                    .then((joueur_2) => {
+                        if(joueur_2 !== undefined){
+                            let newPartie = new Partie(-1, joueur_1, joueur_2, undefined, undefined, body.datetime_debut_partie, undefined, 0, 0, 0, body.tick_debut);
+                            database.creerPartie(newPartie.joueur1, newPartie.joueur2, newPartie.datetime_debut_partie, newPartie.datetime_fin_partie, newPartie.etat_partie)
+                                .then((insertedId)=> {
+                                    newPartie.id_partie = insertedId;
+                                    newPartie.initNewManche()
+                                        .then(() => {
+                                            generateur.ajouterPartie(newPartie);
+                                            return res.status(200).end(); // OK status code
+                                        })
+                                        .catch((msg) => {
+                                            return console.log(msg);
+                                        });
                                 })
                                 .catch((msg) => {
-                                    console.log(msg);
+                                    return console.log(msg);
                                 });
-                        })
-                        .catch((msg) => {
-                            console.log(msg);
-                        });
-                } else {
-                    console.log('Unable to create Partie : No user with id', body.id_joueur_2, 'were found in database');
-                    return res.status(400).end(); // Bad request status code
-                }
-            });
-        } else {
-            console.log('Unable to create Partie : No user with id', body.id_joueur_1, 'were found in database');
-            return res.status(400).end(); // Bad request status code
-        }
+                        } else {
+                            console.log('Unable to create Partie : No user with id', body.id_joueur_2, 'were found in database');
+                            return res.status(400).end(); // Bad request status code
+                        }
+                    }).catch((errMsg) => {
+                        return console.log(errMsg);
+                    });
+            } else {
+                console.log('Unable to create Partie : No user with id', body.id_joueur_1, 'were found in database');
+                return res.status(400).end(); // Bad request status code
+            }
+    }).catch((errMsg) => {
+        return console.log(errMsg);
     });
 });
 

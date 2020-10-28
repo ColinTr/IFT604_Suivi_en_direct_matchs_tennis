@@ -52,11 +52,15 @@ class Partie {
         let that = this;
 
         // La partie commence, donc on passe son état à 1 (= "en cours")
-        database.updateEtatPartie(this.id_partie, 1, function(linesChanged){
-            if(linesChanged <= 0) {
-                return console.log('Critical Error : Unable to update etat_partie of partie ', that.id_partie);
-            }
-        });
+        this.etat_partie = 1;
+        database.updateEtatPartie(this.id_partie, 1)
+            .then((nbRowsAffected) => {
+                if (nbRowsAffected <= 0) {
+                    return console.log('Critical Error : Unable to update etat_partie of partie ', that.id_partie);
+                }
+            }).catch((errMsg) => {
+                return console.log(errMsg);
+            });
 
         const timer = setInterval(function () {
             that.manche.updateManche();
@@ -65,29 +69,16 @@ class Partie {
             if(that.manche.etat_manche === 1) {
                 if(that.manche.score_jeux_joueur_1 > that.manche.score_jeux_joueur_2) {
                     that.score_manche_joueur_1 = that.score_manche_joueur_1 + 1;
-                    database.updateScoreMancheJoueur1Partie(that.id_partie, that.score_manche_joueur_1, function(linesChanged){
-                        if(linesChanged <= 0) {
-                            return console.log('Critical Error : Unable to update score_manche_joueur_1 of partie ', that.id_partie);
-                        }
-                    });
                 } else {
                     that.score_manche_joueur_2 = that.score_manche_joueur_2 + 1;
-                    database.updateScoreMancheJoueur2Partie(that.id_partie, that.score_manche_joueur_2, function(linesChanged){
-                        if(linesChanged <= 0) {
-                            return console.log('Critical Error : Unable to update score_manche_joueur_2 of partie ', that.id_partie);
-                        }
-                    });
                 }
 
                 // Si l'un des deux joueurs a remporté 2 manches, la partie est terminée
                 if(that.score_manche_joueur_1 >= 2 || that.score_manche_joueur_2 >= 2) {
                     // On passe l'état de la partie à 2 (= "terminée")
-                    that.etat_partie = 1;
-                    database.updateEtatPartie(that.id_partie, 2, function(linesChanged){
-                        if(linesChanged <= 0) {
-                            return console.log('Critical Error : Unable to update etat_partie of partie ', that.id_partie);
-                        }
-                    });
+                    that.etat_partie = 2;
+
+                    // ==================== GESTION DES PARIS ====================
 
                     let id_du_joueur_qui_a_gagne = -1;
                     if(that.score_manche_joueur_1 >= 2) {
@@ -119,24 +110,30 @@ class Partie {
                                             return console.log("Critical error : pari of id " + row.id_pari + " couldn\'t be updated.");
                                         } else {
                                             console.log("Sending notification for pari " + row.id_pari + "...");
-                                            // TODO envoyer des notifications PUSH
+                                            // TODO Envoyer une notification PUSH du gain réalisé
                                         }
                                     }).catch((msg) => {
                                         return console.log(msg);
                                     });
                             });
-
                         })
                         .catch((err) => {
                             return console.log('SQL Error in paris : ', err);
                         });
 
-                    // TODO : Calculer le gain de tous les joueurs
-
-                    // TODO Envoyer une notification PUSH du gain réalisé
+                    // ==================== FIN GESTION DES PARIS ====================
 
                     clearInterval(timer);
                 }
+
+                database.updatePartie(that.id_partie, that.datetime_debut_partie, that.datetime_fin_partie, that.score_manche_joueur_1, that.score_manche_joueur_2, that.etat_partie)
+                    .then((nbRowsAffected) => {
+                        if (nbRowsAffected <= 0) {
+                            return console.log('Critical Error : Unable to update all infos of partie', that.id_partie);
+                        }
+                    }).catch((errMsg) => {
+                        return console.log(errMsg);
+                    });
 
                 //Si la manche est terminée et que la partie est toujours en cours, on commence une nouvelle manche
                 if(that.manche.etat_manche === 1 && that.etat_partie !== 1) {
@@ -145,7 +142,7 @@ class Partie {
             }
 
             that.temps_partie += Math.floor(Math.random() * 60); // entre 0 et 60 secondes entre chaque point
-        }, Math.floor(100 / this.modificateurVitesse));
+        }, Math.floor(1000 / this.modificateurVitesse));
     }
 
     toJSON () {

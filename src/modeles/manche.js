@@ -34,11 +34,11 @@ class Manche {
                         resolve();
                     })
                     .catch((msg) => {
-                        console.log(msg);
+                        return console.log(msg);
                     });
                 })
                 .catch((msg) => {
-                    console.log(msg);
+                    return console.log(msg);
                 });
         });
     }
@@ -47,40 +47,35 @@ class Manche {
         let that = this;
 
         if(this.jeu !== undefined) {
+
             this.jeu.updateJeu();
 
             // Si le jeu en cours est terminé, on met à jour les scores
             if(this.jeu.etat_Jeu === 1) {
                 if(this.jeu.gagne_par_joueur === 1) {
                     this.score_jeux_joueur_1 = this.score_jeux_joueur_1 + 1;
-                    database.updateScoreJeuxJoueur1Manche(this.id_manche, this.score_jeux_joueur_1, function(linesChanged){
-                        if(linesChanged <= 0) {
-                            return console.log('Critical Error : Unable to update score_jeux_joueur_1 of manche ', that.id_manche);
-                        }
-                    });
                 } else {
                     this.score_jeux_joueur_2 = this.score_jeux_joueur_2 + 1;
-                    database.updateScoreJeuxJoueur2Manche(this.id_manche, this.score_jeux_joueur_2, function(linesChanged){
-                        if(linesChanged <= 0) {
-                            return console.log('Critical Error : Unable to update score_jeux_joueur_2 of manche ', that.id_manche);
-                        }
-                    });
                 }
 
                 // Si l'un des deux joueurs a remporté 6 jeux, la manche est terminée
                 if(this.score_jeux_joueur_1 >= 6 || this.score_jeux_joueur_2 >= 6) {
                     // On passe l'état de la manche à 1 (= "terminée")
                     this.etat_manche = 1;
-                    database.updateEtatManche(this.id_manche, 1, function(linesChanged){
-                        if(linesChanged <= 0) {
-                            return console.log('Critical Error : Unable to update etat_manche of manche ', that.id_manche);
-                        }
-                    });
                 }
+
+                database.updateManche(this.id_manche, this.score_jeux_joueur_1, this.score_jeux_joueur_2, this.nb_contestations_joueur_1, this.nb_contestations_joueur_2, this.etat_manche)
+                    .then((nbRowsAffected) => {
+                        if (nbRowsAffected <= 0) {
+                            return console.log('Critical Error : Unable to update all infos of manche', that.id_manche);
+                        }
+                    }).catch((errMsg) => {
+                        return console.log(errMsg);
+                    });
 
                 // Si le jeu est terminé et que la partie est toujours en cours, on commence un nouveau jeu
                 if(this.jeu.etat_Jeu === 1 && this.etat_manche !== 1) {
-                    let joueur_au_service_du_nouveau_jeu = (this.jeu.joueur_au_service + 1) % 2;
+                    let joueur_au_service_du_nouveau_jeu = this.jeu.joueur_au_service % 2 + 1;
                     this.initNewJeu(joueur_au_service_du_nouveau_jeu);
                 }
             }

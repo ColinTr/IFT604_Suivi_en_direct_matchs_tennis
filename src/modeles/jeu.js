@@ -66,8 +66,8 @@ class Jeu {
                 }
 
                 database.updateJeu(this.id_jeu, this.gagne_par_joueur, this.joueur_au_service, this.score_echanges_joueur_1, this.score_echanges_joueur_2, this.etat_Jeu)
-                    .then((nbRows) => {
-                        if (nbRows <= 0) {
+                    .then((nbRowsAffected) => {
+                        if (nbRowsAffected <= 0) {
                             return console.log('Critical Error : Unable to update all infos of jeu', that.id_jeu);
                         }
                     })

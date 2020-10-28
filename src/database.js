@@ -19,28 +19,32 @@ let db = new sqlite3.Database('./src/bdd_site.db', (err) => {
 
 // ============================== Joueur ==============================
 
-exports.creerJoueur = function creerJoueur(prenom, nom, age, rang, pays, callback){
-    db.run(`INSERT INTO manche(prenom, nom, age, rang, pays) VALUES(?)`, [prenom, nom, age, rang, pays], function(err) {
-        if (err) {
-            return console.log(err.message);
-        }
-        // return the last insert id
-        callback(this.lastID);
+exports.creerJoueur = function creerJoueur(prenom, nom, age, rang, pays){
+    return new Promise((resolve, reject) => {
+        db.run(`INSERT INTO manche(prenom, nom, age, rang, pays) VALUES(?)`, [prenom, nom, age, rang, pays], function(err) {
+            if (err) {
+                reject(err.message);
+            }
+            // return the last insert id
+            resolve(this.lastID);
+        });
     });
 };
 
-exports.trouverJoueurViaIdJoueur =  function trouverJoueurViaIdJoueur(idJoueur, callback) {
-    db.get(`SELECT * FROM joueur_tennis WHERE id_joueur = ?`, [idJoueur], (err, row) => {
-        if (err) {
-            return console.log(err.message);
-        }
-        // return the player
-        if(row !== undefined){
-            const joueur = new Joueur(idJoueur, row.prenom, row.nom, row.age, row.rang, row.pays);
-            callback(joueur);
-        } else {
-            callback(undefined);
-        }
+exports.trouverJoueurViaIdJoueur =  function trouverJoueurViaIdJoueur(idJoueur) {
+    return new Promise((resolve, reject) => {
+        db.get(`SELECT * FROM joueur_tennis WHERE id_joueur = ?`, [idJoueur], (err, row) => {
+            if (err) {
+                reject(err.message);
+            }
+            // return the player
+            if(row !== undefined){
+                const joueur = new Joueur(idJoueur, row.prenom, row.nom, row.age, row.rang, row.pays);
+                resolve(joueur);
+            } else {
+                resolve(undefined);
+            }
+        });
     });
 };
 
@@ -72,34 +76,28 @@ exports.creerPartie = function creerPartie(joueur1, joueur2, dateTimeDebutPartie
     })
 };
 
-exports.updateScoreMancheJoueur1Partie = function updateScoreMancheJoueur1Partie(idPartie, nouveauScore, callback){
-    db.run(`UPDATE partie SET score_manche_joueur_1 = ? WHERE id_partie = ?`, [nouveauScore, idPartie], function(err) {
-        if (err) {
-            return console.log(err.message);
-        }
-        // return the number of rows updated
-        callback(this.changes);
-    });
-};
-
-exports.updateScoreMancheJoueur2Partie = function updateScoreMancheJoueur2Partie(idPartie, nouveauScore, callback){
-    db.run(`UPDATE partie SET score_manche_joueur_2 = ? WHERE id_partie = ?`, [nouveauScore, idPartie], function(err) {
-        if (err) {
-            return console.log(err.message);
-        }
-        // return the number of rows updated
-        callback(this.changes);
+exports.updatePartie = function updatePartie(id_partie, dateTimeDebutPartie, dateTimeFinPartie, score_manche_joueur_1, score_manche_joueur_2, etatPartie){
+    return new Promise((resolve, reject) => {
+        db.run(`UPDATE partie SET dateTimeDebutPartie = ?, dateTimeFinPartie = ?, score_manche_joueur_1 = ?, score_manche_joueur_2 = ?, etatPartie = ? WHERE id_partie = ?`, [dateTimeDebutPartie, dateTimeFinPartie, score_manche_joueur_1, score_manche_joueur_2, etatPartie, id_partie], function(err) {
+            if (err) {
+                reject(err.message);
+            }
+            // return the number of rows updated
+            resolve(this.changes);
+        });
     });
 };
 
 // (0=à_venir, 1=en_cours, 2=terminé)
-exports.updateEtatPartie = function updateEtatPartie(idPartie, nouvelEtat, callback){
-    db.run(`UPDATE partie SET etat_partie = ? WHERE id_partie = ?`, [nouvelEtat, idPartie], function(err) {
-        if (err) {
-            return console.log(err.message);
-        }
-        // return the number of rows updated
-        callback(this.changes);
+exports.updateEtatPartie = function updateEtatPartie(idPartie, nouvelEtat){
+    return new Promise((resolve, reject) => {
+        db.run(`UPDATE partie SET etat_partie = ? WHERE id_partie = ?`, [nouvelEtat, idPartie], function(err) {
+            if (err) {
+                reject(err.message);
+            }
+            // return the number of rows updated
+            resolve(this.changes);
+        });
     });
 };
 
@@ -130,54 +128,39 @@ exports.creerManche = function creerManche(id_partie, score_jeux_joueur_1, score
     });
 };
 
-exports.updateScoreJeuxJoueur1Manche = function updateScoreJeuxJoueur1Manche(idManche, nouveauScore, callback){
-    db.run(`UPDATE manche SET score_jeux_joueur_1 = ? WHERE id_manche = ?`, [nouveauScore, idManche], function(err) {
-        if (err) {
-            return console.log(err.message);
-        }
-        // return the number of rows updated
-        callback(this.changes);
+exports.updateManche = function updateManche(id_manche, score_jeux_joueur_1, score_jeux_joueur_2, nb_contestations_joueur_1, nb_contestations_joueur_2, etat_manche){
+    return new Promise((resolve, reject) => {
+        db.run(`UPDATE manche SET score_jeux_joueur_1 = ?, score_jeux_joueur_2 = ?, nb_contestations_joueur_1 = ?, nb_contestations_joueur_2 = ?, etat_manche = ? WHERE id_manche = ?`, [score_jeux_joueur_1, score_jeux_joueur_2, nb_contestations_joueur_1, nb_contestations_joueur_2, etat_manche, id_manche], function(err) {
+            if (err) {
+                reject(err.message);
+            }
+            // return the number of rows updated
+            resolve(this.changes);
+        });
     });
 };
 
-exports.updateScoreJeuxJoueur2Manche = function updateScoreJeuxJoueur2Manche(idManche, nouveauScore, callback){
-    db.run(`UPDATE manche SET score_jeux_joueur_2 = ? WHERE id_manche = ?`, [nouveauScore, idManche], function(err) {
-        if (err) {
-            return console.log(err.message);
-        }
-        // return the number of rows updated
-        callback(this.changes);
+exports.updateContestationsJoueur1Manche = function updateContestationsJoueur1Manche(idManche, nouveauNbContestations){
+    return new Promise((resolve, reject) => {
+        db.run(`UPDATE manche SET nb_contestations_joueur_1 = ? WHERE id_manche = ?`, [nouveauNbContestations, idManche], function(err) {
+            if (err) {
+                reject(err.message);
+            }
+            // return the number of rows updated
+            resolve(this.changes);
+        });
     });
 };
 
-exports.updateContestationsJoueur1Manche = function updateContestationsJoueur1Manche(idManche, nouveauNbContestations, callback){
-    db.run(`UPDATE manche SET nb_contestations_joueur_1 = ? WHERE id_manche = ?`, [nouveauNbContestations, idManche], function(err) {
-        if (err) {
-            return console.log(err.message);
-        }
-        // return the number of rows updated
-        callback(this.changes);
-    });
-};
-
-exports.updateContestationsJoueur2Manche = function updateContestationsJoueur2Manche(idManche, nouveauNbContestations, callback){
-    db.run(`UPDATE manche SET nb_contestations_joueur_2 = ? WHERE id_manche = ?`, [nouveauNbContestations, idManche], function(err) {
-        if (err) {
-            return console.log(err.message);
-        }
-        // return the number of rows updated
-        callback(this.changes);
-    });
-};
-
-// (0=en_cours, 1=terminé)
-exports.updateEtatManche = function updateEtatManche(idManche, nouvelEtat, callback){
-    db.run(`UPDATE manche SET etat_manche = ? WHERE id_manche = ?`, [nouvelEtat, idManche], function(err) {
-        if (err) {
-            return console.log(err.message);
-        }
-        // return the number of rows updated
-        callback(this.changes);
+exports.updateContestationsJoueur2Manche = function updateContestationsJoueur2Manche(idManche, nouveauNbContestations){
+    return new Promise((resolve, reject) => {
+        db.run(`UPDATE manche SET nb_contestations_joueur_2 = ? WHERE id_manche = ?`, [nouveauNbContestations, idManche], function(err) {
+            if (err) {
+                reject(err.message);
+            }
+            // return the number of rows updated
+            resolve(this.changes);
+        });
     });
 };
 
@@ -207,47 +190,6 @@ exports.updateJeu = function updateJeu(id_jeu, gagne_par_joueur, joueur_au_servi
     });
 };
 
-exports.updateScoreEchangesJoueur1Jeu = function updateScoreEchangesJoueur1Jeu(idJeu, nouveauScore, callback){
-    db.run(`UPDATE jeu SET score_echanges_joueur_1 = ? WHERE id_jeu = ?`, [nouveauScore, idJeu], function(err) {
-        if (err) {
-            return console.log(err.message);
-        }
-        // return the number of rows updated
-        callback(this.changes);
-    });
-};
-
-exports.updateScoreEchangesJoueur2Jeu = function updateScoreEchangesJoueur2Jeu(idJeu, nouveauScore, callback){
-    db.run(`UPDATE jeu SET score_echanges_joueur_2 = ? WHERE id_jeu = ?`, [nouveauScore, idJeu], function(err) {
-        if (err) {
-            return console.log(err.message);
-        }
-        // return the number of rows updated
-        callback(this.changes);
-    });
-};
-
-exports.setJeuGagneParJoueur = function setJeuGagneParJoueur(idJeu, gagneParJoueur, callback){
-    db.run(`UPDATE jeu SET gagne_par_joueur = ? WHERE id_jeu = ?`, [gagneParJoueur, idJeu], function(err) {
-        if (err) {
-            return console.log(err.message);
-        }
-        // return the number of rows updated
-        callback(this.changes);
-    });
-};
-
-// (0=en_cours, 1=terminé)
-exports.updateEtatJeu = function updateEtatJeu(idJeu, nouvelEtat, callback){
-    db.run(`UPDATE jeu SET etat_jeu = ? WHERE id_jeu = ?`, [nouvelEtat, idJeu], function(err) {
-        if (err) {
-            return console.log(err.message);
-        }
-        // return the number of rows updated
-        callback(this.changes);
-    });
-};
-
 // ============================== Échange ==============================
 
 exports.creerEchange = function creerEchange(id_jeu, gagne_par_joueur, conteste_par_joueur, contestation_acceptee, etat_echange, vitesse_service, nombre_coup_echange){
@@ -262,55 +204,15 @@ exports.creerEchange = function creerEchange(id_jeu, gagne_par_joueur, conteste_
     });
 };
 
-exports.updateEchange = function updateEchange(idEchange, gagne_par_joueur, conteste_par_joueur, contestation_acceptee, etatEchange, vitesse_service, nombre_coup_echange, callback){
-    db.run(`UPDATE echange SET gagne_par_joueur = ?, conteste_par_joueur = ?,  contestation_acceptee = ?, etat_echange = ?, vitesse_service = ?, nombre_coup_echange = ? WHERE id_echange = ?`, [gagne_par_joueur, conteste_par_joueur, contestation_acceptee, etatEchange, vitesse_service, nombre_coup_echange, idEchange], function(err) {
-        if (err) {
-            return console.log(err.message);
-        }
-        // return the number of rows updated
-        callback(this.changes);
-    });
-};
-
-exports.setGagneParJoueur = function setGagneParJoueur(idEchange, idJoueur, callback){
-    db.run(`UPDATE echange SET gagne_par_joueur = ? WHERE id_echange = ?`, [idJoueur, idEchange], function(err) {
-        if (err) {
-            return console.log(err.message);
-        }
-        // return the number of rows updated
-        callback(this.changes);
-    });
-};
-
-exports.setContesteParJoueur = function setContesteParJoueur(idEchange, idJoueur, callback){
-    db.run(`UPDATE echange SET conteste_par_joueur = ? WHERE id_echange = ?`, [idJoueur, idEchange], function(err) {
-        if (err) {
-            return console.log(err.message);
-        }
-        // return the number of rows updated
-        callback(this.changes);
-    });
-};
-
-// (0=non, 1=oui)
-exports.setContestationAcceptee = function setContestationAcceptee(idEchange, bool, callback){
-    db.run(`UPDATE echange SET contestation_acceptee = ? WHERE id_echange = ?`, [bool, idEchange], function(err) {
-        if (err) {
-            return console.log(err.message);
-        }
-        // return the number of rows updated
-        callback(this.changes);
-    });
-};
-
-// (0=en_cours, 1=terminé)
-exports.updateEtatEchange = function updateEtatEchange(idEchange, nouvelEtat, callback){
-    db.run(`UPDATE echange SET etat_echange = ? WHERE id_echange = ?`, [nouvelEtat, idEchange], function(err) {
-        if (err) {
-            return console.log(err.message);
-        }
-        // return the number of rows updated
-        callback(this.changes);
+exports.updateEchange = function updateEchange(idEchange, gagne_par_joueur, conteste_par_joueur, contestation_acceptee, etatEchange, vitesse_service, nombre_coup_echange){
+    return new Promise((resolve, reject) => {
+        db.run(`UPDATE echange SET gagne_par_joueur = ?, conteste_par_joueur = ?,  contestation_acceptee = ?, etat_echange = ?, vitesse_service = ?, nombre_coup_echange = ? WHERE id_echange = ?`, [gagne_par_joueur, conteste_par_joueur, contestation_acceptee, etatEchange, vitesse_service, nombre_coup_echange, idEchange], function(err) {
+            if (err) {
+                reject(err.message);
+            }
+            // return the number of rows updated
+            resolve(this.changes);
+        });
     });
 };
 
@@ -354,13 +256,15 @@ exports.listeParisPourPartie = function listeParisPourPartie(idPartie) {
 
 // ============================== Utilisateur ==============================
 
-exports.creerUtilisateur = function creerUtilisateur(nomUtilisateur, callback){
-    db.run(`INSERT INTO utilisateur(nom_utilisateur) VALUES(?)`, [nomUtilisateur], function(err) {
-        if (err) {
-            return console.log(err.message);
-        }
-        // return the last insert id
-        callback(this.lastID);
+exports.creerUtilisateur = function creerUtilisateur(nomUtilisateur){
+    return new Promise((resolve, reject) => {
+        db.run(`INSERT INTO utilisateur(nom_utilisateur) VALUES(?)`, [nomUtilisateur], function(err) {
+            if (err) {
+                reject(err.message);
+            }
+            // return the last insert id
+            resolve(this.lastID);
+        });
     });
 };
 
@@ -392,23 +296,26 @@ exports.idUtilisateurExisteTIl = function idUtilisateurExisteTIl(idUtilisateur) 
     });
 };
 
-exports.updateNomUtilisateur = function updateNomUtilisateur(idUtilisateur, nouveauNomUtilisateur, callback){
-    db.run(`UPDATE utilisateur SET nom_utilisateur = ? WHERE id_utilisateur = ?`, [nouveauNomUtilisateur, idUtilisateur], function(err) {
-        if (err) {
-            return console.log(err.message);
-        }
-        // return the number of rows updated
-        callback(this.changes);
+exports.updateNomUtilisateur = function updateNomUtilisateur(idUtilisateur, nouveauNomUtilisateur){
+    return new Promise((resolve, reject) => {
+        db.run(`UPDATE utilisateur SET nom_utilisateur = ? WHERE id_utilisateur = ?`, [nouveauNomUtilisateur, idUtilisateur], function(err) {
+            if (err) {
+                reject(err.message);
+            }
+            // return the number of rows updated
+            resolve(this.changes);
+        });
     });
 };
 
-exports.supprimerUtilisateur = function supprimerUtilisateur(idUtilisateur, callback){
-    db.run(`DELETE FROM utilisateur WHERE id_utilisateur = ?`, [idUtilisateur], function(err) {
-        if (err) {
-            return console.log(err.message);
-        }
-        // return the number of rows deleted
-        callback(this.changes);
+exports.supprimerUtilisateur = function supprimerUtilisateur(idUtilisateur){
+    return new Promise((resolve, reject) => {
+        db.run(`DELETE FROM utilisateur WHERE id_utilisateur = ?`, [idUtilisateur], function(err) {
+            if (err) {
+                reject(err.message);
+            }
+            // return the number of rows deleted
+            resolve(this.changes);
+        });
     });
 };
-
