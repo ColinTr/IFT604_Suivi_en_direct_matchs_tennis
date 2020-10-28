@@ -5,7 +5,7 @@
  * Alexandre Turpin (matricule 20 088 156)
  */
 
-const database = require('../database');
+const database = require('../utils/database');
 
 class Echange {
     constructor(parent, id_echange, id_jeu, gagne_par_joueur, conteste_par_joueur, contestation_acceptee, etat_echange, vitesse_service, nombre_coup_echange) {

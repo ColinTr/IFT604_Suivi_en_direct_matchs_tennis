@@ -5,6 +5,11 @@
  * Alexandre Turpin (matricule 20 088 156)
  */
 
+const Partie = require('./modeles/partie');
+const Joueur = require('./modeles/joueur');
+
+const database = require('./database');
+
 const modificateurVitesse = Math.max(process.argv[2], 1);
 
 const listePartie = [];

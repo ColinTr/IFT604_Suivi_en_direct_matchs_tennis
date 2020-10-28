@@ -7,7 +7,7 @@
 
 const sqlite3 = require('sqlite3').verbose();
 
-const Joueur = require('./modeles/joueur');
+const Joueur = require('../modeles/joueur');
 
 let db = new sqlite3.Database('./src/bdd_site.db', (err) => {
     if (err) {
@@ -63,6 +63,20 @@ exports.recupererTousLesJoueurs =  function recupererTousLesJoueurs() {
 };
 
 // ============================== Partie ==============================
+
+exports.recupererToutesLesParties =  function recupererToutesLesParties() {
+    return new Promise((resolve, reject) => {
+        db.all(`SELECT * FROM partie`, [], (err, rows) => {
+            if (err) {
+                reject(err.message);
+            }
+            // return the parties
+            if(rows !== undefined){
+                resolve(rows);
+            }
+        });
+    });
+};
 
 exports.creerPartie = function creerPartie(joueur1, joueur2, dateTimeDebutPartie, dateTimeFinPartie, etatPartie){
     return new Promise((resolve, reject) => {

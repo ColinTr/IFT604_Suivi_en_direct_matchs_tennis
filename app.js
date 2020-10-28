@@ -30,7 +30,7 @@ app.use('/utilisateurs', utilisateurRouter);
 app.use('/joueurs', joueursRouter);
 app.use('/paris', parisRouter);
 
-const generateur = require('./src/generateur');
+const generateur = require('./src/utils/generateur');
 generateur.demarrer();
 
 module.exports = app;

@@ -7,9 +7,9 @@
 
 const express = require('express');
 const router = express.Router();
-const Erreur = require('../erreur');
+const Erreur = require('../utils/erreur');
 
-const database = require('../database');
+const database = require('../utils/database');
 
 //GET La liste de tous les joueurs enregistrés.
 router.get('/', (req, res) =>{
@@ -20,7 +20,7 @@ router.get('/', (req, res) =>{
         .catch(errMsg =>{
             const erreur = new Erreur(errMsg);
             return res.status(400).send(erreur.toJSON()).end()
-        });
+        })
 });
 
 module.exports = router;

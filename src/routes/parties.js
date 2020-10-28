@@ -8,9 +8,11 @@
 const express = require('express');
 const router = express.Router();
 
-const generateur = require('../generateur');
-const database = require('../database');
+const generateur = require('../utils/generateur');
+const database = require('../utils/database');
 const Partie = require('../modeles/partie');
+const dateTimeUtils = require('../utils/dateTimeUtils');
+const Erreur = require('../utils/erreur');
 
 // GET la liste des parties du jour
 router.get('/', function (req, res, next) {
@@ -71,6 +73,9 @@ router.post('/', (req, res) =>{
             erreur: 'Contenu manquant'
         }).end();
     }
+
+    //dadateTimeUtils.verifierChampsValide(body.datetime_debut_partie)
+
 
     database.trouverJoueurViaIdJoueur(body.id_joueur_1)
         .then((joueur_1) => {

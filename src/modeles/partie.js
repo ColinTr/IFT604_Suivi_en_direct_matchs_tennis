@@ -5,7 +5,7 @@
  * Alexandre Turpin (matricule 20 088 156)
  */
 
-const database = require('../database');
+const database = require('../utils/database');
 const Manche = require('./manche');
 
 class Partie {
