@@ -44,6 +44,20 @@ exports.trouverJoueurViaIdJoueur =  function trouverJoueurViaIdJoueur(idJoueur, 
     });
 };
 
+exports.recupererTousLesJoueurs =  function recupererTousLesJoueurs() {
+    return new Promise((resolve, reject) => {
+        db.all(`SELECT * FROM joueur_tennis`, [], (err, rows) => {
+            if (err) {
+                reject(err.message);
+            }
+            // return the players
+            if(rows !== undefined){
+                resolve(rows);
+            }
+        });
+    });
+};
+
 // ============================== Partie ==============================
 
 exports.creerPartie = function creerPartie(joueur1, joueur2, dateTimeDebutPartie, dateTimeFinPartie, etatPartie){

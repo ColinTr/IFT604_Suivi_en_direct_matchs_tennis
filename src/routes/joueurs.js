@@ -7,12 +7,22 @@
 
 const express = require('express');
 const router = express.Router();
+const erreur = require('../erreur');
 
-const gen = require('../generateur');
+const generateur = require('../generateur');
+const database = require('../database');
 
 //GET La liste de tous les joueurs enregistrés.
 router.get('/', (req, res) =>{
-    // TODO
+    database.recupererTousLesJoueurs()
+        .then(joueurs => {
+            res.status(200).send(joueurs).end()
+        })
+        .catch(errMsg =>{
+            var erreur = new Erreur(errMsg)
+            res.status(400).send(erreur.toJSON()).end()
+        })
+
 });
 
 module.exports = router;
