@@ -8,7 +8,7 @@
 const sqlite3 = require('sqlite3').verbose();
 
 const Joueur = require('../modeles/joueur');
-const datetimeUtils = require('../utils/dateTimeUtils');
+const datetimeUtils = require('./dateTimeUtils');
 
 let db = new sqlite3.Database('./src/bdd_site.db', (err) => {
     if (err) {

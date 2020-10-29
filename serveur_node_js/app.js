@@ -10,7 +10,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 
-const indexRouter = require('./src/routes/index');
+const indexRouter = require('./src/routes');
 const partiesRouter = require('./src/routes/parties');
 const utilisateurRouter = require('./src/routes/utilisateurs');
 const parisRouter = require('./src/routes/paris');

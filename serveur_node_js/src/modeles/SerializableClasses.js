@@ -6,7 +6,7 @@
  */
 
 const database = require('../utils/database');
-const Echange = require('../modeles/echange');
+const Echange = require('./echange');
 
 class SerializablePartie {
     constructor(id_partie, terrain, tournoi, datetime_debut_partie, datetime_fin_partie, etat_partie, temps_partie, id_joueur_1, id_joueur_2) {
