@@ -42,7 +42,42 @@ router.get('/', function (req, res) {
 
 // GET informations d'une partie
 router.get('/:id_partie', function (req, res) {
+
     database.idPartieExisteTIl(req.params['id_partie'])
+        .then((nbPartiesAvecId) => {
+            if (nbPartiesAvecId !== 1) {
+                console.log(new Erreur('La partie d\'id ' + req.params['id_partie'] + ' n\'existe pas.'));
+                return res.status(400).send(new Erreur('La partie d\'id ' + req.params['id_partie'] + ' n\'existe pas.')).end();
+            }
+            else {
+                database.recupererPartieViaId(req.params['id_partie'])
+                    .then((partie) =>{
+                       const partieJSON = new ModeleSerializable.SerializablePartie(partie.id_partie, partie.terrain, partie.tournoi, partie.datetime_debut_partie, partie.datetime_fin_partie, partie.etat_partie, partie.temps_partie, partie.id_joueur_1, partie.id_joueur_2)
+                       partieJSON.initPartieSerializable()
+                           .then(()=>{
+                               return res.status(200).send(partieJSON).end();
+                           })
+                           .catch((errMsg)=>{
+                               console.log(new Erreur(errMsg));
+                               return res.status(400).send(new Erreur(errMsg)).end();
+                           })
+                    })
+                    .catch((errMsg) =>{
+                        console.log(new Erreur(errMsg));
+                        return res.status(400).send(new Erreur(errMsg)).end();
+                    })
+            }
+        })
+        .catch((errMsg)=>{
+            console.log(new Erreur(errMsg));
+            return res.status(400).send(new Erreur(errMsg)).end();
+        })
+
+
+
+
+
+    /*database.idPartieExisteTIl(req.params['id_partie'])
         .then((nbPartiesAvecId) => {
             if (nbPartiesAvecId !== 1) {
                 console.log(new Erreur('La partie d\'id ' + req.params['id_partie'] + ' n\'existe pas.'));
@@ -82,7 +117,7 @@ router.get('/:id_partie', function (req, res) {
         }).catch((errMsg) => {
             console.log(new Erreur(errMsg));
             return res.status(400).send(new Erreur(errMsg)).end();
-        });
+        });*/
 });
 
 //GET Évènements d’un match (points et contestations)
