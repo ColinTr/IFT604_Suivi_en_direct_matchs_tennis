@@ -7,11 +7,12 @@
     "dev": "node_modules/.bin/nodemon ./bin/www 1"
   },
   "dependencies": {
+    "body-parser": "latest",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",
-    "morgan": "^1.9.1",
-    "body-parser": "latest"
+    "firebase-admin": "^9.3.0",
+    "morgan": "^1.9.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.6",
