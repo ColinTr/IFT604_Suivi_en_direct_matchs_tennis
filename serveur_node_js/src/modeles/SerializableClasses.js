@@ -9,7 +9,7 @@ const database = require('../utils/database');
 const Echange = require('./echange');
 
 class SerializablePartie {
-    constructor(id_partie, terrain, tournoi, datetime_debut_partie, datetime_fin_partie, etat_partie, temps_partie, id_joueur_1, id_joueur_2) {
+    constructor(id_partie, terrain, tournoi, datetime_debut_partie, datetime_fin_partie, etat_partie, temps_partie, id_joueur_1, id_joueur_2, score_manche_joueur_1, score_manche_joueur_2) {
         this.id_partie = id_partie;
         this.terrain = terrain;
         this.tournoi = tournoi;
@@ -19,6 +19,7 @@ class SerializablePartie {
         this.temps_partie = temps_partie;
         this.id_joueur_1 = id_joueur_1;
         this.id_joueur_2 = id_joueur_2;
+        this.joueur_gagnant = (score_manche_joueur_1 < score_manche_joueur_2 ? 2 : 1);
         this.joueur1 = undefined;
         this.joueur2 = undefined;
         this.liste_manches = []
@@ -82,7 +83,8 @@ class SerializablePartie {
             'datetime_fin_partie': this.datetime_fin_partie,
             'etat_partie': this.etat_partie,
             'temps_partie': this.temps_partie,
-            'liste_manches': this.liste_manches
+            'liste_manches': this.liste_manches,
+            'joueur_gagnant': this.joueur_gagnant
         };
     }
 }
