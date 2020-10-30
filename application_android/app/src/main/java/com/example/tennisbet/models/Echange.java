@@ -1,6 +1,8 @@
 package com.example.tennisbet.models;
 
-public class Echange {
+import java.io.Serializable;
+
+public class Echange implements Serializable {
 
     private int id;
     private int id_jeu;

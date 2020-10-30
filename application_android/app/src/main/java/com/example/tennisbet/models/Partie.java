@@ -1,9 +1,10 @@
 package com.example.tennisbet.models;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class Partie {
+public class Partie  implements Serializable {
     private int id;
     private Joueur joueur_1;
     private Joueur joueur_2;

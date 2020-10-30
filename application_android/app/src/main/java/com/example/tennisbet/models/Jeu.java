@@ -1,8 +1,9 @@
 package com.example.tennisbet.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Jeu {
+public class Jeu  implements Serializable {
 
     private int id;
     private int id_manche;

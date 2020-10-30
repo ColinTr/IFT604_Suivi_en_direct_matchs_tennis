@@ -14,21 +14,34 @@
         app:layout_constraintTop_toTopOf="parent"
         android:gravity="center" >
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" 
-            android:text="Raffraichir"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Raffraichir"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:onClick="rafraichirListeMatch"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="PARIES"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PARIES"
+                android:layout_centerHorizontal="true"
+                android:onClick="afficherlisteParies"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="NOM UTI"/>
-
+            <Button
+                android:id="@+id/btn_nom_uti"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:text="NOM UTI"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:onClick="deconnexionUtilisateur"/>
+        </RelativeLayout>
     </LinearLayout>
 
     <ListView
