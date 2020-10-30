@@ -8,6 +8,7 @@ import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,7 +42,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void Entrer(View view) {
+        EditText et_nom_utilisateur = (EditText) findViewById(R.id.et_nom_utilisateur);
         Intent intent = new Intent(this, ListeMatchs.class);
+        intent.putExtra("nomUtilisateur", et_nom_utilisateur.getText().toString());
         startActivity(intent);
     }
 }

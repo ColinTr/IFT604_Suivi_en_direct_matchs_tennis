@@ -1,6 +1,8 @@
 package com.example.tennisbet.models;
 
-public class Joueur {
+import java.io.Serializable;
+
+public class Joueur  implements Serializable {
 
     private int id;
     private String prenom;
