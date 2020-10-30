@@ -7,8 +7,6 @@ admin.initializeApp({
     databaseURL: "https://tennisbet2.firebaseio.com"
 });
 
-const topic = 'general';
-
 const message = {
     notification: {
         title: 'Message from node',
@@ -16,10 +14,9 @@ const message = {
     }
 };
 
-exports.sendTestNotification = function sendTestNotification() {
-    // Send a message to devices subscribed to the provided topic.
+exports.sendNotification = function sendNotification(message ,token) {
     return new Promise((resolve, reject) => {
-        admin.messaging().sendToDevice("c3W_9NgzT9W_oe99yzCCwz:APA91bGfiMwbzLUyZeyGSS6N8yK5EF46I0I5pGi2Vwz2P7vbo_-vPRo05KaqsjqThuv6Si5S2KvsrdiA-OtcQc-_O6h_0VyeEEZGjOvOZ44Y4jxxZUK7jb0rGiq76aU-KHNQ2b1aeRD0", message)
+        admin.messaging().sendToDevice(token, message)
             .then((response) => {
                 // Response is a message ID string.
                 console.log('Successfully sent message:', response);

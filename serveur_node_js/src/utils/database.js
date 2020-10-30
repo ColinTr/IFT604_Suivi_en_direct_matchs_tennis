@@ -433,3 +433,19 @@ exports.updateTokenUtilisateur = function updateTokenUtilisateur(idUtilisateur, 
         });
     });
 };
+
+exports.trouverUtilisateurViaIdUtilisateur =  function trouverUtilisateurViaIdUtilisateur(idUtilisateur) {
+    return new Promise((resolve, reject) => {
+        db.get(`SELECT * FROM utilisateur WHERE id_utilisateur = ?`, [idUtilisateur], (err, row) => {
+            if (err) {
+                reject(err.message);
+            }
+            // return the user
+            if(row !== undefined){
+                resolve(row);
+            } else {
+                resolve(undefined);
+            }
+        });
+    });
+};

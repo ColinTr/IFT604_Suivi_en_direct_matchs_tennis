@@ -104,18 +104,18 @@ class Partie {
                                     }
                                 });
 
-                                rows.forEach(row => {
+                                rows.forEach(rowPari => {
                                     let montantGagne = 0;
-                                    if(row.id_joueur === id_du_joueur_qui_a_gagne){
-                                        montantGagne = row.montant_parie * sommeDesParis * 0.75 / sommeDesParisGagnants;
+                                    if(rowPari.id_joueur === id_du_joueur_qui_a_gagne){
+                                        montantGagne = rowPari.montant_parie * sommeDesParis * 0.75 / sommeDesParisGagnants;
                                     }
 
-                                    database.updateMontantParisGagnes(row.id_pari, montantGagne)
+                                    database.updateMontantParisGagnes(rowPari.id_pari, montantGagne)
                                         .then((nbRowsAffected) => {
                                             if(nbRowsAffected <= 0){
-                                                return console.log("Critical error : pari of id " + row.id_pari + " couldn\'t be updated.");
+                                                return console.log("Critical error : pari of id " + rowPari.id_pari + " couldn\'t be updated.");
                                             } else {
-                                                console.log("Sending notification for pari " + row.id_pari + "...");
+                                                console.log("Sending notification for pari " + rowPari.id_pari + "...");
 
                                                 const message = {
                                                     notification: {
@@ -123,9 +123,17 @@ class Partie {
                                                         body: (montantGagne > 0) ? 'Félicitation, vous avez gagné '+montantGagne+' euros !': 'Malheuresement vous avez perdu'
                                                     }
                                                 };
-                                                admin_firebase.sendNotification(message)
+                                                database.trouverUtilisateurViaIdUtilisateur(rowPari.id_utilisateur)
+                                                    .then((utilisateur)=>{
+                                                        const token = utilisateur.firebase_token
+                                                        console.log("MON TOKEN = ",token)
+                                                        admin_firebase.sendNotification(message, token)
+                                                            .catch((err)=>{
+                                                                console.log(new Erreur(err));
+                                                            })
+                                                    })
                                                     .catch((err)=>{
-                                                        console.log(new Erreur('Contenu manquant.'));
+                                                        console.log(new Erreur(err));
                                                     })
                                             }
                                         }).catch((msg) => {
