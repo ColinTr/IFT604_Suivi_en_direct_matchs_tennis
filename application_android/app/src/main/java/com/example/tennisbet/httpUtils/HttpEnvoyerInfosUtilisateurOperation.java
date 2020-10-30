@@ -7,6 +7,7 @@ import com.example.tennisbet.modele.Utilisateur;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -29,8 +30,9 @@ public class HttpEnvoyerInfosUtilisateurOperation extends AsyncTask<Void, Void, 
 
             //get the list from the input stream
             String result = HttpUtils.InputStreamToString(connection.getInputStream());
-            JSONArray array = new JSONArray(result);
-            Log.d("firebase", array.toString());
+            JSONObject myJsonObject = new JSONObject(result);
+            String idUtilisateur = myJsonObject.getString("id_utilisateur");
+            Log.d("firebase id utilisateur", idUtilisateur);
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
