@@ -1,34 +1,42 @@
 {
   "project_info": {
-    "project_number": "583151707033",
-    "firebase_url": "https://tennisbet.firebaseio.com",
-    "project_id": "tennisbet",
-    "storage_bucket": "tennisbet.appspot.com"
+    "project_number": "994803708124",
+    "firebase_url": "https://tennisbet2.firebaseio.com",
+    "project_id": "tennisbet2",
+    "storage_bucket": "tennisbet2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:583151707033:android:0819ae183d9c56fa742908",
+        "mobilesdk_app_id": "1:994803708124:android:824eb2b0bbf85194354419",
         "android_client_info": {
           "package_name": "com.example.tennisbet"
         }
       },
       "oauth_client": [
         {
-          "client_id": "583151707033-6k8sddg5v4lsrpvaurl8cctlps6ufp6f.apps.googleusercontent.com",
+          "client_id": "994803708124-qkfk02ubva8r32513vfar6r6ji2bbegg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tennisbet",
+            "certificate_hash": "1073c1cb33277f9b2454d14cfc26dab00aef5d26"
+          }
+        },
+        {
+          "client_id": "994803708124-dpcuss632g41poed8vvjh6bj13nmia66.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDGxb8j8ZD4WpXfGhK0a0kHXlajwDHibyM"
+          "current_key": "AIzaSyDw33xXp22U8J6LgitoaYDK677NS3IP4r0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "583151707033-6k8sddg5v4lsrpvaurl8cctlps6ufp6f.apps.googleusercontent.com",
+              "client_id": "994803708124-dpcuss632g41poed8vvjh6bj13nmia66.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
