@@ -80,7 +80,13 @@ public class HttpGetParties extends AsyncTask<Void, Void, ArrayList<Partie>> {
                 JSONObject joueur1_obj = new JSONObject(object.getString("joueur1"));
                 JSONObject joueur2_obj = new JSONObject(object.getString("joueur2"));
                 LocalDateTime datetime_debut_partie = LocalDateTime.parse(object.getString("datetime_debut_partie"), formatter);
-                LocalDateTime datetime_fin_partie = LocalDateTime.parse(object.getString("datetime_fin_partie"), formatter);
+                LocalDateTime datetime_fin_partie;
+                try {
+                    datetime_fin_partie = LocalDateTime.parse(object.getString("datetime_fin_partie"), formatter);
+                }catch (Exception e ){
+                    datetime_fin_partie = null;
+                }
+
                 int etat_partie = object.getInt("etat_partie");
 
                 boolean etatM;

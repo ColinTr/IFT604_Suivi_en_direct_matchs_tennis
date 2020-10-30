@@ -17,7 +17,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" 
-            android:text="Raffraichir"/>
+            android:text="Raffraichir"
+            android:onClick="rafraichirListeMatch"/>
 
         <Button
             android:layout_width="wrap_content"

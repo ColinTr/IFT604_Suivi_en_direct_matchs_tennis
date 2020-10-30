@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 
 import com.example.tennisbet.models.Joueur;
@@ -29,6 +30,13 @@ public class ListeMatchs extends AppCompatActivity {
         ListView list = (ListView) findViewById(R.id.lv_matchs);
 
         Log.d(TAG, "onCreate: Started.");
+
+        HttpGetParties partieGetter = new HttpGetParties(this, list);
+        partieGetter.execute();
+    }
+
+    public void rafraichirListeMatch(View view) {
+        ListView list = (ListView) findViewById(R.id.lv_matchs);
 
         HttpGetParties partieGetter = new HttpGetParties(this, list);
         partieGetter.execute();
