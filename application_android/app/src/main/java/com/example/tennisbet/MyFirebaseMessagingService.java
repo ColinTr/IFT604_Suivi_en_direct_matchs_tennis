@@ -15,13 +15,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onNewToken(String token) {
         Log.d("firebase", "Refreshed token: " + token);
 
-        getSharedPreferences("_", MODE_PRIVATE).edit().putString("fb", token).apply();
+        getSharedPreferences("userdetails", MODE_PRIVATE).edit().putString("firebase_token", token).apply();
 
         sendRegistrationToServer(token);
     }
 
     public static String getToken(Context context) {
-        return context.getSharedPreferences("_", MODE_PRIVATE).getString("fb", "empty");
+        return context.getSharedPreferences("userdetails", MODE_PRIVATE).getString("firebase_token", "empty");
     }
 
     public void sendRegistrationToServer(String token){

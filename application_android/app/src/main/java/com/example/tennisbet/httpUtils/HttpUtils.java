@@ -1,9 +1,25 @@
-package com.example.tennisbet;
+package com.example.tennisbet.httpUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
-public class InputStreamOperations {
+public class HttpUtils {
+
+    static final int READ_TIMEOUT = 15000;
+    static final int CONNECTION_TIMEOUT = 15000;
+    static final String SERVER = "http://10.0.2.2:3000";
+
+    public static HttpURLConnection getConnection(String apiService, String requestMethod) throws IOException {
+        URL myURL = new URL(HttpUtils.SERVER + apiService);
+        HttpURLConnection connection = (HttpURLConnection) myURL.openConnection();
+        connection.setRequestMethod(requestMethod);
+        connection.setReadTimeout(HttpUtils.READ_TIMEOUT);
+        connection.setConnectTimeout(HttpUtils.CONNECTION_TIMEOUT);
+        return connection;
+    }
 
     /**
      * @param in : buffer with the nodejs result

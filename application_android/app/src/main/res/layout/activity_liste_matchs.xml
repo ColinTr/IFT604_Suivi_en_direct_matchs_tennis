@@ -20,7 +20,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Raffraichir"
+                android:text="Rafraîchir"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="10dp"
                 android:onClick="rafraichirListeMatch"/>
@@ -28,7 +28,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="PARIES"
+                android:text="Paris"
                 android:layout_centerHorizontal="true"
                 android:onClick="afficherlisteParies"/>
 

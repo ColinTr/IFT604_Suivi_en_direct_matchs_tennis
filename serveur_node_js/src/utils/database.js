@@ -421,3 +421,15 @@ exports.supprimerUtilisateur = function supprimerUtilisateur(idUtilisateur){
         });
     });
 };
+
+exports.updateTokenUtilisateur = function updateTokenUtilisateur(idUtilisateur, nouveauToken){
+    return new Promise((resolve, reject) => {
+        db.run(`UPDATE utilisateur SET firebase_token = ? WHERE id_utilisateur = ?`, [nouveauToken, idUtilisateur], function(err) {
+            if (err) {
+                reject(err.message);
+            }
+            // return the number of rows updated
+            resolve(this.changes);
+        });
+    });
+};

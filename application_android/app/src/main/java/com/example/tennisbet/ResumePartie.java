@@ -7,7 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.example.tennisbet.models.Partie;
+import com.example.tennisbet.modele.Partie;
 
 public class ResumePartie extends AppCompatActivity {
 

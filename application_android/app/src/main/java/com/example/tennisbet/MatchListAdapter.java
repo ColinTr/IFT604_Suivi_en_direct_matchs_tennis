@@ -14,9 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-import com.example.tennisbet.models.Joueur;
-import com.example.tennisbet.models.Manche;
-import com.example.tennisbet.models.Partie;
+import com.example.tennisbet.modele.Joueur;
+import com.example.tennisbet.modele.Manche;
+import com.example.tennisbet.modele.Partie;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

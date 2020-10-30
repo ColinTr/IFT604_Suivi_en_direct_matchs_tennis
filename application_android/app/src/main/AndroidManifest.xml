@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".ResumePartie"/>
-        <activity android:name=".DetailMatch" />
+        <activity android:name=".DetailsMatch" />
         <activity android:name=".ListeMatchs" />
         <activity android:name=".MainActivity">
             <intent-filter>

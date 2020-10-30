@@ -11,27 +11,55 @@ const router = express.Router();
 const database = require('../utils/database');
 const Erreur = require('../utils/erreur');
 
-//GET Le serveur renvoie l’id_utilisateur correspondant.
-router.get('/:nom_utilisateur', (req, res) =>{
-    // On vérifie si l'utilisateur existe
-    database.trouverIdUtilisateurViaNomUtilisateur(req.params['nom_utilisateur'])
-        .then((idUtilisateur)=> {
-            userId = idUtilisateur;
-            console.log('Envoi de l\'id de l\'utilisateur ' + req.params['nom_utilisateur']);
-            return res.send(`{ id_utilisateur : ` + idUtilisateur + `}`);
-        }).catch((erreur) => {
-            // Sinon on crée un utilisateur et on envoie son id
-            database.creerUtilisateur(req.params['nom_utilisateur'])
-                .then((lastInsertedId) => {
-                    console.log('Utilisateur ' + lastInsertedId + ' créé');
-                    // Et on renvoie l'id de l'utilisateur ainsi créé
-                    res.send(`{ id_utilisateur : ` + lastInsertedId + `}`);
+//GET Le serveur sauvegarde le token et renvoie l’id_utilisateur correspondant.
+router.get('/:nom_utilisateur/:firebase_token', (req, res) =>{
+    if(req.params['nom_utilisateur'] === undefined || req.params['firebase_token'] === undefined) {
+        console.log(new Erreur('Contenu manquant'));
+        return res.status(400).send(new Erreur('Contenu manquant')).end();
+    }
+
+    recupererIdUtilisateurParNomEtLeCreerSIlNExistePas(req.params['nom_utilisateur'])
+        .then((idUtilisateur) => {
+            // On met à jour le token de l'utilisateur
+            database.updateTokenUtilisateur(idUtilisateur, req.params['firebase_token'])
+                .then((nbRowsUpdated) => {
+                    if(nbRowsUpdated === 1) {
+                        // Et on renvoie l'id de l'utilisateur ainsi créé
+                        console.log('Envoi de l\'id utilisateur ' + idUtilisateur);
+                        return res.status(200).send(`{ id_utilisateur : ` + idUtilisateur + `}`);
+                    } else {
+                        console.log("Erreur lors de la mise à jour du token de l\'utilisateur " + idUtilisateur);
+                        return res.status(400).send(new Erreur("Erreur lors de la mise à jour du token de l\'utilisateur " + idUtilisateur)).end();
+                    }
                 }).catch((errMsg) => {
                     console.log(new Erreur(errMsg));
                     return res.status(400).send(new Erreur(errMsg)).end();
                 });
+        }).catch((errMsg) =>{
+            console.log(new Erreur(errMsg));
+            return res.status(400).send(new Erreur(errMsg)).end();
         });
 });
+
+function recupererIdUtilisateurParNomEtLeCreerSIlNExistePas(nomUtilisateur){
+    return new Promise(((resolve, reject) => {
+        // On vérifie si l'utilisateur existe
+        database.trouverIdUtilisateurViaNomUtilisateur(nomUtilisateur)
+            .then((lastInsertedId)=> {
+                resolve(lastInsertedId);
+            }).catch(() => {
+                // Sinon on crée un utilisateur et on envoie son id
+                database.creerUtilisateur(nomUtilisateur)
+                    .then((lastInsertedId) => {
+                        console.log('Utilisateur ' + lastInsertedId + ' créé');
+                        resolve(lastInsertedId);
+                    }).catch((errMsg) => {
+                        console.log(new Erreur(errMsg));
+                        reject(errMsg);
+                    });
+            });
+    }))
+}
 
 
 // UPDATE Le serveur modifie le nom de l'utilisateur correspondant.
@@ -51,9 +79,9 @@ router.put('/', (req, res) =>{
                 return res.status(200).send(new Erreur('Name of user', req.body.id_utilisateur, 'updated')).end(); // OK status code
             }
         }).catch((errMsg) => {
-            console.log(new Erreur(errMsg));
-            return res.status(400).send(new Erreur(errMsg)).end();
-        });
+        console.log(new Erreur(errMsg));
+        return res.status(400).send(new Erreur(errMsg)).end();
+    });
 });
 
 //DELETE Le serveur supprime l'utilisateur correspondant.
@@ -68,9 +96,9 @@ router.delete('/:id_utilisateur', (req, res) =>{
                 return res.status(204).send('User of id', req.params['id_utilisateur'], 'deleted from database').end(); // No content status code
             }
         }).catch((errMsg) => {
-            console.log(new Erreur(errMsg));
-            return res.status(400).send(new Erreur(errMsg)).end();
-        });
+        console.log(new Erreur(errMsg));
+        return res.status(400).send(new Erreur(errMsg)).end();
+    });
 });
 
 module.exports = router;

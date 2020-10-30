@@ -12,14 +12,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.example.tennisbet.models.Joueur;
-import com.example.tennisbet.models.Manche;
-import com.example.tennisbet.models.Partie;
-
-import java.lang.reflect.Array;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
+import com.example.tennisbet.modele.Partie;
+import com.example.tennisbet.httpUtils.HttpRecupererPartiesDuJourOperation;
 
 public class ListeMatchs extends AppCompatActivity {
 
@@ -34,7 +28,7 @@ public class ListeMatchs extends AppCompatActivity {
 
         Log.d(TAG, "onCreate: Started.");
 
-        HttpGetParties partieGetter = new HttpGetParties(this, list);
+        HttpRecupererPartiesDuJourOperation partieGetter = new HttpRecupererPartiesDuJourOperation(this, list);
         partieGetter.execute();
 
         Intent intent = getIntent();
@@ -64,7 +58,7 @@ public class ListeMatchs extends AppCompatActivity {
     public void rafraichirListeMatch(View view) {
         ListView list = (ListView) findViewById(R.id.lv_matchs);
 
-        HttpGetParties partieGetter = new HttpGetParties(this, list);
+        HttpRecupererPartiesDuJourOperation partieGetter = new HttpRecupererPartiesDuJourOperation(this, list);
         partieGetter.execute();
     }
 

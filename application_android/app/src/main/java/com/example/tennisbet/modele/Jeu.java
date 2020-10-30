@@ -1,4 +1,4 @@
-package com.example.tennisbet.models;
+package com.example.tennisbet.modele;
 
 import java.io.Serializable;
 import java.util.ArrayList;

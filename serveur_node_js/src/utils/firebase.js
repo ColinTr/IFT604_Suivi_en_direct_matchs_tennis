@@ -19,10 +19,10 @@ const message = {
 exports.sendTestNotification = function sendTestNotification() {
     // Send a message to devices subscribed to the provided topic.
     return new Promise((resolve, reject) => {
-        admin.messaging().sendToDevice("efgdiZ8YQvWtcJCRX7xmvd:APA91bHWvpKmmkRp7tuKUO7mgEvlE-4j5m5oeBtktkDfkhnYLOl62TCw0krLgZct_VJQSvP-hvMBKFBYNYUh8ALQJNqLNu-IqK7_rBNyaWP0ux6OtV_bsa9usZsyjIp9-49y1J81Bvre", message)
+        admin.messaging().sendToDevice("c3W_9NgzT9W_oe99yzCCwz:APA91bGfiMwbzLUyZeyGSS6N8yK5EF46I0I5pGi2Vwz2P7vbo_-vPRo05KaqsjqThuv6Si5S2KvsrdiA-OtcQc-_O6h_0VyeEEZGjOvOZ44Y4jxxZUK7jb0rGiq76aU-KHNQ2b1aeRD0", message)
             .then((response) => {
                 // Response is a message ID string.
-                console.log('Successfully sent message:', response.results[0]);
+                console.log('Successfully sent message:', response);
                 resolve('Successfully sent message:' + response);
             })
             .catch((error) => {
