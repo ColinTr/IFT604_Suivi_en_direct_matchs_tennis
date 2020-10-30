@@ -1,5 +1,7 @@
 package com.example.tennisbet.models;
 
+import java.util.ArrayList;
+
 public class Jeu {
 
     private int id;
@@ -7,14 +9,16 @@ public class Jeu {
     private Joueur joueur_au_service;
     private int score_echange_joueur_1;
     private int score_echange_joueur_2;
+    private ArrayList<Echange> EchangeList;
     private boolean etat_jeu; // 0 = en cours et 1 = termine
 
-    public Jeu(int id, int id_manche, Joueur joueur_au_service, int score_echange_joueur_1, int score_echange_joueur_2, boolean etat_jeu) {
+    public Jeu(int id, int id_manche, Joueur joueur_au_service, int score_echange_joueur_1, int score_echange_joueur_2, ArrayList<Echange> echangeList, boolean etat_jeu) {
         this.id = id;
         this.id_manche = id_manche;
         this.joueur_au_service = joueur_au_service;
         this.score_echange_joueur_1 = score_echange_joueur_1;
         this.score_echange_joueur_2 = score_echange_joueur_2;
+        EchangeList = echangeList;
         this.etat_jeu = etat_jeu;
     }
 
@@ -64,5 +68,13 @@ public class Jeu {
 
     public void setEtat_jeu(boolean etat_jeu) {
         this.etat_jeu = etat_jeu;
+    }
+
+    public ArrayList<Echange> getEchangeList() {
+        return EchangeList;
+    }
+
+    public void setEchangeList(ArrayList<Echange> echangeList) {
+        EchangeList = echangeList;
     }
 }

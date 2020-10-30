@@ -8,14 +8,18 @@ public class Echange {
     private Joueur conteste_par_joueur;
     private boolean contestation_acceptee; // 0 = non et 1 = oui
     private boolean etat_echange; // 0 = en cours et 1 = termine
+    private int Vitesse_service;
+    private int Nombre_coup_echangee;
 
-    public Echange(int id, int id_jeu, Joueur gagne_par_joueur, Joueur conteste_par_joueur, boolean contestation_acceptee, boolean etat_echange) {
+    public Echange(int id, int id_jeu, Joueur gagne_par_joueur, Joueur conteste_par_joueur, boolean contestation_acceptee, boolean etat_echange, int vitesse_service, int nombre_coup_echangee) {
         this.id = id;
         this.id_jeu = id_jeu;
         this.gagne_par_joueur = gagne_par_joueur;
         this.conteste_par_joueur = conteste_par_joueur;
         this.contestation_acceptee = contestation_acceptee;
         this.etat_echange = etat_echange;
+        Vitesse_service = vitesse_service;
+        Nombre_coup_echangee = nombre_coup_echangee;
     }
 
     public int getId() {
@@ -64,5 +68,21 @@ public class Echange {
 
     public void setEtat_echange(boolean etat_echange) {
         this.etat_echange = etat_echange;
+    }
+
+    public int getVitesse_service() {
+        return Vitesse_service;
+    }
+
+    public void setVitesse_service(int vitesse_service) {
+        Vitesse_service = vitesse_service;
+    }
+
+    public int getNombre_coup_echangee() {
+        return Nombre_coup_echangee;
+    }
+
+    public void setNombre_coup_echangee(int nombre_coup_echangee) {
+        Nombre_coup_echangee = nombre_coup_echangee;
     }
 }
