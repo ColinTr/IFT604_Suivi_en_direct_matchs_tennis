@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/tv_joueur1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
@@ -33,7 +33,7 @@
                     android:layout_marginLeft="40dp"/>
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/tv_joueur2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hapticFeedbackEnabled="false"
@@ -48,6 +48,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/tv_temps_partie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2:34:53"
@@ -160,6 +161,7 @@
         </GridLayout>
 
         <TextView
+            android:id="@+id/tv_text_etat_match"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Jeu en cours"
@@ -180,7 +182,7 @@
                 android:layout_height="wrap_content" >
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/tv_service_joueur_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -190,7 +192,7 @@
                     android:layout_marginLeft="65dp"/>
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/tv_service_joueur_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
@@ -214,7 +216,7 @@
                 android:layout_height="wrap_content" >
 
                 <TextView
-                    android:id="@+id/textView5"
+                    android:id="@+id/tv_points_joueur_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -225,7 +227,7 @@
                     android:layout_marginLeft="70dp"/>
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/tv_points_joueur_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
@@ -250,7 +252,7 @@
                 android:layout_height="wrap_content" >
 
                 <TextView
-                    android:id="@+id/textView7"
+                    android:id="@+id/tv_contestation_joueur_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -260,7 +262,7 @@
                     android:layout_marginLeft="50dp"/>
 
                 <TextView
-                    android:id="@+id/textView8"
+                    android:id="@+id/tv_contestation_joueur_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
@@ -284,6 +286,7 @@
                 android:layout_height="wrap_content" >
 
                 <Button
+                    android:id="@+id/btn_parier_joueur_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Parier"
@@ -291,6 +294,7 @@
                     android:layout_marginLeft="40dp"/>
 
                 <Button
+                    android:id="@+id/btn_parier_joueur_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Parier"

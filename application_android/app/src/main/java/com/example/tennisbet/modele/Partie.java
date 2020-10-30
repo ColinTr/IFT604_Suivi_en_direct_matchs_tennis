@@ -12,8 +12,9 @@ public class Partie  implements Serializable {
     private LocalDateTime dateTime_fin_partie;
     private ArrayList<Manche> score_manche;
     private int etat_partie; // 0 = a venir, 1 = en cours, 2 = termine
+    private int joueur_gagnant; // 0 = aucun, 1 = joueur 1, 2 = joueur 2
 
-    public Partie(int id, Joueur joueur_1, Joueur joueur_2, LocalDateTime datetime_debut_partie, LocalDateTime dateTime_fin_partie, ArrayList<Manche> score_manche, int etat_partie) {
+    public Partie(int id, Joueur joueur_1, Joueur joueur_2, LocalDateTime datetime_debut_partie, LocalDateTime dateTime_fin_partie, ArrayList<Manche> score_manche, int etat_partie, int joueur_gagnant) {
         this.id = id;
         this.joueur_1 = joueur_1;
         this.joueur_2 = joueur_2;
@@ -21,6 +22,7 @@ public class Partie  implements Serializable {
         this.dateTime_fin_partie = dateTime_fin_partie;
         this.score_manche = score_manche;
         this.etat_partie = etat_partie;
+        this.joueur_gagnant = joueur_gagnant;
     }
 
     //Creer une partie vide
@@ -32,6 +34,7 @@ public class Partie  implements Serializable {
         this.dateTime_fin_partie = dateTime_fin_partie;
         this.score_manche = null;
         this.etat_partie = 0;
+        this.joueur_gagnant = 0;
     }
 
     public int getId() {
@@ -88,6 +91,14 @@ public class Partie  implements Serializable {
 
     public void setEtat_partie(int etat_partie) {
         this.etat_partie = etat_partie;
+    }
+
+    public int getJoueur_gagnant() {
+        return joueur_gagnant;
+    }
+
+    public void setJoueur_gagnant(int joueur_gagnant) {
+        this.joueur_gagnant = joueur_gagnant;
     }
 }
 

@@ -88,7 +88,9 @@ public class HttpRecupererPartiesDuJourOperation extends AsyncTask<Void, Void, A
 
                 ArrayList<Manche> MancheList = getListManche(liste_manches, joueur1, joueur2, id_partie);
 
-                Partie partie = new Partie(id_partie, joueur1, joueur2, datetime_debut_partie, datetime_fin_partie, MancheList, etat_partie);
+                int joueur_gagnant = object.getInt("joueur_gagnant");
+
+                Partie partie = new Partie(id_partie, joueur1, joueur2, datetime_debut_partie, datetime_fin_partie, MancheList, etat_partie, joueur_gagnant);
                 listPartie.add(partie);
             }
         } catch (Exception e) {
