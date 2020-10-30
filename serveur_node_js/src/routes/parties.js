@@ -22,7 +22,7 @@ router.get('/', function (req, res) {
             let serializablePartiesDuJour = [];
             let promises = [];
             partiesDuJour.forEach(function(partie) {
-                serializablePartiesDuJour.push(new ModeleSerializable.SerializablePartie(partie.id_partie, partie.terrain, partie.tournoi, partie.datetime_debut_partie, partie.datetime_fin_partie, partie.etat_partie, partie.temps_partie, partie.id_joueur_1, partie.id_joueur_2));
+                serializablePartiesDuJour.push(new ModeleSerializable.SerializablePartie(partie.id_partie, partie.terrain, partie.tournoi, partie.datetime_debut_partie, partie.datetime_fin_partie, partie.etat_partie, partie.temps_partie, partie.id_joueur_1, partie.id_joueur_2, partie.score_manche_joueur_1, partie.score_manche_joueur_2));
                 promises.push(serializablePartiesDuJour[serializablePartiesDuJour.length-1].initPartieSerializable());
             });
             // On attend que toutes les parties aient été initialisées avant d'envoyer la liste des parties du jour
@@ -52,7 +52,7 @@ router.get('/:id_partie', function (req, res) {
             else {
                 database.recupererPartieViaId(req.params['id_partie'])
                     .then((partie) =>{
-                       const partieJSON = new ModeleSerializable.SerializablePartie(partie.id_partie, partie.terrain, partie.tournoi, partie.datetime_debut_partie, partie.datetime_fin_partie, partie.etat_partie, partie.temps_partie, partie.id_joueur_1, partie.id_joueur_2)
+                       const partieJSON = new ModeleSerializable.SerializablePartie(partie.id_partie, partie.terrain, partie.tournoi, partie.datetime_debut_partie, partie.datetime_fin_partie, partie.etat_partie, partie.temps_partie, partie.id_joueur_1, partie.id_joueur_2, partie.score_manche_joueur_1, partie.score_manche_joueur_2);
                        partieJSON.initPartieSerializable()
                            .then(()=>{
                                return res.status(200).send(partieJSON).end();
