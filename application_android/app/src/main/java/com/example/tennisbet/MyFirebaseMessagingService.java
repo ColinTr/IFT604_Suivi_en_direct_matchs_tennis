@@ -1,5 +1,6 @@
 package com.example.tennisbet;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
@@ -14,7 +15,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onNewToken(String token) {
         Log.d("firebase", "Refreshed token: " + token);
 
+        getSharedPreferences("_", MODE_PRIVATE).edit().putString("fb", token).apply();
+
         sendRegistrationToServer(token);
+    }
+
+    public static String getToken(Context context) {
+        return context.getSharedPreferences("_", MODE_PRIVATE).getString("fb", "empty");
     }
 
     public void sendRegistrationToServer(String token){
@@ -23,7 +30,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        Log.d("firebase", "DID WE FUCKING MAKE IT HERE HELLLLLOOOOOOO");
         Log.d("firebase", "remoteMessage : " + remoteMessage);
         super.onMessageReceived(remoteMessage);
         notify(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());

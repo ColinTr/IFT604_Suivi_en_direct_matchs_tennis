@@ -26,11 +26,12 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/sendTestNotification', function (req, res, next)  {
-    admin_firebase.sendTestNotification().then( msg => {
-        res.send(msg);
-    }).catch(errMsg => {
-        res.send(errMsg);
-    });
+    admin_firebase.sendTestNotification()
+        .then( msg => {
+            res.send(msg);
+        }).catch(errMsg => {
+            res.send(errMsg);
+        });
 });
 
 module.exports = router;
