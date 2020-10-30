@@ -81,14 +81,12 @@ public class HttpRecupererPartiesDuJourOperation extends AsyncTask<Void, Void, A
 
                 int etat_partie = object.getInt("etat_partie");
 
-                boolean etatM = (etat_partie == 1);
-
                 JSONArray liste_manches = new JSONArray(object.getString("liste_manches"));
 
                 Joueur joueur1 = new Joueur(joueur1_obj.getInt("id_joueur"), joueur1_obj.getString("prenom"), joueur1_obj.getString("nom"), joueur1_obj.getInt("age"), joueur1_obj.getInt("rang"), joueur1_obj.getString("pays"));
                 Joueur joueur2 = new Joueur(joueur2_obj.getInt("id_joueur"), joueur2_obj.getString("prenom"), joueur2_obj.getString("nom"), joueur2_obj.getInt("age"), joueur2_obj.getInt("rang"), joueur2_obj.getString("pays"));
 
-                ArrayList<Manche> MancheList = getListManche(liste_manches, joueur1, joueur2, id_partie, etatM);
+                ArrayList<Manche> MancheList = getListManche(liste_manches, joueur1, joueur2, id_partie);
 
                 Partie partie = new Partie(id_partie, joueur1, joueur2, datetime_debut_partie, datetime_fin_partie, MancheList, etat_partie);
                 listPartie.add(partie);
@@ -100,7 +98,7 @@ public class HttpRecupererPartiesDuJourOperation extends AsyncTask<Void, Void, A
         return listPartie;
     }
 
-    protected ArrayList<Manche> getListManche(JSONArray liste_manches, Joueur joueur1, Joueur joueur2, int id_partie, boolean etatM) throws JSONException {
+    protected ArrayList<Manche> getListManche(JSONArray liste_manches, Joueur joueur1, Joueur joueur2, int id_partie) throws JSONException {
         ArrayList<Manche> MancheList = new ArrayList<>();
         for (int j = 0; j < liste_manches.length(); j++) {
             JSONObject object2 = new JSONObject(liste_manches.getString(j));
@@ -110,6 +108,7 @@ public class HttpRecupererPartiesDuJourOperation extends AsyncTask<Void, Void, A
             int nb_contestations_joueur_1 = object2.getInt("nb_contestations_joueur_1");
             int nb_contestations_joueur_2 = object2.getInt("nb_contestations_joueur_2");
             int etat_manche = object2.getInt(("etat_manche"));
+            boolean etatM = (etat_manche == 1);
             JSONArray liste_jeux = new JSONArray(object2.getString("liste_jeux"));
 
             ArrayList<Jeu> JeuList = getListJeu(liste_jeux, joueur1, joueur2, id_manche);
@@ -126,6 +125,14 @@ public class HttpRecupererPartiesDuJourOperation extends AsyncTask<Void, Void, A
             JSONObject object3 = new JSONObject(liste_jeux.getString(k));
             int id_jeu = object3.getInt("id_jeu");
             int gagne_par_joueur = object3.getInt("gagne_par_joueur");
+            Joueur vainqueurJ;
+            if (gagne_par_joueur == 1){
+                vainqueurJ = joueur1;
+            }
+            else {
+                vainqueurJ = joueur2;
+            }
+
             int joueur_au_service = object3.getInt("joueur_au_service");
 
             Joueur serveur;
@@ -145,7 +152,7 @@ public class HttpRecupererPartiesDuJourOperation extends AsyncTask<Void, Void, A
 
             ArrayList<Echange> EchangeList = getListEchange(liste_echange, joueur1, joueur2);
 
-            Jeu jeu = new Jeu(id_jeu, id_manche, serveur, score_echanges_joueur_1, score_echanges_joueur_2, EchangeList, jeuTermine);
+            Jeu jeu = new Jeu(id_jeu, id_manche, serveur, vainqueurJ, score_echanges_joueur_1, score_echanges_joueur_2, EchangeList, jeuTermine);
             JeuList.add(jeu);
         }
         return JeuList;
