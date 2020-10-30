@@ -19,7 +19,7 @@ class SerializablePartie {
         this.temps_partie = temps_partie;
         this.id_joueur_1 = id_joueur_1;
         this.id_joueur_2 = id_joueur_2;
-        this.joueur_gagnant = (score_manche_joueur_1 < score_manche_joueur_2 ? 2 : 1);
+        this.joueur_gagnant = ((score_manche_joueur_1 < 2 && score_manche_joueur_2 < 2) ? 0 : (score_manche_joueur_1 < score_manche_joueur_2 ? 2 : 1));
         this.joueur1 = undefined;
         this.joueur2 = undefined;
         this.liste_manches = []
