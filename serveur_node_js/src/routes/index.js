@@ -11,7 +11,7 @@ const router = express.Router();
 const Partie = require('../modeles/partie.js');
 const Joueur = require('../modeles/joueur.js');
 
-const admin_firebase = require('../utils/firebase');
+const admin_firebase = require('../utils/firebase_push_notification');
 const notification_options = {
     priority: "high",
     timeToLive: 60 * 60 * 24
@@ -26,7 +26,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/sendTestNotification', function (req, res, next)  {
-    admin_firebase.sendTestNotification()
+    admin_firebase.sendNotification()
         .then( msg => {
             res.send(msg);
         }).catch(errMsg => {

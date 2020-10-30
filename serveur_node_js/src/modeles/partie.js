@@ -8,6 +8,8 @@
 const database = require('../utils/database');
 const Manche = require('./manche');
 const dateTimeUtils = require('../utils/dateTimeUtils');
+const admin_firebase = require('../utils/firebase_push_notification');
+const Erreur = require('../utils/erreur');
 
 class Partie {
     constructor(id_partie, joueur1, joueur2, terrain, tournoi, datetime_debut_partie, datetime_fin_partie, etat_partie, score_manche_joueur_1, score_manche_joueur_2, tickDebut) {
@@ -114,7 +116,17 @@ class Partie {
                                                 return console.log("Critical error : pari of id " + row.id_pari + " couldn\'t be updated.");
                                             } else {
                                                 console.log("Sending notification for pari " + row.id_pari + "...");
-                                                // TODO Envoyer une notification PUSH du gain réalisé
+
+                                                const message = {
+                                                    notification: {
+                                                        title: 'Resultat pari',
+                                                        body: (montantGagne > 0) ? 'Félicitation, vous avez gagné '+montantGagne+' euros !': 'Malheuresement vous avez perdu'
+                                                    }
+                                                };
+                                                admin_firebase.sendNotification(message)
+                                                    .catch((err)=>{
+                                                        console.log(new Erreur('Contenu manquant.'));
+                                                    })
                                             }
                                         }).catch((msg) => {
                                         return console.log(msg);
