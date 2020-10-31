@@ -17,13 +17,14 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Rafraîchir"
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/refresh_logo"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="10dp"
-                android:onClick="rafraichirListeMatch"/>
+                android:onClick="rafraichirListeMatch"
+                android:scaleType="fitCenter"/>
 
             <Button
                 android:layout_width="wrap_content"
