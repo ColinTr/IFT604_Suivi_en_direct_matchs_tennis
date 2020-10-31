@@ -38,7 +38,7 @@ import java.util.ArrayList;
 
 public class ListeParties extends AppCompatActivity {
 
-    private static final String TAG = "ListeMatchs";
+    private static final String TAG = "ListeParties";
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
