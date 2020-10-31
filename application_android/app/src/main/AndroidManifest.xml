@@ -21,7 +21,6 @@
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -35,7 +34,8 @@
         </service>
 
         <service android:name=".services.InformationsPartiesService"
-            android:exported="false"/>
+            android:exported="false">
+        </service>
 
     </application>
 

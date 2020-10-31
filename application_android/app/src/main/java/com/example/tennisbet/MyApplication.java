@@ -9,8 +9,17 @@ package com.example.tennisbet;
 
 import android.app.Application;
 
+import androidx.lifecycle.ProcessLifecycleOwner;
+
 import com.example.tennisbet.modele.Utilisateur;
 
 public class MyApplication extends Application {
     public Utilisateur utilisateur;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        ProcessLifecycleOwner.get().getLifecycle().addObserver(new AppLifecycleListener());
+    }
 }

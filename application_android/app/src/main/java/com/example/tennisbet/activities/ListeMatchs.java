@@ -45,7 +45,6 @@ public class ListeMatchs extends AppCompatActivity {
         HttpRecupererPartiesDuJourOperation partieGetter = new HttpRecupererPartiesDuJourOperation(this, list);
         partieGetter.execute();
 
-
         Button btn_nom_uti = findViewById(R.id.btn_nom_uti);
         btn_nom_uti.setText(((MyApplication) getApplicationContext()).utilisateur.getNomUtilisateur());
 
@@ -66,7 +65,7 @@ public class ListeMatchs extends AppCompatActivity {
 
     public void rafraichirListeMatch(View view) {
         ListView list = findViewById(R.id.lv_matchs);
-
+        Toast.makeText(getApplicationContext(), "Mise à jour de la liste des parties...", Toast.LENGTH_LONG).show();
         HttpRecupererPartiesDuJourOperation partieGetter = new HttpRecupererPartiesDuJourOperation(this, list);
         partieGetter.execute();
     }
@@ -94,7 +93,6 @@ public class ListeMatchs extends AppCompatActivity {
     private BroadcastReceiver myBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Toast.makeText(context, "Mise à jour de la liste des parties...", Toast.LENGTH_LONG).show();
             rafraichirListeMatch(null);
         }
     };
