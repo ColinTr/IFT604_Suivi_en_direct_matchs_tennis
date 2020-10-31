@@ -31,13 +31,9 @@ public class ListeMatchs extends AppCompatActivity {
         HttpRecupererPartiesDuJourOperation partieGetter = new HttpRecupererPartiesDuJourOperation(this, list);
         partieGetter.execute();
 
-        Intent intent = getIntent();
-        if (intent != null){
-            if (intent.hasExtra("nomUtilisateur")) {
-                Button btn_nom_uti = (Button) findViewById(R.id.btn_nom_uti);
-                btn_nom_uti.setText(intent.getStringExtra("nomUtilisateur"));
-            }
-        }
+
+        Button btn_nom_uti = (Button) findViewById(R.id.btn_nom_uti);
+        btn_nom_uti.setText(((MyApplication) getApplicationContext()).utilisateur.getNomUtilisateur());
 
         ListView listView = (ListView) findViewById(R.id.lv_matchs);
 
