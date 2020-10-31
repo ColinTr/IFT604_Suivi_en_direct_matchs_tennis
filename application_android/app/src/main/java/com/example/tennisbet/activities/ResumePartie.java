@@ -19,37 +19,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.tennisbet.MyApplication;
 import com.example.tennisbet.R;
 import com.example.tennisbet.httpUtils.HttpEnvoyerParis;
-import com.example.tennisbet.httpUtils.HttpRecupererPartiesDuJourOperation;
-import com.example.tennisbet.httpUtils.HttpUtils;
 import com.example.tennisbet.modele.Echange;
 import com.example.tennisbet.modele.Jeu;
 import com.example.tennisbet.modele.Manche;
 import com.example.tennisbet.modele.Partie;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-
-import static java.lang.Math.abs;
 
 public class ResumePartie extends AppCompatActivity {
 
@@ -65,10 +47,10 @@ public class ResumePartie extends AppCompatActivity {
 
         partie = (Partie) intent.getSerializableExtra("partie");
 
-        TextView tv_joueur1 = (TextView) findViewById(R.id.tv_joueur1);
-        TextView tv_joueur2 = (TextView) findViewById(R.id.tv_joueur2);
-        TextView tv_joueur1_2 = (TextView) findViewById(R.id.tv_joueur1_2);
-        TextView tv_joueur2_2 = (TextView) findViewById(R.id.tv_joueur2_2);
+        TextView tv_joueur1 = findViewById(R.id.tv_joueur1);
+        TextView tv_joueur2 = findViewById(R.id.tv_joueur2);
+        TextView tv_joueur1_2 = findViewById(R.id.tv_joueur1_2);
+        TextView tv_joueur2_2 = findViewById(R.id.tv_joueur2_2);
         tv_joueur1_2.setText(partie.getJoueur_1().getPrenom().charAt(0) + "." + partie.getJoueur_1().getNom());
         tv_joueur2_2.setText(partie.getJoueur_2().getPrenom().charAt(0) + "." + partie.getJoueur_2().getNom());
 
@@ -83,10 +65,11 @@ public class ResumePartie extends AppCompatActivity {
 
         miseAJourTableauDesScores();
 
-        //Affichage si la partie est terminee
         if(partie.getEtat_partie() == 2)
         {
-            miseAJourInformationsPartieTermine();
+            Intent intent = new Intent(this, ResumePartieTermine.class);
+            intent.putExtra("partie", partie);
+            startActivity(intent);
         }
         else {
             miseAJourInformationPartieEnCours();
@@ -95,12 +78,12 @@ public class ResumePartie extends AppCompatActivity {
 
     public void miseAJourTableauDesScores() {
 
-        TextView tv_score_set_r1_c1 = (TextView) findViewById(R.id.tv_score_set_r1_c1);
-        TextView tv_score_set_r1_c2 = (TextView) findViewById(R.id.tv_score_set_r1_c2);
-        TextView tv_score_set_r1_c3 = (TextView) findViewById(R.id.tv_score_set_r1_c3);
-        TextView tv_score_set_r2_c1 = (TextView) findViewById(R.id.tv_score_set_r2_c1);
-        TextView tv_score_set_r2_c2 = (TextView) findViewById(R.id.tv_score_set_r2_c2);
-        TextView tv_score_set_r2_c3 = (TextView) findViewById(R.id.tv_score_set_r2_c3);
+        TextView tv_score_set_r1_c1 = findViewById(R.id.tv_score_set_r1_c1);
+        TextView tv_score_set_r1_c2 = findViewById(R.id.tv_score_set_r1_c2);
+        TextView tv_score_set_r1_c3 = findViewById(R.id.tv_score_set_r1_c3);
+        TextView tv_score_set_r2_c1 = findViewById(R.id.tv_score_set_r2_c1);
+        TextView tv_score_set_r2_c2 = findViewById(R.id.tv_score_set_r2_c2);
+        TextView tv_score_set_r2_c3 = findViewById(R.id.tv_score_set_r2_c3);
 
         int nb_manches_joue = partie.getScore_manche().size();
 
@@ -186,48 +169,6 @@ public class ResumePartie extends AppCompatActivity {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void miseAJourInformationsPartieTermine() {
-        TextView tv_text_etat_match = (TextView) findViewById(R.id.tv_text_etat_match);
-        TextView tv_temps_partie = (TextView) findViewById(R.id.tv_temps_partie);
-
-        TextView tv_joueur1 = (TextView) findViewById(R.id.tv_joueur1);
-        TextView tv_joueur2 = (TextView) findViewById(R.id.tv_joueur2);
-
-        ((TextView) findViewById(R.id.tv_service_joueur_1)).setVisibility(TextView.INVISIBLE);
-        ((TextView) findViewById(R.id.tv_service_joueur_2)).setVisibility(TextView.INVISIBLE);
-
-        ((TextView) findViewById(R.id.tv_contestation_joueur_1)).setVisibility(TextView.INVISIBLE);
-        ((TextView) findViewById(R.id.tv_contestation_joueur_2)).setVisibility(TextView.INVISIBLE);
-
-        ((TextView) findViewById(R.id.btn_parier_joueur_1)).setVisibility(TextView.INVISIBLE);
-        ((TextView) findViewById(R.id.btn_parier_joueur_2)).setVisibility(TextView.INVISIBLE);
-
-        ((TextView) findViewById(R.id.tv_joueur1_2)).setVisibility(TextView.INVISIBLE);
-        ((TextView) findViewById(R.id.tv_joueur2_2)).setVisibility(TextView.INVISIBLE);
-
-        ((TextView) findViewById(R.id.tv_points_joueur_1)).setVisibility(TextView.INVISIBLE);
-        ((TextView) findViewById(R.id.tv_points_joueur_2)).setVisibility(TextView.INVISIBLE);
-
-        ((TextView) findViewById(R.id.tv_text_coups_echange)).setVisibility(TextView.INVISIBLE);
-        ((TextView) findViewById(R.id.tv_coups_echange)).setVisibility(TextView.INVISIBLE);
-
-        switch (partie.getJoueur_gagnant()) {
-            case 1:
-                tv_joueur1.setTypeface(null, Typeface.BOLD);
-                break;
-            case 2:
-                tv_joueur2.setTypeface(null, Typeface.BOLD);
-                break;
-        }
-        long seconds = ChronoUnit.SECONDS.between(partie.getDatetime_debut_partie(), partie.getDateTime_fin_partie());
-        LocalTime timeOfDay = LocalTime.ofSecondOfDay(seconds);
-        String time = timeOfDay.toString();
-        tv_temps_partie.setText(time);
-
-        tv_text_etat_match.setText("Match Terminé");
-    }
-
     public void miseAJourInformationPartieEnCours() {
         Manche mancheEnCours = null;
         Jeu jeuEnCours = null;
@@ -251,21 +192,21 @@ public class ResumePartie extends AppCompatActivity {
             }
         }
 
-        TextView tv_service_joueur_1 = (TextView) findViewById(R.id.tv_service_joueur_1);
-        TextView tv_service_joueur_2 = (TextView) findViewById(R.id.tv_service_joueur_2);
+        TextView tv_service_joueur_1 = findViewById(R.id.tv_service_joueur_1);
+        TextView tv_service_joueur_2 = findViewById(R.id.tv_service_joueur_2);
 
-        TextView tv_contestation_joueur_1 = (TextView) findViewById(R.id.tv_contestation_joueur_1);
-        TextView tv_contestation_joueur_2 = (TextView) findViewById(R.id.tv_contestation_joueur_2);
+        TextView tv_contestation_joueur_1 = findViewById(R.id.tv_contestation_joueur_1);
+        TextView tv_contestation_joueur_2 = findViewById(R.id.tv_contestation_joueur_2);
 
         ((TextView) findViewById(R.id.tv_points_joueur_1)).setText(String.valueOf(jeuEnCours.getScore_echange_joueur_1()));
         ((TextView) findViewById(R.id.tv_points_joueur_2)).setText(String.valueOf(jeuEnCours.getScore_echange_joueur_2()));
 
         if(jeuEnCours.getJoueur_au_service().equals(partie.getJoueur_1())){
-            tv_service_joueur_1.setText("Service (" + String.valueOf(echangeEnCours.getVitesse_service()) + " km/h)");
+            tv_service_joueur_1.setText("Service (" + echangeEnCours.getVitesse_service() + " km/h)");
             tv_service_joueur_2.setVisibility(View.INVISIBLE);
         }
         else {
-            tv_service_joueur_2.setText("Service (" + String.valueOf(echangeEnCours.getVitesse_service()) + " km/h)");
+            tv_service_joueur_2.setText("Service (" + echangeEnCours.getVitesse_service() + " km/h)");
             tv_service_joueur_1.setVisibility(View.INVISIBLE);
         }
 
@@ -302,7 +243,7 @@ public class ResumePartie extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         View mView = inflater.inflate(R.layout.dialog_parie, null);
-        final EditText montant = (EditText) mView.findViewById(R.id.et_montant_pari);
+        final EditText montant = mView.findViewById(R.id.et_montant_pari);
         ((TextView) mView.findViewById(R.id.tv_dialog)).setText("Parier sur " + partie.getJoueur_1().getPrenom().charAt(0) + "." + partie.getJoueur_1().getNom());
         builder.setView(mView)
                 // Add action buttons
@@ -324,7 +265,7 @@ public class ResumePartie extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         View mView = inflater.inflate(R.layout.dialog_parie, null);
-        final EditText montant = (EditText) mView.findViewById(R.id.et_montant_pari);
+        final EditText montant = mView.findViewById(R.id.et_montant_pari);
         ((TextView) mView.findViewById(R.id.tv_dialog)).setText("Parier sur " + partie.getJoueur_2().getPrenom().charAt(0) + "." + partie.getJoueur_2().getNom());
         builder.setView(mView)
                 // Add action buttons

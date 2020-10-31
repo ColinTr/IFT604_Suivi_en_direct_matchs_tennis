@@ -54,10 +54,23 @@ public class ListeMatchs extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Partie partie = (Partie) adapterView.getItemAtPosition(position);
-                if (partie.getEtat_partie() != 0) {
-                    Intent intent = new Intent(ListeMatchs.this, ResumePartie.class);
-                    intent.putExtra("partie", partie);
-                    startActivity(intent);
+
+                switch(partie.getEtat_partie()) {
+                    case 1 :
+                        Intent intent = new Intent(ListeMatchs.this, ResumePartie.class);
+                        intent.putExtra("partie", partie);
+                        startActivity(intent);
+                        break;
+                    case 2 :
+                        Intent intent2 = new Intent(ListeMatchs.this, ResumePartieTermine.class);
+                        intent2.putExtra("partie", partie);
+                        startActivity(intent2);
+                        break;
+                    case 0 :
+                        Intent intent3 = new Intent(ListeMatchs.this, ResumePartieAVenir.class);
+                        intent3.putExtra("partie", partie);
+                        startActivity(intent3);
+                        break;
                 }
             }
         });
