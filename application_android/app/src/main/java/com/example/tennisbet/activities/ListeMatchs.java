@@ -1,4 +1,11 @@
-package com.example.tennisbet;
+/*
+  Troisemaine Colin (matricule 20 088 209)
+  Levieux Quentin (matricule 20 102 087)
+  Verdier Adrien (matricule 20 088 959)
+  Alexandre Turpin (matricule 20 088 156)
+ */
+
+package com.example.tennisbet.activities;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +19,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.example.tennisbet.MyApplication;
+import com.example.tennisbet.R;
 import com.example.tennisbet.modele.Partie;
 import com.example.tennisbet.httpUtils.HttpRecupererPartiesDuJourOperation;
 
@@ -24,7 +33,7 @@ public class ListeMatchs extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liste_matchs);
-        ListView list = (ListView) findViewById(R.id.lv_matchs);
+        ListView list = findViewById(R.id.lv_matchs);
 
         Log.d(TAG, "onCreate: Started.");
 
@@ -32,17 +41,16 @@ public class ListeMatchs extends AppCompatActivity {
         partieGetter.execute();
 
 
-        Button btn_nom_uti = (Button) findViewById(R.id.btn_nom_uti);
+        Button btn_nom_uti = findViewById(R.id.btn_nom_uti);
         btn_nom_uti.setText(((MyApplication) getApplicationContext()).utilisateur.getNomUtilisateur());
 
-        ListView listView = (ListView) findViewById(R.id.lv_matchs);
+        ListView listView = findViewById(R.id.lv_matchs);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Partie partie = (Partie) adapterView.getItemAtPosition(position);
-                if(partie.getEtat_partie() != 0) {
+                if (partie.getEtat_partie() != 0) {
                     Intent intent = new Intent(ListeMatchs.this, ResumePartie.class);
                     intent.putExtra("partie", partie);
                     startActivity(intent);
@@ -52,7 +60,7 @@ public class ListeMatchs extends AppCompatActivity {
     }
 
     public void rafraichirListeMatch(View view) {
-        ListView list = (ListView) findViewById(R.id.lv_matchs);
+        ListView list = findViewById(R.id.lv_matchs);
 
         HttpRecupererPartiesDuJourOperation partieGetter = new HttpRecupererPartiesDuJourOperation(this, list);
         partieGetter.execute();

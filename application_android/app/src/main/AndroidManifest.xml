@@ -11,10 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ResumePartie"/>
-        <activity android:name=".DetailsMatch" />
-        <activity android:name=".ListeMatchs" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.ResumePartie"/>
+        <activity android:name=".activities.DetailsMatch" />
+        <activity android:name=".activities.ListeMatchs" />
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,11 +23,15 @@
         </activity>
 
         <service
-            android:name=".MyFirebaseMessagingService">
+            android:name=".services.MyFirebaseMessagingService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <service android:name=".services.BackgroundInformationsPartiesService"
+                android:exported="false"/>
 
     </application>
 
