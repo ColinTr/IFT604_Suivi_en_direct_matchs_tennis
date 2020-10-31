@@ -3,12 +3,17 @@ package com.example.tennisbet;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.tennisbet.modele.Partie;
@@ -57,7 +62,7 @@ public class ResumePartie extends AppCompatActivity {
         Button btn_parier_joueur_1 = (Button) findViewById(R.id.btn_parier_joueur_1);
         Button btn_parier_joueur_2 = (Button) findViewById(R.id.btn_parier_joueur_2);
 
-        if(partie.getEtat_partie() == 2)
+        /*if(partie.getEtat_partie() == 2)
         {
             tv_service_joueur_1.setVisibility(TextView.INVISIBLE);
             tv_service_joueur_2.setVisibility(TextView.INVISIBLE);
@@ -82,7 +87,7 @@ public class ResumePartie extends AppCompatActivity {
             tv_temps_partie.setText(time);
 
             tv_text_etat_match.setText("Match Terminé");
-        }
+        }*/
 
         int nb_manches_joue = partie.getScore_manche().size();
 
@@ -166,5 +171,63 @@ public class ResumePartie extends AppCompatActivity {
                 }
                 break;
         }
+    }
+
+    public void parierSurJoueur1(View view) {
+        /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View mView = inflater.inflate(R.layout.dialog_parie, null);
+        final EditText montant = (EditText) mView.findViewById(R.id.et_montant_pari);
+        builder.setView(mView)
+                // Add action buttons
+                .setPositiveButton("Valider", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Envoit de la requete post pour creer le pari
+                        // les parametres qu'il faut :
+                        // id utilisateur : ((MyApplication) getApplicationContext()).utilisateur.getId()
+                        // id partie : partie.getId()
+                        // id joueur : partie.getJoueur_1().getId()
+
+                        Button test = (Button) findViewById(R.id.btn_parier_joueur_1);
+
+                        test.setText(montant.getText());
+
+                    }
+                })
+                .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {}
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();*/
+    }
+
+    public void parierSurJoueur2(View view) {
+        /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View mView = inflater.inflate(R.layout.dialog_parie, null);
+        final EditText montant = (EditText) mView.findViewById(R.id.et_montant_pari);
+        builder.setView(mView)
+                // Add action buttons
+                .setPositiveButton("Valider", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Envoit de la requete post pour creer le pari
+                        // les parametres qu'il faut :
+                        // id utilisateur : ((MyApplication) getApplicationContext()).utilisateur.getId()
+                        // id partie : partie.getId()
+                        // id joueur : partie.getJoueur_2().getId()
+
+                        Button test = (Button) findViewById(R.id.btn_parier_joueur_1);
+
+                        test.setText(montant.getText());
+
+                    }
+                })
+                .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {}
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();*/
     }
 }

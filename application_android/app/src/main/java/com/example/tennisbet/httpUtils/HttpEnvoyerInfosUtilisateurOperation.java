@@ -20,6 +20,14 @@ public class HttpEnvoyerInfosUtilisateurOperation extends AsyncTask<Void, Void, 
         this.utilisateur = utilisateur;
     }
 
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+
     @Override
     protected Void doInBackground(Void... voids) {
         HttpURLConnection connection = null;
@@ -32,6 +40,7 @@ public class HttpEnvoyerInfosUtilisateurOperation extends AsyncTask<Void, Void, 
             String result = HttpUtils.InputStreamToString(connection.getInputStream());
             JSONObject myJsonObject = new JSONObject(result);
             String idUtilisateur = myJsonObject.getString("id_utilisateur");
+            utilisateur.setId(Integer.parseInt(idUtilisateur));
             Log.d("firebase id utilisateur", idUtilisateur);
         } catch (IOException | JSONException e) {
             e.printStackTrace();
