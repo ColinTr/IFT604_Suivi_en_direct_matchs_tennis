@@ -1,18 +1,20 @@
 package com.example.tennisbet.httpUtils;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
+import com.example.tennisbet.MatchListAdapter;
+import com.example.tennisbet.R;
+import com.example.tennisbet.modele.Partie;
 import com.example.tennisbet.modele.Utilisateur;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
 
-public class HttpEnvoyerInfosUtilisateurOperation extends AsyncTask<Void, Void, Void> {
+public class HttpEnvoyerInfosUtilisateurOperation extends AsyncTask<Void, Void, String> {
 
     private Utilisateur utilisateur;
 
@@ -21,7 +23,7 @@ public class HttpEnvoyerInfosUtilisateurOperation extends AsyncTask<Void, Void, 
     }
 
     @Override
-    protected Void doInBackground(Void... voids) {
+    protected String doInBackground(Void... voids) {
         HttpURLConnection connection = null;
         try {
             //Connect to the server
@@ -31,11 +33,18 @@ public class HttpEnvoyerInfosUtilisateurOperation extends AsyncTask<Void, Void, 
             //get the list from the input stream
             String result = HttpUtils.InputStreamToString(connection.getInputStream());
             JSONObject myJsonObject = new JSONObject(result);
-            String idUtilisateur = myJsonObject.getString("id_utilisateur");
-            Log.d("firebase id utilisateur", idUtilisateur);
+
+            // On renvoie l'id de l'utilisateur récupéré
+            return myJsonObject.getString("id_utilisateur");
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    protected void onPostExecute(String idUtilisateur) {
+        super.onPostExecute(idUtilisateur);
+        // TODO
     }
 }

@@ -31,31 +31,25 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
-        Log.d("firebase", "received remoteMessage : " + remoteMessage.getData().get("message"));
+        Log.d("firebase", "received remoteMessage : " + remoteMessage.getData());
 
+        notify(remoteMessage.getData().get("title"), remoteMessage.getData().get("body"));
+    }
+
+    public void notify(String title, String message) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
         String channelId = "Default";
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(remoteMessage.getData().get("title"))
-                .setContentText(remoteMessage.getData().get("body")).setAutoCancel(true).setContentIntent(pendingIntent);
+                .setContentTitle(title)
+                .setContentText(message).setAutoCancel(true).setContentIntent(pendingIntent);
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(channelId, "Default channel", NotificationManager.IMPORTANCE_DEFAULT);
             manager.createNotificationChannel(channel);
         }
         manager.notify(0, builder.build());
-    }
-
-    public void notify(String title, String message) {
-        Notification notification = new NotificationCompat.Builder(this, "notification_channel")
-                .setContentTitle(title)
-                .setContentText(message)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .build();
-        NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
-        manager.notify(123, notification);
     }
 }
