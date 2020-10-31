@@ -23,7 +23,7 @@ class Partie {
         this.etat_partie = etat_partie;
         this.score_manche_joueur_1 = score_manche_joueur_1;
         this.score_manche_joueur_2 = score_manche_joueur_2;
-        this.temps_partie = 0;
+        this.duree_partie = 0;
         this.tick_debut = tickDebut;
         this.modificateurVitesse = Math.max(process.argv[2], 1);
 
@@ -146,7 +146,7 @@ class Partie {
                         // ==================== FIN GESTION DES PARIS ====================
 
                         // On met à jour la datetime de fin de partie
-                        that.datetime_fin_partie = dateTimeUtils.formaterTimeStampEnJson(dateTimeUtils.formaterJsonEnTimeStamp(that.datetime_debut_partie) + that.temps_partie * 1000);
+                        that.datetime_fin_partie = dateTimeUtils.formaterTimeStampEnJson(dateTimeUtils.formaterJsonEnTimeStamp(that.datetime_debut_partie) + that.duree_partie * 1000);
                         database.updateDateTimeFinPartie(that.id_partie, that.datetime_fin_partie)
                             .then((nbRowsAffected) => {
                                 if (nbRowsAffected <= 0) {
@@ -159,7 +159,7 @@ class Partie {
                         clearInterval(timer);
                     }
 
-                    database.updatePartie(that.id_partie, that.score_manche_joueur_1, that.score_manche_joueur_2, that.etat_partie)
+                    database.updatePartie(that.id_partie, that.score_manche_joueur_1, that.score_manche_joueur_2, that.etat_partie, that.duree_partie)
                         .then((nbRowsAffected) => {
                             if (nbRowsAffected <= 0) {
                                 return console.log('Critical Error : Unable to update all infos of partie', that.id_partie);
@@ -176,7 +176,7 @@ class Partie {
                 }
             }
 
-            that.temps_partie += Math.floor(Math.random() * 60); // entre 0 et 60 secondes entre chaque point
+            that.duree_partie += Math.floor(Math.random() * 60); // entre 0 et 60 secondes entre chaque point
         }, Math.floor(100 / this.modificateurVitesse));
     }
 
@@ -191,7 +191,7 @@ class Partie {
             'etat_partie': this.etat_partie,
             'score_manche_joueur_1': this.score_manche_joueur_1,
             'score_manche_joueur_2': this.score_manche_joueur_2,
-            'temps_partie': this.temps_partie
+            'duree_partie': this.duree_partie
         };
     }
 }
