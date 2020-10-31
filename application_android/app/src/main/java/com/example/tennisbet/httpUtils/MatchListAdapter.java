@@ -1,4 +1,11 @@
-package com.example.tennisbet;
+/**
+ * Troisemaine Colin (matricule 20 088 209)
+ * Levieux Quentin (matricule 20 102 087)
+ * Verdier Adrien (matricule 20 088 959)
+ * Alexandre Turpin (matricule 20 088 156)
+ */
+
+package com.example.tennisbet.httpUtils;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -15,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+import com.example.tennisbet.R;
 import com.example.tennisbet.modele.Joueur;
 import com.example.tennisbet.modele.Manche;
 import com.example.tennisbet.modele.Partie;

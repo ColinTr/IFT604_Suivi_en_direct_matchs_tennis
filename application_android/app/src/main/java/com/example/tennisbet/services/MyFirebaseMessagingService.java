@@ -1,6 +1,12 @@
-package com.example.tennisbet;
+/**
+ * Troisemaine Colin (matricule 20 088 209)
+ * Levieux Quentin (matricule 20 102 087)
+ * Verdier Adrien (matricule 20 088 959)
+ * Alexandre Turpin (matricule 20 088 156)
+ */
 
-import android.app.Notification;
+package com.example.tennisbet.services;
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -10,8 +16,9 @@ import android.os.Build;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
+import com.example.tennisbet.activities.MainActivity;
+import com.example.tennisbet.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 

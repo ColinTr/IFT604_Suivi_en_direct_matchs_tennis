@@ -24,14 +24,17 @@ router.get('/', function (req, res, next) {
     // res.send('Bienvenu dans le serveur du service Échanges.');
     res.send(p);
 });
+
 const message = {
     data:{
         title:"New Notification!",
         body:"Test"
     }
 };
+const test_token = "eMPVMrXNRFm5dMxvpDJgY4:APA91bF50mvJDII4YYzPeclRqTGpwRA1vr9klP5bsQA3lUAc2unXcANStvjSfa2GT1_nd4ZYLwaSYOI4WedDRWvGBiMEsnX0dF907OOkxZ5tG-s8MI1ZtyBtrOsuL-TbqWvBSo8xtkm1";
+
 router.get('/sendTestNotification', function (req, res, next)  {
-    admin_firebase.sendNotification(message, "dwWrcsPYSOOkzt9RIStrY4:APA91bExs5EjP_qCt8RjT3IQn-etTuomG1Pns1WODxbWX9S8NEcUAMsXh0XJmFer2zXkFzf7KClHVndxD8-sXeY32KtC6YsKrmH3-WxBxdgF0PQqQyZ4jCBPubbMWovmUUnHEx4vTUuz")
+    admin_firebase.sendNotification(message, test_token)
         .then( msg => {
             res.send(msg);
         }).catch(errMsg => {
