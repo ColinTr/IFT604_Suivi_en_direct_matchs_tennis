@@ -13,7 +13,11 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".activities.ResumePartie"/>
         <activity android:name=".activities.DetailsMatch" />
-        <activity android:name=".activities.ListeMatchs" />
+        <activity android:name=".activities.ListeMatchs">
+            <intent-filter>
+                <action android:name="com.example.tennisbet.activities.UPDATELISTEPARTIES" />
+            </intent-filter>
+        </activity>
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,8 +34,8 @@
             </intent-filter>
         </service>
 
-        <service android:name=".services.BackgroundInformationsPartiesService"
-                android:exported="false"/>
+        <service android:name=".services.InformationsPartiesService"
+            android:exported="false"/>
 
     </application>
 

@@ -8,41 +8,34 @@
 package com.example.tennisbet.services;
 
 import android.app.IntentService;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.util.Log;
 
-public class BackgroundInformationsPartiesService extends IntentService {
+public class InformationsPartiesService extends IntentService {
 
-    public BackgroundInformationsPartiesService() {
+    public static String BROADCAST_ACTION = "com.example.tennisbet.activities.UPDATELISTEPARTIES";
+
+    private final int INTERVAL = 10 * 1000;
+
+    public InformationsPartiesService() {
         super("informationsPartiesService");
     }
 
+    // On utilise onHandleIntent car un crée un thread worker séparé du main thread
     @Override
     protected void onHandleIntent(Intent workIntent) {
         // Gets data from the incoming Intent
         String dataString = workIntent.getDataString();
 
         do {
-            Log.d("node js", "Récupération background des dernières informations des parties...");
-
-            // ListeMatchs.rafraichirListeMatch();
-
             try {
-                Thread.sleep(5 * 1000);
+                Intent broadcast = new Intent();
+                broadcast.setAction(BROADCAST_ACTION);
+                sendBroadcast(broadcast);
+
+                Thread.sleep(INTERVAL);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         } while (true);
-    }
-
-    @Override
-    public ComponentName startService(Intent service) {
-        return super.startService(service);
-    }
-
-    @Override
-    public boolean stopService(Intent name) {
-        return super.stopService(name);
     }
 }
