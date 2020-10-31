@@ -22,7 +22,8 @@ router.get('/', function (req, res) {
             let serializablePartiesDuJour = [];
             let promises = [];
             partiesDuJour.forEach(function(partie) {
-                serializablePartiesDuJour.push(new ModeleSerializable.SerializablePartie(partie.id_partie, partie.terrain, partie.tournoi, partie.datetime_debut_partie, partie.datetime_fin_partie, partie.etat_partie, partie.temps_partie, partie.id_joueur_1, partie.id_joueur_2, partie.score_manche_joueur_1, partie.score_manche_joueur_2));
+                console.log(partie.duree_partie)
+                serializablePartiesDuJour.push(new ModeleSerializable.SerializablePartie(partie.id_partie, partie.terrain, partie.tournoi, partie.datetime_debut_partie, partie.datetime_fin_partie, partie.etat_partie, partie.id_joueur_1, partie.id_joueur_2, partie.score_manche_joueur_1, partie.score_manche_joueur_2, partie.duree_partie));
                 promises.push(serializablePartiesDuJour[serializablePartiesDuJour.length-1].initPartieSerializable());
             });
             // On attend que toutes les parties aient été initialisées avant d'envoyer la liste des parties du jour
@@ -52,7 +53,7 @@ router.get('/:id_partie', function (req, res) {
             else {
                 database.recupererPartieViaId(req.params['id_partie'])
                     .then((partie) =>{
-                       const partieJSON = new ModeleSerializable.SerializablePartie(partie.id_partie, partie.terrain, partie.tournoi, partie.datetime_debut_partie, partie.datetime_fin_partie, partie.etat_partie, partie.temps_partie, partie.id_joueur_1, partie.id_joueur_2, partie.score_manche_joueur_1, partie.score_manche_joueur_2);
+                       const partieJSON = new ModeleSerializable.SerializablePartie(partie.id_partie, partie.terrain, partie.tournoi, partie.datetime_debut_partie, partie.datetime_fin_partie, partie.etat_partie, partie.id_joueur_1, partie.id_joueur_2, partie.score_manche_joueur_1, partie.score_manche_joueur_2, partie.duree_partie);
                        partieJSON.initPartieSerializable()
                            .then(()=>{
                                return res.status(200).send(partieJSON).end();
@@ -146,7 +147,7 @@ router.post('/', (req, res) =>{
                     .then((joueur_2) => {
                         if(joueur_2 !== undefined){
                             let newPartie = new Partie(-1, joueur_1, joueur_2, undefined, undefined, body.datetime_debut_partie, undefined, 0, 0, 0, body.tick_debut);
-                            database.creerPartie(newPartie.joueur1, newPartie.joueur2, newPartie.datetime_debut_partie, newPartie.etat_partie)
+                            database.creerPartie(newPartie.joueur1, newPartie.joueur2, newPartie.datetime_debut_partie, newPartie.etat_partie, newPartie.duree_partie)
                                 .then((insertedId)=> {
                                     newPartie.id_partie = insertedId;
                                     newPartie.initNewManche()

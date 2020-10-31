@@ -23,12 +23,29 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.tennisbet.MyApplication;
 import com.example.tennisbet.R;
+import com.example.tennisbet.httpUtils.HttpEnvoyerParis;
+import com.example.tennisbet.httpUtils.HttpRecupererPartiesDuJourOperation;
+import com.example.tennisbet.httpUtils.HttpUtils;
 import com.example.tennisbet.modele.Echange;
 import com.example.tennisbet.modele.Jeu;
 import com.example.tennisbet.modele.Manche;
 import com.example.tennisbet.modele.Partie;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
@@ -255,7 +272,7 @@ public class ResumePartie extends AppCompatActivity {
         tv_contestation_joueur_1.setVisibility(View.INVISIBLE);
         tv_contestation_joueur_2.setVisibility(View.INVISIBLE);
 
-        if(echangeEnCours.getConteste_par_joueur().equals(partie.getJoueur_1())){
+        if(echangeEnCours.getConteste_par_joueur() != null && echangeEnCours.getConteste_par_joueur().equals(partie.getJoueur_1())){
             if(echangeEnCours.isContestation_acceptee()){
                 tv_contestation_joueur_1.setText("Contestation acceptée");
                 tv_contestation_joueur_1.setTextColor(Color.parseColor("#28A745"));
@@ -266,7 +283,7 @@ public class ResumePartie extends AppCompatActivity {
 
             tv_contestation_joueur_1.setVisibility(View.VISIBLE);
         }
-        else if(echangeEnCours.getConteste_par_joueur().equals(partie.getJoueur_2())){
+        else if(echangeEnCours.getConteste_par_joueur() != null && echangeEnCours.getConteste_par_joueur().equals(partie.getJoueur_2())){
             if(echangeEnCours.isContestation_acceptee()){
                 tv_contestation_joueur_2.setText("Contestation acceptée");
                 tv_contestation_joueur_2.setTextColor(Color.parseColor("#28A745"));
@@ -292,13 +309,8 @@ public class ResumePartie extends AppCompatActivity {
                 .setPositiveButton("Valider", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        // Envoit de la requete post pour creer le pari
-                        // les parametres qu'il faut :
-                        // id utilisateur : ((MyApplication) getApplicationContext()).utilisateur.getId()
-                        // id partie : partie.getId()
-                        // id joueur : partie.getJoueur_1().getId()
-                        // montant : Integer.parseInt(montant.getText())
-
+                        HttpEnvoyerParis creation_paris = new HttpEnvoyerParis(((MyApplication) getApplicationContext()).utilisateur.getId(), partie.getId(), partie.getJoueur_1().getId(), Integer.parseInt(String.valueOf(montant.getText())));
+                        creation_paris.execute();
                     }
                 })
                 .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
@@ -319,13 +331,8 @@ public class ResumePartie extends AppCompatActivity {
                 .setPositiveButton("Valider", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        // Envoit de la requete post pour creer le pari
-                        // les parametres qu'il faut :
-                        // id utilisateur : ((MyApplication) getApplicationContext()).utilisateur.getId()
-                        // id partie : partie.getId()
-                        // id joueur : partie.getJoueur_2().getId()
-                        // montant : Integer.parseInt(montant.getText())
-
+                        HttpEnvoyerParis creation_paris = new HttpEnvoyerParis(((MyApplication) getApplicationContext()).utilisateur.getId(), partie.getId(), partie.getJoueur_2().getId(), Integer.parseInt(String.valueOf(montant.getText())));
+                        creation_paris.execute();
                     }
                 })
                 .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {

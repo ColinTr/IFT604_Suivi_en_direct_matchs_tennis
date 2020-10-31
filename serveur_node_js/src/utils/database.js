@@ -80,9 +80,9 @@ exports.recupererToutesLesPartiesDuJour =  function recupererToutesLesPartiesDuJ
     });
 };
 
-exports.creerPartie = function creerPartie(joueur1, joueur2, dateTimeDebutPartie, etatPartie){
+exports.creerPartie = function creerPartie(joueur1, joueur2, dateTimeDebutPartie, etatPartie, duree_partie){
     return new Promise((resolve, reject) => {
-        db.run(`INSERT INTO partie(id_joueur_1, id_joueur_2, datetime_debut_partie, score_manche_joueur_1, score_manche_joueur_2, etat_partie) VALUES(?, ?, datetime(?, 'unixepoch', 'localtime'), ?, ?, ?)`, [joueur1.id_joueur, joueur2.id_joueur, datetimeUtils.formaterJsonEnTimeStamp(dateTimeDebutPartie)/1000, 0, 0, etatPartie], function(err) {
+        db.run(`INSERT INTO partie(id_joueur_1, id_joueur_2, datetime_debut_partie, score_manche_joueur_1, score_manche_joueur_2, etat_partie, duree_partie) VALUES(?, ?, datetime(?, 'unixepoch', 'localtime'), ?, ?, ?, ?)`, [joueur1.id_joueur, joueur2.id_joueur, datetimeUtils.formaterJsonEnTimeStamp(dateTimeDebutPartie)/1000, 0, 0, etatPartie, duree_partie], function(err) {
             if (err) {
                 reject(err.message);
             }
@@ -92,9 +92,9 @@ exports.creerPartie = function creerPartie(joueur1, joueur2, dateTimeDebutPartie
     })
 };
 
-exports.updatePartie = function updatePartie(id_partie, score_manche_joueur_1, score_manche_joueur_2, etatPartie){
+exports.updatePartie = function updatePartie(id_partie, score_manche_joueur_1, score_manche_joueur_2, etatPartie, duree_partie){
     return new Promise((resolve, reject) => {
-        db.run(`UPDATE partie SET score_manche_joueur_1 = ?, score_manche_joueur_2 = ?, etat_partie = ? WHERE id_partie = ?`, [score_manche_joueur_1, score_manche_joueur_2, etatPartie, id_partie], function(err) {
+        db.run(`UPDATE partie SET score_manche_joueur_1 = ?, score_manche_joueur_2 = ?, etat_partie = ?, duree_partie = ? WHERE id_partie = ?`, [score_manche_joueur_1, score_manche_joueur_2, etatPartie, duree_partie, id_partie], function(err) {
             if (err) {
                 reject(err.message);
             }

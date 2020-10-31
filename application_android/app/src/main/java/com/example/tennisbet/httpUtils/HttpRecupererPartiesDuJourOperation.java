@@ -61,6 +61,7 @@ public class HttpRecupererPartiesDuJourOperation extends AsyncTask<Void, Void, A
         return listPartie;
     }
 
+    @Override
     protected void onPostExecute(ArrayList<Partie> listPartie) {
         super.onPostExecute(listPartie);
         MatchListAdapter adapter = new MatchListAdapter(listeM, R.layout.list_matchs_layout, listPartie);

@@ -9,17 +9,17 @@ const database = require('../utils/database');
 const Echange = require('./echange');
 
 class SerializablePartie {
-    constructor(id_partie, terrain, tournoi, datetime_debut_partie, datetime_fin_partie, etat_partie, temps_partie, id_joueur_1, id_joueur_2, score_manche_joueur_1, score_manche_joueur_2) {
+    constructor(id_partie, terrain, tournoi, datetime_debut_partie, datetime_fin_partie, etat_partie, id_joueur_1, id_joueur_2, score_manche_joueur_1, score_manche_joueur_2, duree_partie) {
         this.id_partie = id_partie;
         this.terrain = terrain;
         this.tournoi = tournoi;
         this.datetime_debut_partie = datetime_debut_partie;
         this.datetime_fin_partie = datetime_fin_partie;
         this.etat_partie = etat_partie;
-        this.temps_partie = temps_partie;
         this.id_joueur_1 = id_joueur_1;
         this.id_joueur_2 = id_joueur_2;
         this.joueur_gagnant = ((score_manche_joueur_1 < 2 && score_manche_joueur_2 < 2) ? 0 : (score_manche_joueur_1 < score_manche_joueur_2 ? 2 : 1));
+        this.duree_partie = duree_partie;
         this.joueur1 = undefined;
         this.joueur2 = undefined;
         this.liste_manches = []
@@ -77,14 +77,14 @@ class SerializablePartie {
     toJSON () {
         return {
             'id_partie': this.id_partie,
-            'joueur1': this.joueur1,
-            'joueur2': this.joueur2,
             'datetime_debut_partie': this.datetime_debut_partie,
             'datetime_fin_partie': this.datetime_fin_partie,
             'etat_partie': this.etat_partie,
-            'temps_partie': this.temps_partie,
-            'liste_manches': this.liste_manches,
-            'joueur_gagnant': this.joueur_gagnant
+            'joueur_gagnant': this.joueur_gagnant,
+            'duree_partie': this.duree_partie,
+            'joueur1': this.joueur1,
+            'joueur2': this.joueur2,
+            'liste_manches': this.liste_manches
         };
     }
 }

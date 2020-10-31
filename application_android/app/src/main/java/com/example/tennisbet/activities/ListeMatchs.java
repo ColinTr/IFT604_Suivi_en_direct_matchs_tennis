@@ -10,7 +10,10 @@ package com.example.tennisbet.activities;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,11 +21,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.tennisbet.MyApplication;
 import com.example.tennisbet.R;
 import com.example.tennisbet.modele.Partie;
 import com.example.tennisbet.httpUtils.HttpRecupererPartiesDuJourOperation;
+import com.example.tennisbet.services.InformationsPartiesService;
 
 public class ListeMatchs extends AppCompatActivity {
 
@@ -39,7 +44,6 @@ public class ListeMatchs extends AppCompatActivity {
 
         HttpRecupererPartiesDuJourOperation partieGetter = new HttpRecupererPartiesDuJourOperation(this, list);
         partieGetter.execute();
-
 
         Button btn_nom_uti = findViewById(R.id.btn_nom_uti);
         btn_nom_uti.setText(((MyApplication) getApplicationContext()).utilisateur.getNomUtilisateur());
@@ -61,7 +65,7 @@ public class ListeMatchs extends AppCompatActivity {
 
     public void rafraichirListeMatch(View view) {
         ListView list = findViewById(R.id.lv_matchs);
-
+        Toast.makeText(getApplicationContext(), "Mise à jour de la liste des parties...", Toast.LENGTH_LONG).show();
         HttpRecupererPartiesDuJourOperation partieGetter = new HttpRecupererPartiesDuJourOperation(this, list);
         partieGetter.execute();
     }
@@ -71,4 +75,25 @@ public class ListeMatchs extends AppCompatActivity {
 
     public void afficherlisteParies(View view) {
     }
+
+    @Override
+    protected void onResume() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(InformationsPartiesService.BROADCAST_ACTION);
+        registerReceiver(myBroadcastReceiver, filter);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        unregisterReceiver(myBroadcastReceiver);
+        super.onPause();
+    }
+
+    private BroadcastReceiver myBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            rafraichirListeMatch(null);
+        }
+    };
 }
