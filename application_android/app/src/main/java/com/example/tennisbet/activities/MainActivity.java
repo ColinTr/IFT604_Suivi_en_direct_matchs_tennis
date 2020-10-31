@@ -39,8 +39,9 @@ public class MainActivity extends AppCompatActivity {
         HttpEnvoyerInfosUtilisateurOperation utilisateurSender = new HttpEnvoyerInfosUtilisateurOperation(new Utilisateur(-1, firebase_token, nom_utilisateur));
         utilisateurSender.execute();
 
+        ((MyApplication) getApplicationContext()).utilisateur = utilisateurSender.getUtilisateur();
+
         Intent intent = new Intent(this, ListeMatchs.class);
-        intent.putExtra("nomUtilisateur", nom_utilisateur);
         startActivity(intent);
     }
 }

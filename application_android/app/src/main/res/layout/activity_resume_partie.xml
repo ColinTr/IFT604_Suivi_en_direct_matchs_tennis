@@ -291,7 +291,8 @@
                     android:layout_height="wrap_content"
                     android:text="Parier"
                     android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="40dp"/>
+                    android:layout_marginLeft="40dp"
+                    android:onClick="parierSurJoueur1"/>
 
                 <Button
                     android:id="@+id/btn_parier_joueur_2"
@@ -299,7 +300,8 @@
                     android:layout_height="wrap_content"
                     android:text="Parier"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="40dp"/>
+                    android:layout_marginRight="40dp"
+                    android:onClick="parierSurJoueur2"/>
 
             </RelativeLayout>
 
