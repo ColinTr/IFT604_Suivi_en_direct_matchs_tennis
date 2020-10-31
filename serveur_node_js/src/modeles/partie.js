@@ -177,7 +177,7 @@ class Partie {
             }
 
             that.duree_partie += Math.floor(Math.random() * 60); // entre 0 et 60 secondes entre chaque point
-        }, Math.floor(100 / this.modificateurVitesse));
+        }, Math.floor(1000 / this.modificateurVitesse));
     }
 
     toJSON() {

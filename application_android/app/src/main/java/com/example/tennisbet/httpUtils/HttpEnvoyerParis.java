@@ -8,15 +8,21 @@
 package com.example.tennisbet.httpUtils;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
-import com.example.tennisbet.modele.Partie;
-
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.DataOutputStream;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.URLEncoder;
-import java.util.ArrayList;
 
 public class HttpEnvoyerParis extends AsyncTask<Void, Void, Boolean> {
 
@@ -36,28 +42,59 @@ public class HttpEnvoyerParis extends AsyncTask<Void, Void, Boolean> {
     protected Boolean doInBackground(Void... params) {
 
         try {
-            //Connection au serveur
-            HttpURLConnection connection = HttpUtils.getConnection("/paris", "POST");
-            connection.setRequestProperty("Content-Type","application/json");
-            connection.setRequestProperty("Host", "android.schoolportal.gr");
-            connection.connect();
-
             //Creation du contenu JSON
             JSONObject jsonParam = new JSONObject();
-            jsonParam.put("id_utilisateur", Integer.toString(id_utilisateur));
-            jsonParam.put("id_partie", Integer.toString(id_partie));
-            jsonParam.put("id_joueur", Integer.toString(id_joueur));
-            jsonParam.put("montant_pari", Integer.toString(montant_pari));
+            jsonParam.put("id_utilisateur", (id_utilisateur));
+            jsonParam.put("id_partie", id_partie);
+            jsonParam.put("id_joueur", id_joueur);
+            jsonParam.put("montant_pari", montant_pari);
+            String data = jsonParam.toString();
 
-            DataOutputStream output = new DataOutputStream(connection.getOutputStream());
-            output.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
-            output.flush();
-            output.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+            // Initialisation de notre connexion
+            HttpURLConnection urlConnection = HttpUtils.getConnection("/paris", "POST");
+            urlConnection.setRequestProperty("content-type","application/json");
+            urlConnection.setDoInput (true);
+            urlConnection.setDoOutput (true);
+            OutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
+            urlConnection.connect();
+
+            // Envoie de nos données
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
+            writer.write(data);
+            writer.flush();
+            writer.close();
+            out.close();
+
+            try {
+                //Récupération de la réponse du serveur
+                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                StringBuilder result = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    result.append(line);
+                }
+
+                Log.d("test", "result from server: " + result.toString());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+            }
+
+        } catch (IOException | JSONException e) {
+            System.out.println(e.getMessage());
         }
 
         return null;
+    }
+
+    @Override
+    protected void onPostExecute(Boolean bool) {
+        super.onPostExecute(bool);
     }
 
 }
