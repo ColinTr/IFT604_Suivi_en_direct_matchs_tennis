@@ -22,7 +22,6 @@ router.get('/', function (req, res) {
             let serializablePartiesDuJour = [];
             let promises = [];
             partiesDuJour.forEach(function(partie) {
-                console.log(partie.duree_partie)
                 serializablePartiesDuJour.push(new ModeleSerializable.SerializablePartie(partie.id_partie, partie.terrain, partie.tournoi, partie.datetime_debut_partie, partie.datetime_fin_partie, partie.etat_partie, partie.id_joueur_1, partie.id_joueur_2, partie.score_manche_joueur_1, partie.score_manche_joueur_2, partie.duree_partie));
                 promises.push(serializablePartiesDuJour[serializablePartiesDuJour.length-1].initPartieSerializable());
             });

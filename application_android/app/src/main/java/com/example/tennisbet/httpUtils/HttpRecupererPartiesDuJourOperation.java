@@ -9,13 +9,9 @@ package com.example.tennisbet.httpUtils;
 
 import android.os.AsyncTask;
 import android.os.Build;
-import android.widget.ListView;
 
 import androidx.annotation.RequiresApi;
 
-import com.example.tennisbet.MatchListAdapter;
-import com.example.tennisbet.activities.ListeMatchs;
-import com.example.tennisbet.R;
 import com.example.tennisbet.modele.Echange;
 import com.example.tennisbet.modele.Jeu;
 import com.example.tennisbet.modele.Joueur;
@@ -32,12 +28,21 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class HttpRecupererPartiesDuJourOperation extends AsyncTask<Void, Void, ArrayList<Partie>> {
-    private static ListView list;
-    private static ListeMatchs listeM;
 
-    public HttpRecupererPartiesDuJourOperation(ListeMatchs listeM, ListView list) {
-        this.list = list;
-        this.listeM = listeM;
+    public interface AsyncResponse {
+        void processFinish(ArrayList<Partie> listParties);
+    }
+
+    public AsyncResponse delegate;
+
+    public HttpRecupererPartiesDuJourOperation(AsyncResponse delegate) {
+        this.delegate = delegate;
+    }
+
+    @Override
+    protected void onPostExecute(ArrayList<Partie> listParties) {
+        super.onPostExecute(listParties);
+        delegate.processFinish(listParties);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -59,13 +64,6 @@ public class HttpRecupererPartiesDuJourOperation extends AsyncTask<Void, Void, A
             e.printStackTrace();
         }
         return listPartie;
-    }
-
-    @Override
-    protected void onPostExecute(ArrayList<Partie> listPartie) {
-        super.onPostExecute(listPartie);
-        MatchListAdapter adapter = new MatchListAdapter(listeM, R.layout.list_matchs_layout, listPartie);
-        list.setAdapter(adapter);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -136,10 +134,9 @@ public class HttpRecupererPartiesDuJourOperation extends AsyncTask<Void, Void, A
             int id_jeu = object3.getInt("id_jeu");
             int gagne_par_joueur = object3.getInt("gagne_par_joueur");
             Joueur vainqueurJ;
-            if (gagne_par_joueur == 1){
+            if (gagne_par_joueur == 1) {
                 vainqueurJ = joueur1;
-            }
-            else {
+            } else {
                 vainqueurJ = joueur2;
             }
 

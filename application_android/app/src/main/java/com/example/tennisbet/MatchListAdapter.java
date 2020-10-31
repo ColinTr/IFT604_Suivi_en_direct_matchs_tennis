@@ -62,7 +62,7 @@ public class MatchListAdapter extends ArrayAdapter<Partie> {
 
         TextView tv_joueur1 = (TextView) convertView.findViewById(R.id.tv_joueur1);
         TextView tv_joueur2 = (TextView) convertView.findViewById(R.id.tv_joueur2);
-        TextView tv_heure_match= (TextView) convertView.findViewById(R.id.tv_heure_match);
+        TextView tv_heure_match = (TextView) convertView.findViewById(R.id.tv_heure_match);
         GridLayout gl_score_manche = (GridLayout) convertView.findViewById(R.id.gl_score_manches);
 
         TextView tv_score_set_r1_c1 = (TextView) convertView.findViewById(R.id.tv_score_set_r1_c1);
@@ -73,20 +73,17 @@ public class MatchListAdapter extends ArrayAdapter<Partie> {
         TextView tv_score_set_r2_c3 = (TextView) convertView.findViewById(R.id.tv_score_set_r2_c3);
 
 
-        if(etatMatch == 0)
-        {
+        if (etatMatch == 0) {
             gl_score_manche.setVisibility(View.GONE);
             tv_heure_match.setVisibility(View.VISIBLE);
             tv_heure_match.setText(date_debut.getHour() + " : " + date_debut.getMinute());
-        }
-        else
-        {
+        } else {
             gl_score_manche.setVisibility(View.VISIBLE);
             tv_heure_match.setVisibility(View.GONE);
 
             int nb_manches_joue = liste_manches.size();
 
-            switch(nb_manches_joue) {
+            switch (nb_manches_joue) {
                 case 1:
                     tv_score_set_r1_c1.setBackgroundColor(Color.parseColor("#FFFFFF"));
                     tv_score_set_r1_c2.setBackgroundColor(Color.parseColor("#FFFFFF"));
@@ -96,11 +93,11 @@ public class MatchListAdapter extends ArrayAdapter<Partie> {
                     tv_score_set_r2_c3.setBackgroundColor(Color.parseColor("#D5000000"));
 
                     tv_score_set_r1_c3.setText(Integer.toString(liste_manches.get(0).getScore_jeux_joueur_1()));
-                    if(tv_score_set_r1_c3.getText().equals("6")){
+                    if (tv_score_set_r1_c3.getText().equals("6")) {
                         tv_score_set_r1_c3.setBackgroundColor(Color.parseColor("#28A745"));
                     }
                     tv_score_set_r2_c3.setText(Integer.toString(liste_manches.get(0).getScore_jeux_joueur_2()));
-                    if(tv_score_set_r2_c3.getText().equals("6")){
+                    if (tv_score_set_r2_c3.getText().equals("6")) {
                         tv_score_set_r2_c3.setBackgroundColor(Color.parseColor("#28A745"));
                     }
 
@@ -114,20 +111,20 @@ public class MatchListAdapter extends ArrayAdapter<Partie> {
                     tv_score_set_r2_c3.setBackgroundColor(Color.parseColor("#D5000000"));
 
                     tv_score_set_r1_c2.setText(Integer.toString(liste_manches.get(0).getScore_jeux_joueur_1()));
-                    if(tv_score_set_r1_c2.getText().equals("6")){
+                    if (tv_score_set_r1_c2.getText().equals("6")) {
                         tv_score_set_r1_c2.setBackgroundColor(Color.parseColor("#28A745"));
                     }
                     tv_score_set_r2_c2.setText(Integer.toString(liste_manches.get(0).getScore_jeux_joueur_2()));
-                    if(tv_score_set_r2_c2.getText().equals("6")){
+                    if (tv_score_set_r2_c2.getText().equals("6")) {
                         tv_score_set_r2_c2.setBackgroundColor(Color.parseColor("#28A745"));
                     }
 
                     tv_score_set_r1_c3.setText(Integer.toString(liste_manches.get(1).getScore_jeux_joueur_1()));
-                    if(tv_score_set_r1_c3.getText().equals("6")){
+                    if (tv_score_set_r1_c3.getText().equals("6")) {
                         tv_score_set_r1_c3.setBackgroundColor(Color.parseColor("#28A745"));
                     }
                     tv_score_set_r2_c3.setText(Integer.toString(liste_manches.get(1).getScore_jeux_joueur_2()));
-                    if(tv_score_set_r2_c3.getText().equals("6")){
+                    if (tv_score_set_r2_c3.getText().equals("6")) {
                         tv_score_set_r2_c3.setBackgroundColor(Color.parseColor("#28A745"));
                     }
                     break;
@@ -140,29 +137,29 @@ public class MatchListAdapter extends ArrayAdapter<Partie> {
                     tv_score_set_r2_c3.setBackgroundColor(Color.parseColor("#D5000000"));
 
                     tv_score_set_r1_c1.setText(Integer.toString(liste_manches.get(0).getScore_jeux_joueur_1()));
-                    if(tv_score_set_r1_c1.getText().equals("6")){
+                    if (tv_score_set_r1_c1.getText().equals("6")) {
                         tv_score_set_r1_c1.setBackgroundColor(Color.parseColor("#28A745"));
                     }
                     tv_score_set_r2_c1.setText(Integer.toString(liste_manches.get(0).getScore_jeux_joueur_2()));
-                    if(tv_score_set_r2_c1.getText().equals("6")){
+                    if (tv_score_set_r2_c1.getText().equals("6")) {
                         tv_score_set_r2_c1.setBackgroundColor(Color.parseColor("#28A745"));
                     }
 
                     tv_score_set_r1_c2.setText(Integer.toString(liste_manches.get(1).getScore_jeux_joueur_1()));
-                    if(tv_score_set_r1_c2.getText().equals("6")){
+                    if (tv_score_set_r1_c2.getText().equals("6")) {
                         tv_score_set_r1_c2.setBackgroundColor(Color.parseColor("#28A745"));
                     }
                     tv_score_set_r2_c2.setText(Integer.toString(liste_manches.get(1).getScore_jeux_joueur_2()));
-                    if(tv_score_set_r2_c2.getText().equals("6")){
+                    if (tv_score_set_r2_c2.getText().equals("6")) {
                         tv_score_set_r2_c2.setBackgroundColor(Color.parseColor("#28A745"));
                     }
 
                     tv_score_set_r1_c3.setText(Integer.toString(liste_manches.get(2).getScore_jeux_joueur_1()));
-                    if(tv_score_set_r1_c3.getText().equals("6")){
+                    if (tv_score_set_r1_c3.getText().equals("6")) {
                         tv_score_set_r1_c3.setBackgroundColor(Color.parseColor("#28A745"));
                     }
                     tv_score_set_r2_c3.setText(Integer.toString(liste_manches.get(2).getScore_jeux_joueur_2()));
-                    if(tv_score_set_r2_c3.getText().equals("6")){
+                    if (tv_score_set_r2_c3.getText().equals("6")) {
                         tv_score_set_r2_c3.setBackgroundColor(Color.parseColor("#28A745"));
                     }
                     break;

@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         ((MyApplication) getApplicationContext()).utilisateur = utilisateurSender.getUtilisateur();
 
-        Intent intent = new Intent(this, com.example.tennisbet.activities.ListeMatchs.class);
+        Intent intent = new Intent(this, ListeParties.class);
         startActivity(intent);
     }
 }

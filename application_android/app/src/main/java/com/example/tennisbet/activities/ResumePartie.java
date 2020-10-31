@@ -14,7 +14,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -29,9 +28,6 @@ import com.example.tennisbet.modele.Echange;
 import com.example.tennisbet.modele.Jeu;
 import com.example.tennisbet.modele.Manche;
 import com.example.tennisbet.modele.Partie;
-
-import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
 
 public class ResumePartie extends AppCompatActivity {
 
@@ -65,13 +61,11 @@ public class ResumePartie extends AppCompatActivity {
 
         miseAJourTableauDesScores();
 
-        if(partie.getEtat_partie() == 2)
-        {
+        if (partie.getEtat_partie() == 2) {
             Intent intent = new Intent(this, ResumePartieTermine.class);
             intent.putExtra("partie", partie);
             startActivity(intent);
-        }
-        else {
+        } else {
             miseAJourInformationPartieEnCours();
         }
     }
@@ -87,7 +81,7 @@ public class ResumePartie extends AppCompatActivity {
 
         int nb_manches_joue = partie.getScore_manche().size();
 
-        switch(nb_manches_joue) {
+        switch (nb_manches_joue) {
             case 1:
                 tv_score_set_r1_c1.setBackgroundColor(Color.parseColor("#FFFFFF"));
                 tv_score_set_r1_c2.setBackgroundColor(Color.parseColor("#FFFFFF"));
@@ -97,11 +91,11 @@ public class ResumePartie extends AppCompatActivity {
                 tv_score_set_r2_c3.setBackgroundColor(Color.parseColor("#D5000000"));
 
                 tv_score_set_r1_c3.setText(Integer.toString(partie.getScore_manche().get(0).getScore_jeux_joueur_1()));
-                if(tv_score_set_r1_c3.getText().equals("6")){
+                if (tv_score_set_r1_c3.getText().equals("6")) {
                     tv_score_set_r1_c3.setBackgroundColor(Color.parseColor("#28A745"));
                 }
                 tv_score_set_r2_c3.setText(Integer.toString(partie.getScore_manche().get(0).getScore_jeux_joueur_2()));
-                if(tv_score_set_r2_c3.getText().equals("6")){
+                if (tv_score_set_r2_c3.getText().equals("6")) {
                     tv_score_set_r2_c3.setBackgroundColor(Color.parseColor("#28A745"));
                 }
                 break;
@@ -114,20 +108,20 @@ public class ResumePartie extends AppCompatActivity {
                 tv_score_set_r2_c3.setBackgroundColor(Color.parseColor("#D5000000"));
 
                 tv_score_set_r1_c2.setText(Integer.toString(partie.getScore_manche().get(0).getScore_jeux_joueur_1()));
-                if(tv_score_set_r1_c2.getText().equals("6")){
+                if (tv_score_set_r1_c2.getText().equals("6")) {
                     tv_score_set_r1_c2.setBackgroundColor(Color.parseColor("#28A745"));
                 }
                 tv_score_set_r2_c2.setText(Integer.toString(partie.getScore_manche().get(0).getScore_jeux_joueur_2()));
-                if(tv_score_set_r2_c2.getText().equals("6")){
+                if (tv_score_set_r2_c2.getText().equals("6")) {
                     tv_score_set_r2_c2.setBackgroundColor(Color.parseColor("#28A745"));
                 }
 
                 tv_score_set_r1_c3.setText(Integer.toString(partie.getScore_manche().get(1).getScore_jeux_joueur_1()));
-                if(tv_score_set_r1_c3.getText().equals("6")){
+                if (tv_score_set_r1_c3.getText().equals("6")) {
                     tv_score_set_r1_c3.setBackgroundColor(Color.parseColor("#28A745"));
                 }
                 tv_score_set_r2_c3.setText(Integer.toString(partie.getScore_manche().get(1).getScore_jeux_joueur_2()));
-                if(tv_score_set_r2_c3.getText().equals("6")){
+                if (tv_score_set_r2_c3.getText().equals("6")) {
                     tv_score_set_r2_c3.setBackgroundColor(Color.parseColor("#28A745"));
                 }
                 break;
@@ -140,29 +134,29 @@ public class ResumePartie extends AppCompatActivity {
                 tv_score_set_r2_c3.setBackgroundColor(Color.parseColor("#D5000000"));
 
                 tv_score_set_r1_c1.setText(Integer.toString(partie.getScore_manche().get(0).getScore_jeux_joueur_1()));
-                if(tv_score_set_r1_c1.getText().equals("6")){
+                if (tv_score_set_r1_c1.getText().equals("6")) {
                     tv_score_set_r1_c1.setBackgroundColor(Color.parseColor("#28A745"));
                 }
                 tv_score_set_r2_c1.setText(Integer.toString(partie.getScore_manche().get(0).getScore_jeux_joueur_2()));
-                if(tv_score_set_r2_c1.getText().equals("6")){
+                if (tv_score_set_r2_c1.getText().equals("6")) {
                     tv_score_set_r2_c1.setBackgroundColor(Color.parseColor("#28A745"));
                 }
 
                 tv_score_set_r1_c2.setText(Integer.toString(partie.getScore_manche().get(1).getScore_jeux_joueur_1()));
-                if(tv_score_set_r1_c2.getText().equals("6")){
+                if (tv_score_set_r1_c2.getText().equals("6")) {
                     tv_score_set_r1_c2.setBackgroundColor(Color.parseColor("#28A745"));
                 }
                 tv_score_set_r2_c2.setText(Integer.toString(partie.getScore_manche().get(1).getScore_jeux_joueur_2()));
-                if(tv_score_set_r2_c2.getText().equals("6")){
+                if (tv_score_set_r2_c2.getText().equals("6")) {
                     tv_score_set_r2_c2.setBackgroundColor(Color.parseColor("#28A745"));
                 }
 
                 tv_score_set_r1_c3.setText(Integer.toString(partie.getScore_manche().get(2).getScore_jeux_joueur_1()));
-                if(tv_score_set_r1_c3.getText().equals("6")){
+                if (tv_score_set_r1_c3.getText().equals("6")) {
                     tv_score_set_r1_c3.setBackgroundColor(Color.parseColor("#28A745"));
                 }
                 tv_score_set_r2_c3.setText(Integer.toString(partie.getScore_manche().get(2).getScore_jeux_joueur_2()));
-                if(tv_score_set_r2_c3.getText().equals("6")){
+                if (tv_score_set_r2_c3.getText().equals("6")) {
                     tv_score_set_r2_c3.setBackgroundColor(Color.parseColor("#28A745"));
                 }
                 break;
@@ -174,20 +168,20 @@ public class ResumePartie extends AppCompatActivity {
         Jeu jeuEnCours = null;
         Echange echangeEnCours = null;
 
-        for(Manche manche : partie.getScore_manche()){
-            if(!manche.isEtat_manche()){
+        for (Manche manche : partie.getScore_manche()) {
+            if (!manche.isEtat_manche()) {
                 mancheEnCours = manche;
             }
         }
 
-        for(Jeu jeu : mancheEnCours.getScore_jeu()){
-            if(!jeu.isEtat_jeu()){
+        for (Jeu jeu : mancheEnCours.getScore_jeu()) {
+            if (!jeu.isEtat_jeu()) {
                 jeuEnCours = jeu;
             }
         }
 
-        for(Echange echange : jeuEnCours.getEchangeList()){
-            if(!echange.isEtat_echange()){
+        for (Echange echange : jeuEnCours.getEchangeList()) {
+            if (!echange.isEtat_echange()) {
                 echangeEnCours = echange;
             }
         }
@@ -201,11 +195,10 @@ public class ResumePartie extends AppCompatActivity {
         ((TextView) findViewById(R.id.tv_points_joueur_1)).setText(String.valueOf(jeuEnCours.getScore_echange_joueur_1()));
         ((TextView) findViewById(R.id.tv_points_joueur_2)).setText(String.valueOf(jeuEnCours.getScore_echange_joueur_2()));
 
-        if(jeuEnCours.getJoueur_au_service().equals(partie.getJoueur_1())){
+        if (jeuEnCours.getJoueur_au_service().equals(partie.getJoueur_1())) {
             tv_service_joueur_1.setText("Service (" + echangeEnCours.getVitesse_service() + " km/h)");
             tv_service_joueur_2.setVisibility(View.INVISIBLE);
-        }
-        else {
+        } else {
             tv_service_joueur_2.setText("Service (" + echangeEnCours.getVitesse_service() + " km/h)");
             tv_service_joueur_1.setVisibility(View.INVISIBLE);
         }
@@ -213,8 +206,8 @@ public class ResumePartie extends AppCompatActivity {
         tv_contestation_joueur_1.setVisibility(View.INVISIBLE);
         tv_contestation_joueur_2.setVisibility(View.INVISIBLE);
 
-        if(echangeEnCours.getConteste_par_joueur() != null && echangeEnCours.getConteste_par_joueur().equals(partie.getJoueur_1())){
-            if(echangeEnCours.isContestation_acceptee()){
+        if (echangeEnCours.getConteste_par_joueur() != null && echangeEnCours.getConteste_par_joueur().equals(partie.getJoueur_1())) {
+            if (echangeEnCours.isContestation_acceptee()) {
                 tv_contestation_joueur_1.setText("Contestation acceptée");
                 tv_contestation_joueur_1.setTextColor(Color.parseColor("#28A745"));
             } else {
@@ -223,9 +216,8 @@ public class ResumePartie extends AppCompatActivity {
             }
 
             tv_contestation_joueur_1.setVisibility(View.VISIBLE);
-        }
-        else if(echangeEnCours.getConteste_par_joueur() != null && echangeEnCours.getConteste_par_joueur().equals(partie.getJoueur_2())){
-            if(echangeEnCours.isContestation_acceptee()){
+        } else if (echangeEnCours.getConteste_par_joueur() != null && echangeEnCours.getConteste_par_joueur().equals(partie.getJoueur_2())) {
+            if (echangeEnCours.isContestation_acceptee()) {
                 tv_contestation_joueur_2.setText("Contestation acceptée");
                 tv_contestation_joueur_2.setTextColor(Color.parseColor("#28A745"));
             } else {
@@ -255,7 +247,8 @@ public class ResumePartie extends AppCompatActivity {
                     }
                 })
                 .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {}
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
                 });
         AlertDialog dialog = builder.create();
         dialog.show();
@@ -277,7 +270,8 @@ public class ResumePartie extends AppCompatActivity {
                     }
                 })
                 .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {}
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
                 });
         AlertDialog dialog = builder.create();
         dialog.show();

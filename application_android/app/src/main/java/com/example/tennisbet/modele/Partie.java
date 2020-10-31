@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class Partie  implements Serializable {
+public class Partie implements Serializable {
     private int id;
     private Joueur joueur_1;
     private Joueur joueur_2;

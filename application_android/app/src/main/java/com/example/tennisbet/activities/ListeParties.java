@@ -23,13 +23,16 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.tennisbet.MatchListAdapter;
 import com.example.tennisbet.MyApplication;
 import com.example.tennisbet.R;
 import com.example.tennisbet.modele.Partie;
 import com.example.tennisbet.httpUtils.HttpRecupererPartiesDuJourOperation;
 import com.example.tennisbet.services.InformationsPartiesService;
 
-public class ListeMatchs extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class ListeParties extends AppCompatActivity {
 
     private static final String TAG = "ListeMatchs";
 
@@ -38,17 +41,15 @@ public class ListeMatchs extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liste_matchs);
-        ListView list = findViewById(R.id.lv_matchs);
+        ListView listView = findViewById(R.id.lv_matchs);
 
         Log.d(TAG, "onCreate: Started.");
 
-        HttpRecupererPartiesDuJourOperation partieGetter = new HttpRecupererPartiesDuJourOperation(this, list);
-        partieGetter.execute();
+        rafraichirListeMatch(null);
 
         Button btn_nom_uti = findViewById(R.id.btn_nom_uti);
         btn_nom_uti.setText(((MyApplication) getApplicationContext()).utilisateur.getNomUtilisateur());
 
-        ListView listView = findViewById(R.id.lv_matchs);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -57,17 +58,17 @@ public class ListeMatchs extends AppCompatActivity {
 
                 switch(partie.getEtat_partie()) {
                     case 1 :
-                        Intent intent = new Intent(ListeMatchs.this, ResumePartie.class);
+                        Intent intent = new Intent(ListeParties.this, ResumePartie.class);
                         intent.putExtra("partie", partie);
                         startActivity(intent);
                         break;
                     case 2 :
-                        Intent intent2 = new Intent(ListeMatchs.this, ResumePartieTermine.class);
+                        Intent intent2 = new Intent(ListeParties.this, ResumePartieTermine.class);
                         intent2.putExtra("partie", partie);
                         startActivity(intent2);
                         break;
                     case 0 :
-                        Intent intent3 = new Intent(ListeMatchs.this, ResumePartieAVenir.class);
+                        Intent intent3 = new Intent(ListeParties.this, ResumePartieAVenir.class);
                         intent3.putExtra("partie", partie);
                         startActivity(intent3);
                         break;
@@ -77,10 +78,17 @@ public class ListeMatchs extends AppCompatActivity {
     }
 
     public void rafraichirListeMatch(View view) {
-        ListView list = findViewById(R.id.lv_matchs);
         Toast.makeText(getApplicationContext(), "Mise à jour de la liste des parties...", Toast.LENGTH_LONG).show();
-        HttpRecupererPartiesDuJourOperation partieGetter = new HttpRecupererPartiesDuJourOperation(this, list);
-        partieGetter.execute();
+
+        new HttpRecupererPartiesDuJourOperation(new HttpRecupererPartiesDuJourOperation.AsyncResponse(){
+            @Override
+            public void processFinish(ArrayList<Partie> listParties){
+                //Here we receive the result fired from async class of onPostExecute(result) method.
+                MatchListAdapter adapter = new MatchListAdapter(MyApplication.getAppContext() ,R.layout.list_matchs_layout, listParties);
+                ListView list = findViewById(R.id.lv_matchs);
+                list.setAdapter(adapter);
+            }
+        }).execute();
     }
 
     public void deconnexionUtilisateur(View view) {

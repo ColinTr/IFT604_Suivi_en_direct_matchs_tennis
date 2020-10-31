@@ -1,3 +1,10 @@
+/*
+  Troisemaine Colin (matricule 20 088 209)
+  Levieux Quentin (matricule 20 102 087)
+  Verdier Adrien (matricule 20 088 959)
+  Alexandre Turpin (matricule 20 088 156)
+ */
+
 package com.example.tennisbet.activities;
 
 import androidx.annotation.RequiresApi;
@@ -59,22 +66,22 @@ public class ResumePartieTermine extends AppCompatActivity {
 
         ArrayList<Integer> listPointsMarquee = calculNombreDePointGagne();
 
-        ((TextView)findViewById(R.id.tv_service_joueur_1)).setText(String.valueOf(listPointsMarquee.get(0)));
-        ((TextView)findViewById(R.id.tv_service_joueur_2)).setText(String.valueOf(listPointsMarquee.get(1)));
+        ((TextView) findViewById(R.id.tv_service_joueur_1)).setText(String.valueOf(listPointsMarquee.get(0)));
+        ((TextView) findViewById(R.id.tv_service_joueur_2)).setText(String.valueOf(listPointsMarquee.get(1)));
 
         ArrayList<Double> listVitesseService = calculVitesseMoyenneService();
 
-        ((TextView)findViewById(R.id.tv_points_joueur_1)).setText(String.format("%.1f", listVitesseService.get(0)));
-        ((TextView)findViewById(R.id.tv_points_joueur_2)).setText(String.format("%.1f", listVitesseService.get(1)));
+        ((TextView) findViewById(R.id.tv_points_joueur_1)).setText(String.format("%.1f", listVitesseService.get(0)));
+        ((TextView) findViewById(R.id.tv_points_joueur_2)).setText(String.format("%.1f", listVitesseService.get(1)));
 
-        ((TextView)findViewById(R.id.tv_coups_echange)).setText(String.valueOf(calculNombreCoupsEchange()));
+        ((TextView) findViewById(R.id.tv_coups_echange)).setText(String.valueOf(calculNombreCoupsEchange()));
 
         ArrayList<Integer> listContestation = calculNombrePointsContestee();
 
-        ((TextView)findViewById(R.id.tv_contestation_joueur_1_valide)).setText(String.valueOf(listContestation.get(0)));
-        ((TextView)findViewById(R.id.tv_contestation_joueur_2_valide)).setText(String.valueOf(listContestation.get(2)));
-        ((TextView)findViewById(R.id.tv_contestation_joueur_1_refuse)).setText(String.valueOf(listContestation.get(1)));
-        ((TextView)findViewById(R.id.tv_contestation_joueur_2_refuse)).setText(String.valueOf(listContestation.get(3)));
+        ((TextView) findViewById(R.id.tv_contestation_joueur_1_valide)).setText(String.valueOf(listContestation.get(0)));
+        ((TextView) findViewById(R.id.tv_contestation_joueur_2_valide)).setText(String.valueOf(listContestation.get(2)));
+        ((TextView) findViewById(R.id.tv_contestation_joueur_1_refuse)).setText(String.valueOf(listContestation.get(1)));
+        ((TextView) findViewById(R.id.tv_contestation_joueur_2_refuse)).setText(String.valueOf(listContestation.get(3)));
 
         switch (partie.getJoueur_gagnant()) {
             case 1:
@@ -102,7 +109,7 @@ public class ResumePartieTermine extends AppCompatActivity {
 
         int nb_manches_joue = partie.getScore_manche().size();
 
-        switch(nb_manches_joue) {
+        switch (nb_manches_joue) {
             case 1:
                 tv_score_set_r1_c1.setBackgroundColor(Color.parseColor("#FFFFFF"));
                 tv_score_set_r1_c2.setBackgroundColor(Color.parseColor("#FFFFFF"));
@@ -112,11 +119,11 @@ public class ResumePartieTermine extends AppCompatActivity {
                 tv_score_set_r2_c3.setBackgroundColor(Color.parseColor("#D5000000"));
 
                 tv_score_set_r1_c3.setText(Integer.toString(partie.getScore_manche().get(0).getScore_jeux_joueur_1()));
-                if(tv_score_set_r1_c3.getText().equals("6")){
+                if (tv_score_set_r1_c3.getText().equals("6")) {
                     tv_score_set_r1_c3.setBackgroundColor(Color.parseColor("#28A745"));
                 }
                 tv_score_set_r2_c3.setText(Integer.toString(partie.getScore_manche().get(0).getScore_jeux_joueur_2()));
-                if(tv_score_set_r2_c3.getText().equals("6")){
+                if (tv_score_set_r2_c3.getText().equals("6")) {
                     tv_score_set_r2_c3.setBackgroundColor(Color.parseColor("#28A745"));
                 }
                 break;
@@ -129,20 +136,20 @@ public class ResumePartieTermine extends AppCompatActivity {
                 tv_score_set_r2_c3.setBackgroundColor(Color.parseColor("#D5000000"));
 
                 tv_score_set_r1_c2.setText(Integer.toString(partie.getScore_manche().get(0).getScore_jeux_joueur_1()));
-                if(tv_score_set_r1_c2.getText().equals("6")){
+                if (tv_score_set_r1_c2.getText().equals("6")) {
                     tv_score_set_r1_c2.setBackgroundColor(Color.parseColor("#28A745"));
                 }
                 tv_score_set_r2_c2.setText(Integer.toString(partie.getScore_manche().get(0).getScore_jeux_joueur_2()));
-                if(tv_score_set_r2_c2.getText().equals("6")){
+                if (tv_score_set_r2_c2.getText().equals("6")) {
                     tv_score_set_r2_c2.setBackgroundColor(Color.parseColor("#28A745"));
                 }
 
                 tv_score_set_r1_c3.setText(Integer.toString(partie.getScore_manche().get(1).getScore_jeux_joueur_1()));
-                if(tv_score_set_r1_c3.getText().equals("6")){
+                if (tv_score_set_r1_c3.getText().equals("6")) {
                     tv_score_set_r1_c3.setBackgroundColor(Color.parseColor("#28A745"));
                 }
                 tv_score_set_r2_c3.setText(Integer.toString(partie.getScore_manche().get(1).getScore_jeux_joueur_2()));
-                if(tv_score_set_r2_c3.getText().equals("6")){
+                if (tv_score_set_r2_c3.getText().equals("6")) {
                     tv_score_set_r2_c3.setBackgroundColor(Color.parseColor("#28A745"));
                 }
                 break;
@@ -155,29 +162,29 @@ public class ResumePartieTermine extends AppCompatActivity {
                 tv_score_set_r2_c3.setBackgroundColor(Color.parseColor("#D5000000"));
 
                 tv_score_set_r1_c1.setText(Integer.toString(partie.getScore_manche().get(0).getScore_jeux_joueur_1()));
-                if(tv_score_set_r1_c1.getText().equals("6")){
+                if (tv_score_set_r1_c1.getText().equals("6")) {
                     tv_score_set_r1_c1.setBackgroundColor(Color.parseColor("#28A745"));
                 }
                 tv_score_set_r2_c1.setText(Integer.toString(partie.getScore_manche().get(0).getScore_jeux_joueur_2()));
-                if(tv_score_set_r2_c1.getText().equals("6")){
+                if (tv_score_set_r2_c1.getText().equals("6")) {
                     tv_score_set_r2_c1.setBackgroundColor(Color.parseColor("#28A745"));
                 }
 
                 tv_score_set_r1_c2.setText(Integer.toString(partie.getScore_manche().get(1).getScore_jeux_joueur_1()));
-                if(tv_score_set_r1_c2.getText().equals("6")){
+                if (tv_score_set_r1_c2.getText().equals("6")) {
                     tv_score_set_r1_c2.setBackgroundColor(Color.parseColor("#28A745"));
                 }
                 tv_score_set_r2_c2.setText(Integer.toString(partie.getScore_manche().get(1).getScore_jeux_joueur_2()));
-                if(tv_score_set_r2_c2.getText().equals("6")){
+                if (tv_score_set_r2_c2.getText().equals("6")) {
                     tv_score_set_r2_c2.setBackgroundColor(Color.parseColor("#28A745"));
                 }
 
                 tv_score_set_r1_c3.setText(Integer.toString(partie.getScore_manche().get(2).getScore_jeux_joueur_1()));
-                if(tv_score_set_r1_c3.getText().equals("6")){
+                if (tv_score_set_r1_c3.getText().equals("6")) {
                     tv_score_set_r1_c3.setBackgroundColor(Color.parseColor("#28A745"));
                 }
                 tv_score_set_r2_c3.setText(Integer.toString(partie.getScore_manche().get(2).getScore_jeux_joueur_2()));
-                if(tv_score_set_r2_c3.getText().equals("6")){
+                if (tv_score_set_r2_c3.getText().equals("6")) {
                     tv_score_set_r2_c3.setBackgroundColor(Color.parseColor("#28A745"));
                 }
                 break;
@@ -190,22 +197,19 @@ public class ResumePartieTermine extends AppCompatActivity {
         int pointsContesteValideJoueur2 = 0;
         int pointsContesteRefuseJoueur2 = 0;
 
-        for(Manche manche : partie.getScore_manche()){
-            for(Jeu jeu : manche.getScore_jeu()){
-                for(Echange echange : jeu.getEchangeList()){
-                    if(echange.getConteste_par_joueur() != null && echange.getConteste_par_joueur().equals(partie.getJoueur_1())){
-                        if(echange.isContestation_acceptee()){
+        for (Manche manche : partie.getScore_manche()) {
+            for (Jeu jeu : manche.getScore_jeu()) {
+                for (Echange echange : jeu.getEchangeList()) {
+                    if (echange.getConteste_par_joueur() != null && echange.getConteste_par_joueur().equals(partie.getJoueur_1())) {
+                        if (echange.isContestation_acceptee()) {
                             pointsContesteValideJoueur1++;
-                        }
-                        else{
+                        } else {
                             pointsContesteRefuseJoueur1++;
                         }
-                    }
-                    else if(echange.getConteste_par_joueur() != null && echange.getConteste_par_joueur().equals(partie.getJoueur_2())){
-                        if(echange.isContestation_acceptee()){
+                    } else if (echange.getConteste_par_joueur() != null && echange.getConteste_par_joueur().equals(partie.getJoueur_2())) {
+                        if (echange.isContestation_acceptee()) {
                             pointsContesteValideJoueur2++;
-                        }
-                        else{
+                        } else {
                             pointsContesteRefuseJoueur2++;
                         }
                     }
@@ -225,9 +229,9 @@ public class ResumePartieTermine extends AppCompatActivity {
     public int calculNombreCoupsEchange() {
         int nbCoupsEchange = 0;
 
-        for(Manche manche : partie.getScore_manche()){
-            for(Jeu jeu : manche.getScore_jeu()){
-                for(Echange echange : jeu.getEchangeList()){
+        for (Manche manche : partie.getScore_manche()) {
+            for (Jeu jeu : manche.getScore_jeu()) {
+                for (Echange echange : jeu.getEchangeList()) {
                     nbCoupsEchange += echange.getNombre_coup_echangee();
                 }
             }
@@ -241,16 +245,15 @@ public class ResumePartieTermine extends AppCompatActivity {
         double vitesseMoyenneServiceJoueur2 = 0;
         int nombreServicesJoueurs2 = 0;
 
-        for(Manche manche : partie.getScore_manche()){
-            for(Jeu jeu : manche.getScore_jeu()){
-                if(jeu.getJoueur_au_service().equals(partie.getJoueur_1())){
-                    for(Echange echange : jeu.getEchangeList()){
+        for (Manche manche : partie.getScore_manche()) {
+            for (Jeu jeu : manche.getScore_jeu()) {
+                if (jeu.getJoueur_au_service().equals(partie.getJoueur_1())) {
+                    for (Echange echange : jeu.getEchangeList()) {
                         vitesseMoyenneServiceJoueur1 = vitesseMoyenneServiceJoueur1 + echange.getVitesse_service();
                         nombreServicesJoueurs1++;
                     }
-                }
-                else {
-                    for(Echange echange : jeu.getEchangeList()){
+                } else {
+                    for (Echange echange : jeu.getEchangeList()) {
                         vitesseMoyenneServiceJoueur2 = vitesseMoyenneServiceJoueur2 + echange.getVitesse_service();
                         nombreServicesJoueurs2++;
                     }
@@ -258,8 +261,8 @@ public class ResumePartieTermine extends AppCompatActivity {
             }
         }
 
-        vitesseMoyenneServiceJoueur1 = vitesseMoyenneServiceJoueur1/nombreServicesJoueurs1;
-        vitesseMoyenneServiceJoueur2 = vitesseMoyenneServiceJoueur2/nombreServicesJoueurs2;
+        vitesseMoyenneServiceJoueur1 = vitesseMoyenneServiceJoueur1 / nombreServicesJoueurs1;
+        vitesseMoyenneServiceJoueur2 = vitesseMoyenneServiceJoueur2 / nombreServicesJoueurs2;
 
         ArrayList<Double> listVitesseMoyenne = new ArrayList<>();
         listVitesseMoyenne.add(vitesseMoyenneServiceJoueur1);
@@ -273,11 +276,11 @@ public class ResumePartieTermine extends AppCompatActivity {
         int pointGagneJoueur1 = 0;
         int pointGagneJoueur2 = 0;
 
-        for(Manche manche : partie.getScore_manche()){
-            for(Jeu jeu : manche.getScore_jeu()){
-                if(jeu.getGagne_par_joueur().equals(partie.getJoueur_1())){
+        for (Manche manche : partie.getScore_manche()) {
+            for (Jeu jeu : manche.getScore_jeu()) {
+                if (jeu.getGagne_par_joueur().equals(partie.getJoueur_1())) {
                     pointGagneJoueur1 += 4;
-                    switch(jeu.getScore_echange_joueur_2()){
+                    switch (jeu.getScore_echange_joueur_2()) {
                         case 0:
                             break;
                         case 15:
@@ -287,11 +290,9 @@ public class ResumePartieTermine extends AppCompatActivity {
                         case 40:
                             pointGagneJoueur2 += 3;
                     }
-                }
-                else
-                {
+                } else {
                     pointGagneJoueur2 += 4;
-                    switch(jeu.getScore_echange_joueur_1()){
+                    switch (jeu.getScore_echange_joueur_1()) {
                         case 0:
                             break;
                         case 15:

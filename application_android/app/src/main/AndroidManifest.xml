@@ -13,11 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.ResumePartieAVenir"></activity>
+        <activity android:name=".activities.ResumePartieAVenir" />
         <activity android:name=".activities.ResumePartieTermine" />
         <activity android:name=".activities.ResumePartie" />
-        <activity android:name=".activities.DetailsMatch" />
-        <activity android:name=".activities.ListeMatchs">
+        <activity android:name=".activities.detailsPartie" />
+        <activity android:name=".activities.ListeParties">
             <intent-filter>
                 <action android:name="com.example.tennisbet.activities.UPDATELISTEPARTIES" />
             </intent-filter>
@@ -38,9 +38,9 @@
             </intent-filter>
         </service>
 
-        <service android:name=".services.InformationsPartiesService"
-            android:exported="false">
-        </service>
+        <service
+            android:name=".services.InformationsPartiesService"
+            android:exported="false" />
 
     </application>
 

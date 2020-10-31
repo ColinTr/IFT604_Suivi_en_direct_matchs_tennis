@@ -31,7 +31,7 @@ public class HttpEnvoyerParis extends AsyncTask<Void, Void, Boolean> {
     private static int id_joueur;
     private static int montant_pari;
 
-    public HttpEnvoyerParis(int id_utilisateur, int id_partie, int id_joueur, int montant_pari){
+    public HttpEnvoyerParis(int id_utilisateur, int id_partie, int id_joueur, int montant_pari) {
         this.id_utilisateur = id_utilisateur;
         this.id_partie = id_partie;
         this.id_joueur = id_joueur;
@@ -52,9 +52,9 @@ public class HttpEnvoyerParis extends AsyncTask<Void, Void, Boolean> {
 
             // Initialisation de notre connexion
             HttpURLConnection urlConnection = HttpUtils.getConnection("/paris", "POST");
-            urlConnection.setRequestProperty("content-type","application/json");
-            urlConnection.setDoInput (true);
-            urlConnection.setDoOutput (true);
+            urlConnection.setRequestProperty("content-type", "application/json");
+            urlConnection.setDoInput(true);
+            urlConnection.setDoOutput(true);
             OutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
             urlConnection.connect();
 

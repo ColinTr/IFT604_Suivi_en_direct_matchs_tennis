@@ -16,7 +16,6 @@ import android.os.Build;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
 import com.example.tennisbet.R;
 import com.example.tennisbet.activities.MainActivity;

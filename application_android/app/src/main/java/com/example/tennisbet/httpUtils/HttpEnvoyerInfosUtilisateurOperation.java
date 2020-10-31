@@ -9,9 +9,6 @@ package com.example.tennisbet.httpUtils;
 
 import android.os.AsyncTask;
 
-import com.example.tennisbet.MatchListAdapter;
-import com.example.tennisbet.R;
-import com.example.tennisbet.modele.Partie;
 import com.example.tennisbet.modele.Utilisateur;
 
 import org.json.JSONException;
@@ -19,7 +16,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
 
 public class HttpEnvoyerInfosUtilisateurOperation extends AsyncTask<Void, Void, String> {
 

@@ -13,7 +13,7 @@ import android.os.Bundle;
 
 import com.example.tennisbet.R;
 
-public class DetailsMatch extends AppCompatActivity {
+public class detailsPartie extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

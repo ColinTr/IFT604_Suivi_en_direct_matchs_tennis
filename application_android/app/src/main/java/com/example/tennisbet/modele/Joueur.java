@@ -9,7 +9,7 @@ package com.example.tennisbet.modele;
 
 import java.io.Serializable;
 
-public class Joueur  implements Serializable {
+public class Joueur implements Serializable {
 
     private int id;
     private String prenom;

@@ -10,7 +10,7 @@ package com.example.tennisbet.modele;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Manche  implements Serializable {
+public class Manche implements Serializable {
 
     private int id;
     private int id_partie;
