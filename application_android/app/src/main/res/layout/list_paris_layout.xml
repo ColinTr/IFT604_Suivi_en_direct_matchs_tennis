@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="100">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp">
+
+        <TextView
+            android:id="@+id/joueur1"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textColor="#000000"
+            android:gravity="center_vertical"
+            android:text="P.Gaston" />
+
+        <TextView
+            android:id="@+id/vs"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textColor="#000000"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:text="vs" />
+
+        <TextView
+            android:id="@+id/joueur2"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textColor="#000000"
+            android:gravity="center_vertical"
+            android:text="R.Thiem" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp">
+
+        <TextView
+            android:id="@+id/tv_mise"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textColor="#000000"
+            android:gravity="center_vertical"
+            android:text="Mise : " />
+
+        <TextView
+            android:id="@+id/montant_mise"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textColor="#000000"
+            android:gravity="center_vertical"
+            android:text="15 euros" />
+
+    </LinearLayout>
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingLeft="20dp">
+
+        <TextView
+            android:id="@+id/prediction"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textColor="#000000"
+            android:gravity="center_vertical"
+            android:text="Prédiction : " />
+
+        <TextView
+            android:id="@+id/prediction_joueur"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textColor="#000000"
+            android:gravity="center_vertical"
+            android:text="R.Thiem (25)" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp">
+
+        <TextView
+            android:id="@+id/gagnant"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textColor="#000000"
+            android:gravity="center_vertical"
+            android:text="Gagnant : " />
+
+        <TextView
+            android:id="@+id/joueur_gagnant"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textColor="#000000"
+            android:gravity="center_vertical"
+            android:text="P.Gaston" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp">
+
+        <TextView
+            android:id="@+id/gain"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textColor="#000000"
+            android:gravity="center_vertical"
+            android:text="Gain réalisé : " />
+
+        <TextView
+            android:id="@+id/gain_realise"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textColor="#000000"
+            android:gravity="center_vertical"
+            android:text="-15 euros" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
