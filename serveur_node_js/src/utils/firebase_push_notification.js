@@ -8,13 +8,13 @@ admin.initializeApp({
 });
 
 const message = {
-    notification: {
+    data: {
         title: 'Message from node',
         body: 'hey there'
     }
 };
 
-exports.sendNotification = function sendNotification(message ,token) {
+exports.sendNotification = function sendNotification(message, token) {
     return new Promise((resolve, reject) => {
         admin.messaging().sendToDevice(token, message)
             .then((response) => {

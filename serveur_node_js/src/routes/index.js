@@ -24,9 +24,14 @@ router.get('/', function (req, res, next) {
     // res.send('Bienvenu dans le serveur du service Échanges.');
     res.send(p);
 });
-
+const message = {
+    data:{
+        title:"New Notification!",
+        body:"Test"
+    }
+};
 router.get('/sendTestNotification', function (req, res, next)  {
-    admin_firebase.sendNotification()
+    admin_firebase.sendNotification(message, "dwWrcsPYSOOkzt9RIStrY4:APA91bExs5EjP_qCt8RjT3IQn-etTuomG1Pns1WODxbWX9S8NEcUAMsXh0XJmFer2zXkFzf7KClHVndxD8-sXeY32KtC6YsKrmH3-WxBxdgF0PQqQyZ4jCBPubbMWovmUUnHEx4vTUuz")
         .then( msg => {
             res.send(msg);
         }).catch(errMsg => {
