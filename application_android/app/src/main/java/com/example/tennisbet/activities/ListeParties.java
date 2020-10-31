@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tennisbet.MatchListAdapter;
@@ -47,8 +48,8 @@ public class ListeParties extends AppCompatActivity {
 
         rafraichirListeMatch(null);
 
-        Button btn_nom_uti = findViewById(R.id.btn_nom_uti);
-        btn_nom_uti.setText(((MyApplication) getApplicationContext()).utilisateur.getNomUtilisateur());
+        TextView tv_nom_uti = findViewById(R.id.tv_nom_uti);
+        tv_nom_uti.setText(((MyApplication) getApplicationContext()).utilisateur.getNomUtilisateur());
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

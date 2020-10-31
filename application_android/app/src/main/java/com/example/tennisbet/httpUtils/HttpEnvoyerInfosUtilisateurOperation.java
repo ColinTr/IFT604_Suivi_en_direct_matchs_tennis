@@ -9,6 +9,7 @@ package com.example.tennisbet.httpUtils;
 
 import android.os.AsyncTask;
 
+import com.example.tennisbet.modele.Partie;
 import com.example.tennisbet.modele.Utilisateur;
 
 import org.json.JSONException;
@@ -16,13 +17,21 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
 
 public class HttpEnvoyerInfosUtilisateurOperation extends AsyncTask<Void, Void, String> {
 
     private Utilisateur utilisateur;
 
-    public HttpEnvoyerInfosUtilisateurOperation(Utilisateur utilisateur) {
+    public interface AsyncResponse {
+        void processFinish(Utilisateur utilisateur);
+    }
+
+    public HttpEnvoyerInfosUtilisateurOperation.AsyncResponse delegate;
+
+    public HttpEnvoyerInfosUtilisateurOperation(Utilisateur utilisateur, HttpEnvoyerInfosUtilisateurOperation.AsyncResponse delegate) {
         this.utilisateur = utilisateur;
+        this.delegate = delegate;
     }
 
     public Utilisateur getUtilisateur() {
@@ -57,6 +66,6 @@ public class HttpEnvoyerInfosUtilisateurOperation extends AsyncTask<Void, Void, 
     @Override
     protected void onPostExecute(String idUtilisateur) {
         super.onPostExecute(idUtilisateur);
-        // TODO
+        delegate.processFinish(utilisateur);
     }
 }

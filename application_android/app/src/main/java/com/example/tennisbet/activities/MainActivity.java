@@ -9,18 +9,27 @@ package com.example.tennisbet.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
 
+import com.example.tennisbet.LoadingDialog;
+import com.example.tennisbet.MatchListAdapter;
 import com.example.tennisbet.MyApplication;
 import com.example.tennisbet.R;
 import com.example.tennisbet.httpUtils.HttpEnvoyerInfosUtilisateurOperation;
+import com.example.tennisbet.httpUtils.HttpRecupererPartiesDuJourOperation;
+import com.example.tennisbet.modele.Partie;
 import com.example.tennisbet.modele.Utilisateur;
 import com.example.tennisbet.services.InformationsPartiesService;
 import com.example.tennisbet.services.MyFirebaseMessagingService;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,16 +48,40 @@ public class MainActivity extends AppCompatActivity {
 
     public void Entrer(View view) {
         String nom_utilisateur = ((EditText) findViewById(R.id.et_nom_utilisateur)).getText().toString();
-        String firebase_token = MyFirebaseMessagingService.getToken(this);
 
-        // On récupère l'id utilisateur en envoyant le nom_utilisateur à notre serveur NodeJs
-        // et on en profite pour mettre à jour le token firebase associé à l'utilisateur
-        HttpEnvoyerInfosUtilisateurOperation utilisateurSender = new HttpEnvoyerInfosUtilisateurOperation(new Utilisateur(-1, firebase_token, nom_utilisateur));
-        utilisateurSender.execute();
-
-        ((MyApplication) getApplicationContext()).utilisateur = utilisateurSender.getUtilisateur();
-
-        Intent intent = new Intent(this, ListeParties.class);
-        startActivity(intent);
+        final LoadingDialog loadingDialog = new LoadingDialog(MainActivity.this);
+        if (nom_utilisateur.equals("")) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setMessage("Veuillez renseigner un nom d'utilisateur pour vous connecter")
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    }).setTitle("Erreur");
+            builder.create();
+            builder.show();
+        } else {
+            loadingDialog.startLoadingDialog();
+            String firebase_token = MyFirebaseMessagingService.getToken(this);
+            new HttpEnvoyerInfosUtilisateurOperation(new Utilisateur(-1, firebase_token, nom_utilisateur), new HttpEnvoyerInfosUtilisateurOperation.AsyncResponse() {
+                @Override
+                public void processFinish(Utilisateur utilisateur) {
+                    loadingDialog.dismissDialog();
+                    if (utilisateur.getId() != -1) {
+                        ((MyApplication) getApplicationContext()).utilisateur = utilisateur;
+                        Intent intent = new Intent(MainActivity.this, ListeParties.class);
+                        startActivity(intent);
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setMessage("La connexion au serveur a échoué")
+                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                    }
+                                }).setTitle("Erreur");
+                        builder.create();
+                        builder.show();
+                    }
+                }
+            }).execute();
+        }
     }
 }

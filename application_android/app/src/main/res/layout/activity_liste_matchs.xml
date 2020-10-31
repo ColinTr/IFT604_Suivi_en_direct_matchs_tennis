@@ -33,15 +33,15 @@
                 android:layout_centerHorizontal="true"
                 android:onClick="afficherlisteParies"/>
 
-            <Button
-                android:id="@+id/btn_nom_uti"
+            <TextView
+                android:id="@+id/tv_nom_uti"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:textColor="#000000"
                 android:text="NOM UTI"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:onClick="deconnexionUtilisateur"/>
+                android:layout_marginRight="10dp" />
         </RelativeLayout>
     </LinearLayout>
 
