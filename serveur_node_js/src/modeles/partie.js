@@ -23,7 +23,7 @@ class Partie {
         this.etat_partie = etat_partie;
         this.score_manche_joueur_1 = score_manche_joueur_1;
         this.score_manche_joueur_2 = score_manche_joueur_2;
-        this.duree_partie = 0;
+        this.temps_partie = 0;
         this.tick_debut = tickDebut;
         this.modificateurVitesse = Math.max(process.argv[2], 1);
 
@@ -33,7 +33,7 @@ class Partie {
     initNewManche() {
         return new Promise((resolve, reject) => {
             let that = this;
-            let newManche = new Manche(this, -1, that.id_partie, 0, 0, 3, 3, 0);
+            let newManche = new Manche(this,-1, that.id_partie, 0, 0, 3, 3,0);
             database.creerManche(newManche.id_partie, newManche.score_jeux_joueur_1, newManche.score_jeux_joueur_2, newManche.nb_contestations_joueur_1, newManche.nb_contestations_joueur_2, newManche.etat_manche)
                 .then((insertedId) => {
                     newManche.id_manche = insertedId;
@@ -67,27 +67,27 @@ class Partie {
 
         const timer = setInterval(function () {
 
-            if (that.manche !== undefined) {
+            if(that.manche !== undefined){
 
                 that.manche.updateManche();
 
                 // Si la manche en cours est terminée, on met à jour les scores
-                if (that.manche.etat_manche === 1) {
-                    if (that.manche.score_jeux_joueur_1 > that.manche.score_jeux_joueur_2) {
+                if(that.manche.etat_manche === 1) {
+                    if(that.manche.score_jeux_joueur_1 > that.manche.score_jeux_joueur_2) {
                         that.score_manche_joueur_1 = that.score_manche_joueur_1 + 1;
                     } else {
                         that.score_manche_joueur_2 = that.score_manche_joueur_2 + 1;
                     }
 
                     // Si l'un des deux joueurs a remporté 2 manches, la partie est terminée
-                    if (that.score_manche_joueur_1 >= 2 || that.score_manche_joueur_2 >= 2) {
+                    if(that.score_manche_joueur_1 >= 2 || that.score_manche_joueur_2 >= 2) {
                         // On passe l'état de la partie à 2 (= "terminée")
                         that.etat_partie = 2;
 
                         // ==================== GESTION DES PARIS ====================
 
                         let id_du_joueur_qui_a_gagne = -1;
-                        if (that.score_manche_joueur_1 >= 2) {
+                        if(that.score_manche_joueur_1 >= 2) {
                             id_du_joueur_qui_a_gagne = that.joueur1.id_joueur;
                         } else {
                             id_du_joueur_qui_a_gagne = that.joueur2.id_joueur;
@@ -99,54 +99,55 @@ class Partie {
                                 let sommeDesParisGagnants = 0;
                                 rows.forEach(row => {
                                     sommeDesParis = sommeDesParis + row.montant_parie;
-                                    if (row.id_joueur === id_du_joueur_qui_a_gagne) {
+                                    if(row.id_joueur === id_du_joueur_qui_a_gagne) {
                                         sommeDesParisGagnants = sommeDesParisGagnants + row.montant_parie;
                                     }
                                 });
 
                                 rows.forEach(rowPari => {
                                     let montantGagne = 0;
-                                    if (rowPari.id_joueur === id_du_joueur_qui_a_gagne) {
+                                    if(rowPari.id_joueur === id_du_joueur_qui_a_gagne){
                                         montantGagne = rowPari.montant_parie * sommeDesParis * 0.75 / sommeDesParisGagnants;
                                     }
 
                                     database.updateMontantParisGagnes(rowPari.id_pari, montantGagne)
                                         .then((nbRowsAffected) => {
-                                            if (nbRowsAffected <= 0) {
+                                            if(nbRowsAffected <= 0){
                                                 return console.log("Critical error : pari of id " + rowPari.id_pari + " couldn\'t be updated.");
                                             } else {
                                                 console.log("Sending notification for pari " + rowPari.id_pari + "...");
 
                                                 const message = {
-                                                    data: {
+                                                    notification: {
                                                         title: 'Resultat pari',
-                                                        body: (montantGagne > 0) ? 'Félicitation, vous avez gagné ' + montantGagne + ' euros !' : 'Malheuresement vous avez perdu'
+                                                        body: (montantGagne > 0) ? 'Félicitation, vous avez gagné '+montantGagne+' euros !': 'Malheuresement vous avez perdu'
                                                     }
                                                 };
                                                 database.trouverUtilisateurViaIdUtilisateur(rowPari.id_utilisateur)
-                                                    .then((utilisateur) => {
-                                                        const token = utilisateur.firebase_token;
-                                                        console.log("MON TOKEN = ", token);
+                                                    .then((utilisateur)=>{
+                                                        const token = utilisateur.firebase_token
                                                         admin_firebase.sendNotification(message, token)
-                                                            .catch((err) => {
+                                                            .catch((err)=>{
                                                                 console.log(new Erreur(err));
                                                             })
-                                                    }).catch((err) => {
+                                                    })
+                                                    .catch((err)=>{
                                                         console.log(new Erreur(err));
                                                     })
                                             }
                                         }).catch((msg) => {
-                                            return console.log(msg);
-                                        });
+                                        return console.log(msg);
+                                    });
                                 });
-                            }).catch((err) => {
+                            })
+                            .catch((err) => {
                                 return console.log('SQL Error in paris : ', err);
                             });
 
                         // ==================== FIN GESTION DES PARIS ====================
 
                         // On met à jour la datetime de fin de partie
-                        that.datetime_fin_partie = dateTimeUtils.formaterTimeStampEnJson(dateTimeUtils.formaterJsonEnTimeStamp(that.datetime_debut_partie) + that.duree_partie * 1000);
+                        that.datetime_fin_partie = dateTimeUtils.formaterTimeStampEnJson(dateTimeUtils.formaterJsonEnTimeStamp(that.datetime_debut_partie)  + that.temps_partie*1000);
                         database.updateDateTimeFinPartie(that.id_partie, that.datetime_fin_partie)
                             .then((nbRowsAffected) => {
                                 if (nbRowsAffected <= 0) {
@@ -159,28 +160,28 @@ class Partie {
                         clearInterval(timer);
                     }
 
-                    database.updatePartie(that.id_partie, that.score_manche_joueur_1, that.score_manche_joueur_2, that.etat_partie, that.duree_partie)
+                    database.updatePartie(that.id_partie, that.score_manche_joueur_1, that.score_manche_joueur_2, that.etat_partie)
                         .then((nbRowsAffected) => {
                             if (nbRowsAffected <= 0) {
                                 return console.log('Critical Error : Unable to update all infos of partie', that.id_partie);
                             }
                         }).catch((errMsg) => {
-                            return console.log(errMsg);
-                        });
+                        return console.log(errMsg);
+                    });
 
                     //Si la manche est terminée et que la partie est toujours en cours, on commence une nouvelle manche
-                    if (that.manche.etat_manche === 1 && that.etat_partie !== 2) {
+                    if(that.manche.etat_manche === 1 && that.etat_partie !== 2) {
                         that.manche = undefined;
                         that.initNewManche();
                     }
                 }
             }
 
-            that.duree_partie += Math.floor(Math.random() * 60); // entre 0 et 60 secondes entre chaque point
-        }, Math.floor(1000 / this.modificateurVitesse));
+            that.temps_partie += Math.floor(Math.random() * 60); // entre 0 et 60 secondes entre chaque point
+        }, Math.floor(100 / this.modificateurVitesse));
     }
 
-    toJSON() {
+    toJSON () {
         return {
             'joueur1': this.joueur1,
             'joueur2': this.joueur2,
@@ -191,7 +192,7 @@ class Partie {
             'etat_partie': this.etat_partie,
             'score_manche_joueur_1': this.score_manche_joueur_1,
             'score_manche_joueur_2': this.score_manche_joueur_2,
-            'duree_partie': this.duree_partie
+            'temps_partie': this.temps_partie
         };
     }
 }
