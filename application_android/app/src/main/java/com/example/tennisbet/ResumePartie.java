@@ -174,10 +174,11 @@ public class ResumePartie extends AppCompatActivity {
     }
 
     public void parierSurJoueur1(View view) {
-        /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         View mView = inflater.inflate(R.layout.dialog_parie, null);
         final EditText montant = (EditText) mView.findViewById(R.id.et_montant_pari);
+        ((TextView) mView.findViewById(R.id.tv_dialog)).setText("Parier sur " + partie.getJoueur_1().getPrenom().charAt(0) + "." + partie.getJoueur_1().getNom());
         builder.setView(mView)
                 // Add action buttons
                 .setPositiveButton("Valider", new DialogInterface.OnClickListener() {
@@ -188,10 +189,7 @@ public class ResumePartie extends AppCompatActivity {
                         // id utilisateur : ((MyApplication) getApplicationContext()).utilisateur.getId()
                         // id partie : partie.getId()
                         // id joueur : partie.getJoueur_1().getId()
-
-                        Button test = (Button) findViewById(R.id.btn_parier_joueur_1);
-
-                        test.setText(montant.getText());
+                        // montant : Integer.parseInt(montant.getText())
 
                     }
                 })
@@ -199,14 +197,15 @@ public class ResumePartie extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {}
                 });
         AlertDialog dialog = builder.create();
-        dialog.show();*/
+        dialog.show();
     }
 
     public void parierSurJoueur2(View view) {
-        /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         View mView = inflater.inflate(R.layout.dialog_parie, null);
         final EditText montant = (EditText) mView.findViewById(R.id.et_montant_pari);
+        ((TextView) mView.findViewById(R.id.tv_dialog)).setText("Parier sur " + partie.getJoueur_2().getPrenom().charAt(0) + "." + partie.getJoueur_2().getNom());
         builder.setView(mView)
                 // Add action buttons
                 .setPositiveButton("Valider", new DialogInterface.OnClickListener() {
@@ -217,10 +216,7 @@ public class ResumePartie extends AppCompatActivity {
                         // id utilisateur : ((MyApplication) getApplicationContext()).utilisateur.getId()
                         // id partie : partie.getId()
                         // id joueur : partie.getJoueur_2().getId()
-
-                        Button test = (Button) findViewById(R.id.btn_parier_joueur_1);
-
-                        test.setText(montant.getText());
+                        // montant : Integer.parseInt(montant.getText())
 
                     }
                 })
@@ -228,6 +224,6 @@ public class ResumePartie extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {}
                 });
         AlertDialog dialog = builder.create();
-        dialog.show();*/
+        dialog.show();
     }
 }

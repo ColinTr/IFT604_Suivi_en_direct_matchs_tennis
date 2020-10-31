@@ -22,6 +22,14 @@ public class HttpEnvoyerInfosUtilisateurOperation extends AsyncTask<Void, Void, 
         this.utilisateur = utilisateur;
     }
 
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+
     @Override
     protected String doInBackground(Void... voids) {
         HttpURLConnection connection = null;
@@ -34,6 +42,7 @@ public class HttpEnvoyerInfosUtilisateurOperation extends AsyncTask<Void, Void, 
             String result = HttpUtils.InputStreamToString(connection.getInputStream());
             JSONObject myJsonObject = new JSONObject(result);
 
+            utilisateur.setId(Integer.parseInt(myJsonObject.getString("id_utilisateur")));
             // On renvoie l'id de l'utilisateur récupéré
             return myJsonObject.getString("id_utilisateur");
         } catch (IOException | JSONException e) {
