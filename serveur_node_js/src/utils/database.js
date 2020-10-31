@@ -356,6 +356,18 @@ exports.listeParisDuJoueurPourPartie = function listeParisDuJoueurPourPartie(idP
     });
 };
 
+exports.listeParisDuJoueur = function listeParisDuJoueur(idUtilisateur) {
+    return new Promise((resolve, reject) => {
+        db.all(`SELECT * FROM pari WHERE id_utilisateur = ?`, [idUtilisateur], (err, row) => {
+            if (err) {
+                reject(err.message);
+            }
+            // return the found id
+            resolve(row);
+        });
+    });
+};
+
 // ============================== Utilisateur ==============================
 
 exports.creerUtilisateur = function creerUtilisateur(nomUtilisateur){

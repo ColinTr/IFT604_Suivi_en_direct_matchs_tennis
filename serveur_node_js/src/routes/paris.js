@@ -10,6 +10,7 @@ const router = express.Router();
 
 const database = require("../utils/database");
 const Erreur = require("../utils/erreur");
+const ModeleSerializable = require('../modeles/SerializableClasses');
 
 // POST Créer un nouveau pari
 router.post('/', (req, res) =>{
@@ -31,7 +32,7 @@ router.post('/', (req, res) =>{
                 console.log(new Erreur('L\'utilisateur d\'id ' + body.id_utilisateur + ' n\'existe pas.'));
                 return res.status(400).send(new Erreur('L\'utilisateur d\'id ' + body.id_utilisateur + ' n\'existe pas.'));
             } else {
-                // On vérifie que l'utilisateur existe
+                // On vérifie que le joueur existe
                 database.trouverJoueurViaIdJoueur(body.id_joueur)
                     .then((joueur) => {
                         if(joueur === undefined){
@@ -112,6 +113,45 @@ router.get('/utilisateur/:id_utilisateur/partie/:id_partie', (req, res) =>{
                                         return res.status(400).send(new Erreur(errMsg)).end();
                                     });
                             }
+                        }).catch((errMsg) => {
+                            console.log(new Erreur(errMsg));
+                            return res.status(400).send(new Erreur(errMsg)).end();
+                        });
+                }
+            }).catch((errMsg) => {
+                console.log(new Erreur(errMsg));
+                return res.status(400).send(new Erreur(errMsg)).end();
+            });
+    }
+});
+
+// GET Affichage de tous les paris d'un joueur
+router.get('/utilisateur/:id_utilisateur', (req, res) =>{
+    if(req.params['id_utilisateur'] === undefined) {
+        return res.status(400).send('{ \"erreur\" : \"Paramètres de requête manquant\"}');
+    } else {
+        database.idUtilisateurExisteTIl(req.params['id_utilisateur'])
+            .then((nbUtilisateur) => {
+                if(nbUtilisateur <= 0) {
+                    console.log(new Erreur('L\'utilisateur d\'id ' + req.params['id_utilisateur'] + ' n\'existe pas.'));
+                    return res.status(400).send(new Erreur('L\'utilisateur d\'id ' + req.params['id_utilisateur'] + ' n\'existe pas.'));
+                } else {
+                    database.listeParisDuJoueur(req.params['id_utilisateur'])
+                        .then((paris) => {
+                            let promises = [];
+                            let liste_paris = [];
+                            paris.forEach(function(pari) {
+                                liste_paris.push(new ModeleSerializable.SerializablePari(pari.id_pari, pari.id_utilisateur, pari.id_joueur, pari.montant_parie, pari.id_partie, pari.montant_gagne));
+                                promises.push(liste_paris[liste_paris.length-1].initPariSerializable());
+                            });
+                            Promise.allSettled(promises)
+                                .then(()=>{
+                                    console.log('Envoi de tous les paris d\'un utilisateur');
+                                    return res.status(200).send(liste_paris).end()
+                                }).catch((errMsg) => {
+                                    console.log(new Erreur(errMsg));
+                                    return res.status(400).send(new Erreur(errMsg)).end();
+                                });
                         }).catch((errMsg) => {
                             console.log(new Erreur(errMsg));
                             return res.status(400).send(new Erreur(errMsg)).end();

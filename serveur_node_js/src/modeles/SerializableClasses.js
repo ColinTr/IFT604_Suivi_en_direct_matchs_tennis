@@ -177,8 +177,61 @@ class SerializableJeu {
     }
 }
 
+class SerializablePari {
+    constructor(id_pari, id_utilisateur, num_joueur_parie, montant_parie, id_partie, montant_gagne) {
+        this.id_pari = id_pari;
+        this.id_utilisateur = id_utilisateur;
+        this.montant_parie = montant_parie;
+        this.id_partie = id_partie;
+        this.montant_gagne = montant_gagne;
+        this.num_joueur_parie = num_joueur_parie;
+        this.joueur_gagnant = (montant_gagne === null ? 0 : (montant_gagne === 0 ? (num_joueur_parie === 1 ? 2 : 1) : (num_joueur_parie === 1 ? 1 : 2)));
+        this.joueur1 = undefined;
+        this.joueur2 = undefined;
+    }
+
+    initPariSerializable() {
+        let that = this;
+        return new Promise((resolve, reject) => {
+            database.recupererPartieViaId(that.id_partie)
+                .then((partie) => {
+                    database.trouverJoueurViaIdJoueur(partie.id_joueur_1)
+                        .then((joueur1Bdd) => {
+                            database.trouverJoueurViaIdJoueur(partie.id_joueur_2)
+                                .then((joueur2Bdd) => {
+                                    that.joueur1 = joueur1Bdd;
+                                    that.joueur2 = joueur2Bdd;
+                                    resolve();
+                                }).catch((errMsg) => {
+                                reject(errMsg);
+                            });
+                        }).catch((errMsg) => {
+                            reject(errMsg);
+                        });
+                }).catch((errMsg) => {
+                    reject(errMsg);
+                });
+        });
+    }
+
+    toJSON () {
+        return {
+            'id_pari': this.id_pari,
+            'id_utilisateur': this.id_utilisateur,
+            'montant_parie': this.montant_parie,
+            'id_partie': this.id_partie,
+            'num_joueur_parei': this.num_joueur_parie,
+            'joueur1': this.joueur1,
+            'joueur2': this.joueur2,
+            'joueur_gagnant': this.joueur_gagnant,
+            'montant_gagne': this.montant_gagne
+        };
+    }
+}
+
 module.exports = {
     SerializablePartie : SerializablePartie,
     SerializableManche : SerializableManche,
-    SerializableJeu : SerializableJeu
+    SerializableJeu : SerializableJeu,
+    SerializablePari : SerializablePari
 };
