@@ -41,9 +41,6 @@
         <service
             android:name=".services.InformationsPartiesService"
             android:exported="false" />
-
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

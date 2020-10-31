@@ -7,9 +7,7 @@
 
 package com.example.tennisbet.activities;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,6 +20,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.tennisbet.MyApplication;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import com.example.tennisbet.R;
 import com.example.tennisbet.httpUtils.HttpEnvoyerParis;
 import com.example.tennisbet.modele.Echange;
@@ -33,6 +33,7 @@ public class ResumePartie extends AppCompatActivity {
 
     private Partie partie;
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +66,8 @@ public class ResumePartie extends AppCompatActivity {
             Intent intent = new Intent(this, ResumePartieTermine.class);
             intent.putExtra("partie", partie);
             startActivity(intent);
-        } else {
+        }
+        else {
             miseAJourInformationPartieEnCours();
         }
     }
@@ -195,10 +197,11 @@ public class ResumePartie extends AppCompatActivity {
         ((TextView) findViewById(R.id.tv_points_joueur_1)).setText(String.valueOf(jeuEnCours.getScore_echange_joueur_1()));
         ((TextView) findViewById(R.id.tv_points_joueur_2)).setText(String.valueOf(jeuEnCours.getScore_echange_joueur_2()));
 
-        if (jeuEnCours.getJoueur_au_service().equals(partie.getJoueur_1())) {
+        if(jeuEnCours.getJoueur_au_service().equals(partie.getJoueur_1())){
             tv_service_joueur_1.setText("Service (" + echangeEnCours.getVitesse_service() + " km/h)");
             tv_service_joueur_2.setVisibility(View.INVISIBLE);
-        } else {
+        }
+        else {
             tv_service_joueur_2.setText("Service (" + echangeEnCours.getVitesse_service() + " km/h)");
             tv_service_joueur_1.setVisibility(View.INVISIBLE);
         }
