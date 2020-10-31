@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.example.tennisbet.MyApplication;
 import com.example.tennisbet.R;
 import com.example.tennisbet.modele.Partie;
 import com.example.tennisbet.httpUtils.HttpRecupererPartiesDuJourOperation;

@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.tennisbet.MyApplication;
 import com.example.tennisbet.R;
 import com.example.tennisbet.httpUtils.HttpEnvoyerInfosUtilisateurOperation;
 import com.example.tennisbet.modele.Utilisateur;
