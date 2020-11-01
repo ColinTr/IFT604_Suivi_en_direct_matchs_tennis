@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#7D9309</color>
-    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorPrimaryDark">#7D9309</color>
     <color name="colorAccent">#1C1C19</color>
     <color name="colorEnteteParis">#CBD90A</color>
     <color name="colorRow">#E1DACE</color>
