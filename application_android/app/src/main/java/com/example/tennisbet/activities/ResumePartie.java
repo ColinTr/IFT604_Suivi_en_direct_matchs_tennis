@@ -9,8 +9,11 @@ package com.example.tennisbet.activities;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,6 +38,7 @@ import com.example.tennisbet.modele.Echange;
 import com.example.tennisbet.modele.Jeu;
 import com.example.tennisbet.modele.Manche;
 import com.example.tennisbet.modele.Partie;
+import com.example.tennisbet.services.InformationsPartiesService;
 
 import java.util.ArrayList;
 
@@ -323,4 +327,25 @@ public class ResumePartie extends AppCompatActivity {
     public static void setPartie(Partie partie) {
         ResumePartie.partie = partie;
     }
+
+    @Override
+    protected void onResume() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(InformationsPartiesService.BROADCAST_ACTION);
+        registerReceiver(myBroadcastReceiver, filter);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        unregisterReceiver(myBroadcastReceiver);
+        super.onPause();
+    }
+
+    private BroadcastReceiver myBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            rafraichirMatch(null);
+        }
+    };
 }
