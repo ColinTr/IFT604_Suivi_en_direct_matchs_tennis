@@ -17,21 +17,29 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.tennisbet.MatchListAdapter;
 import com.example.tennisbet.MyApplication;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.tennisbet.R;
 import com.example.tennisbet.httpUtils.HttpEnvoyerParis;
+import com.example.tennisbet.httpUtils.HttpRecupererParis;
+import com.example.tennisbet.httpUtils.HttpRecupererPartie;
+import com.example.tennisbet.httpUtils.HttpRecupererPartiesDuJourOperation;
 import com.example.tennisbet.modele.Echange;
 import com.example.tennisbet.modele.Jeu;
 import com.example.tennisbet.modele.Manche;
 import com.example.tennisbet.modele.Partie;
 
+import java.util.ArrayList;
+
 public class ResumePartie extends AppCompatActivity {
 
-    private Partie partie;
+    private static Partie partie;
 
     @SuppressLint("SetTextI18n")
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -281,5 +289,49 @@ public class ResumePartie extends AppCompatActivity {
     }
 
     public void rafraichirMatch(View view) {
+        Toast.makeText(getApplicationContext(), "Mise à jour de la partie en cours ...", Toast.LENGTH_LONG).show();
+
+        new HttpRecupererPartie(new HttpRecupererPartie.AsyncResponse(){
+            @Override
+            public void processFinish(Partie partie){
+                ResumePartie.setPartie(partie);
+                miseAJourTableauDesScores();
+
+                if (partie.getEtat_partie() == 2) {
+                    Intent intent = new Intent(ResumePartie.this, ResumePartieTermine.class);
+                    intent.putExtra("partie", partie);
+                    startActivity(intent);
+                }
+                else {
+                    miseAJourInformationPartieEnCours();
+                }
+                /*
+                switch(partie.getEtat_partie()) {
+                    case 1 :
+                        Intent intent = new Intent(ResumePartie.this, ResumePartie.class);
+                        intent.putExtra("partie", partie);
+                        startActivity(intent);
+                        break;
+                    case 2 :
+                        Intent intent2 = new Intent(ResumePartie.this, ResumePartieTermine.class);
+                        intent2.putExtra("partie", partie);
+                        startActivity(intent2);
+                        break;
+                    case 0 :
+                        Intent intent3 = new Intent(ResumePartie.this, ResumePartieAVenir.class);
+                        intent3.putExtra("partie", partie);
+                        startActivity(intent3);
+                        break;
+                }*/
+            }
+        }).execute();
+    }
+
+    public static Partie getPartie() {
+        return partie;
+    }
+
+    public static void setPartie(Partie partie) {
+        ResumePartie.partie = partie;
     }
 }

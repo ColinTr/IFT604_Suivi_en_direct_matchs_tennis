@@ -67,7 +67,7 @@ public class HttpRecupererPartiesDuJourOperation extends AsyncTask<Void, Void, A
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    protected ArrayList<Partie> getInfo(JSONArray array) {
+    protected static ArrayList<Partie> getInfo(JSONArray array) {
         ArrayList<Partie> listPartie = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -106,7 +106,7 @@ public class HttpRecupererPartiesDuJourOperation extends AsyncTask<Void, Void, A
         return listPartie;
     }
 
-    protected ArrayList<Manche> getListManche(JSONArray liste_manches, Joueur joueur1, Joueur joueur2, int id_partie) throws JSONException {
+    protected static ArrayList<Manche> getListManche(JSONArray liste_manches, Joueur joueur1, Joueur joueur2, int id_partie) throws JSONException {
         ArrayList<Manche> MancheList = new ArrayList<>();
         for (int j = 0; j < liste_manches.length(); j++) {
             JSONObject object2 = new JSONObject(liste_manches.getString(j));
@@ -127,7 +127,7 @@ public class HttpRecupererPartiesDuJourOperation extends AsyncTask<Void, Void, A
         return MancheList;
     }
 
-    protected ArrayList<Jeu> getListJeu(JSONArray liste_jeux, Joueur joueur1, Joueur joueur2, int id_manche) throws JSONException {
+    protected static ArrayList<Jeu> getListJeu(JSONArray liste_jeux, Joueur joueur1, Joueur joueur2, int id_manche) throws JSONException {
         ArrayList<Jeu> JeuList = new ArrayList<>();
         for (int k = 0; k < liste_jeux.length(); k++) {
             JSONObject object3 = new JSONObject(liste_jeux.getString(k));
@@ -165,7 +165,7 @@ public class HttpRecupererPartiesDuJourOperation extends AsyncTask<Void, Void, A
         return JeuList;
     }
 
-    protected ArrayList<Echange> getListEchange(JSONArray liste_echange, Joueur joueur1, Joueur joueur2) throws JSONException {
+    protected static ArrayList<Echange> getListEchange(JSONArray liste_echange, Joueur joueur1, Joueur joueur2) throws JSONException {
         ArrayList<Echange> EchangeList = new ArrayList<>();
         for (int n = 0; n < liste_echange.length(); n++) {
             JSONObject object4 = new JSONObject(liste_echange.getString(n));
