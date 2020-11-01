@@ -84,8 +84,6 @@ public class ListeParties extends AppCompatActivity {
     }
 
     public void rafraichirListeMatch(View view) {
-        MyApplication.setIdPartieDontLUtilisateurRegardeLesDetails(-1);
-
         Toast.makeText(getApplicationContext(), "Mise à jour de la liste des parties...", Toast.LENGTH_LONG).show();
 
         new HttpRecupererPartiesDuJourOperation(new HttpRecupererPartiesDuJourOperation.AsyncResponse(){

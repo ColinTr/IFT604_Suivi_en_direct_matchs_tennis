@@ -47,8 +47,6 @@ public class ResumePartieAVenir extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void miseAJourAfficahge() {
-        MyApplication.setIdPartieDontLUtilisateurRegardeLesDetails(-1);
-
         switch (partie.getEtat_partie()) {
             case 1:
                 Intent intent = new Intent(this, ResumePartie.class);

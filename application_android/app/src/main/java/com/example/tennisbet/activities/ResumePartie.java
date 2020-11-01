@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -63,6 +64,12 @@ public class ResumePartie extends AppCompatActivity {
         tv_joueur2.setText(partie.getJoueur_2().getPrenom().charAt(0) + "." + partie.getJoueur_2().getNom() + " (" + partie.getJoueur_2().getRang() + ")");
 
         miseAJourAfficahge();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MyApplication.setIdPartieDontLUtilisateurRegardeLesDetails(-1);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

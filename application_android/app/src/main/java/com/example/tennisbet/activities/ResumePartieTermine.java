@@ -58,8 +58,6 @@ public class ResumePartieTermine extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void miseAJourAfficahge() {
-        MyApplication.setIdPartieDontLUtilisateurRegardeLesDetails(-1);
-
         miseAJourTableauDesScores();
 
         TextView tv_temps_partie = findViewById(R.id.tv_temps_partie);

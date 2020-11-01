@@ -41,8 +41,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void Entrer(View view) {
-        MyApplication.setIdPartieDontLUtilisateurRegardeLesDetails(-1);
-
         String nom_utilisateur = ((EditText) findViewById(R.id.et_nom_utilisateur)).getText().toString();
 
         final LoadingDialog loadingDialog = new LoadingDialog(MainActivity.this);
