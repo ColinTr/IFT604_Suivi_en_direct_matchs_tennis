@@ -10,6 +10,8 @@ package com.example.tennisbet.httpUtils;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.tennisbet.modele.Utilisateur;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,11 +33,26 @@ public class HttpEnvoyerParis extends AsyncTask<Void, Void, Boolean> {
     private static int id_joueur;
     private static int montant_pari;
 
+    public HttpEnvoyerParis.AsyncResponse delegate;
+
+    public interface AsyncResponse {
+        void processFinish(int montant_pari);
+    }
+
     public HttpEnvoyerParis(int id_utilisateur, int id_partie, int id_joueur, int montant_pari) {
         this.id_utilisateur = id_utilisateur;
         this.id_partie = id_partie;
         this.id_joueur = id_joueur;
         this.montant_pari = montant_pari;
+        this.delegate = null;
+    }
+
+    public HttpEnvoyerParis(int id_utilisateur, int id_partie, int id_joueur, int montant_pari, HttpEnvoyerParis.AsyncResponse delegate) {
+        this.id_utilisateur = id_utilisateur;
+        this.id_partie = id_partie;
+        this.id_joueur = id_joueur;
+        this.montant_pari = montant_pari;
+        this.delegate = delegate;
     }
 
     @Override
@@ -78,7 +95,9 @@ public class HttpEnvoyerParis extends AsyncTask<Void, Void, Boolean> {
                 Log.d("test", "result from server: " + result.toString());
 
             } catch (IOException e) {
+                HttpEnvoyerParis.montant_pari = -1;
                 e.printStackTrace();
+
             } finally {
                 if (urlConnection != null) {
                     urlConnection.disconnect();
@@ -92,9 +111,16 @@ public class HttpEnvoyerParis extends AsyncTask<Void, Void, Boolean> {
         return null;
     }
 
+    public static int getMontant_pari() {
+        return montant_pari;
+    }
+
     @Override
     protected void onPostExecute(Boolean bool) {
         super.onPostExecute(bool);
+        if(delegate != null) {
+            delegate.processFinish(montant_pari);
+        }
     }
 
 }

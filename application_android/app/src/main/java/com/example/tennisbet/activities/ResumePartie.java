@@ -27,13 +27,17 @@ import com.example.tennisbet.MyApplication;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.tennisbet.R;
+import com.example.tennisbet.httpUtils.HttpEnvoyerInfosUtilisateurOperation;
 import com.example.tennisbet.httpUtils.HttpEnvoyerParis;
 import com.example.tennisbet.httpUtils.HttpRecupererPartie;
 import com.example.tennisbet.modele.Echange;
 import com.example.tennisbet.modele.Jeu;
 import com.example.tennisbet.modele.Manche;
 import com.example.tennisbet.modele.Partie;
+import com.example.tennisbet.modele.Utilisateur;
 import com.example.tennisbet.services.InformationsPartiesService;
+
+import java.io.IOException;
 
 public class ResumePartie extends AppCompatActivity {
 
@@ -61,6 +65,7 @@ public class ResumePartie extends AppCompatActivity {
         tv_joueur2.setText(partie.getJoueur_2().getPrenom().charAt(0) + "." + partie.getJoueur_2().getNom() + " (" + partie.getJoueur_2().getRang() + ")");
 
         miseAJourAfficahge();
+        MyApplication.setIdPartieDontLUtilisateurRegardeLesDetails(partie.getId());
     }
 
     @Override
@@ -257,6 +262,15 @@ public class ResumePartie extends AppCompatActivity {
         ((TextView) findViewById(R.id.tv_temps_partie)).setText(heures + ":" + minutes + ":" + secondes);
         ((TextView) findViewById(R.id.tv_coups_echange)).setText(String.valueOf(echangeEnCours.getNombre_coup_echangee()));
 
+        if(partie.getScore_manche().size() > 1){
+            findViewById(R.id.btn_parier_joueur_1).setVisibility(View.INVISIBLE);
+            findViewById(R.id.btn_parier_joueur_2).setVisibility(View.INVISIBLE);
+        }
+        else {
+            findViewById(R.id.btn_parier_joueur_1).setVisibility(View.VISIBLE);
+            findViewById(R.id.btn_parier_joueur_2).setVisibility(View.VISIBLE);
+        }
+
     }
 
     public void parierSurJoueur1(View view) {
@@ -270,8 +284,22 @@ public class ResumePartie extends AppCompatActivity {
                 .setPositiveButton("Valider", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        HttpEnvoyerParis creation_paris = new HttpEnvoyerParis(((MyApplication) getApplicationContext()).utilisateur.getId(), partie.getId(), partie.getJoueur_1().getId(), Integer.parseInt(String.valueOf(montant.getText())));
-                        creation_paris.execute();
+
+                            new HttpEnvoyerParis(((MyApplication) getApplicationContext()).utilisateur.getId(), partie.getId(), partie.getJoueur_1().getId(), Integer.parseInt(String.valueOf(montant.getText())), new HttpEnvoyerParis.AsyncResponse() {
+                                @Override
+                                public void processFinish(int montant_pari) {
+                                    if (montant_pari == -1) {
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(ResumePartie.this);
+                                        builder.setMessage("Vous ne pouvez parier qu'avant la fin de la première manche")
+                                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int id) {
+                                                    }
+                                                }).setTitle("Erreur");
+                                        builder.create();
+                                        builder.show();
+                                    }
+                                }
+                            }).execute();
                     }
                 })
                 .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
@@ -293,8 +321,22 @@ public class ResumePartie extends AppCompatActivity {
                 .setPositiveButton("Valider", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        HttpEnvoyerParis creation_paris = new HttpEnvoyerParis(((MyApplication) getApplicationContext()).utilisateur.getId(), partie.getId(), partie.getJoueur_2().getId(), Integer.parseInt(String.valueOf(montant.getText())));
-                        creation_paris.execute();
+
+                        new HttpEnvoyerParis(((MyApplication) getApplicationContext()).utilisateur.getId(), partie.getId(), partie.getJoueur_2().getId(), Integer.parseInt(String.valueOf(montant.getText())), new HttpEnvoyerParis.AsyncResponse() {
+                            @Override
+                            public void processFinish(int montant_pari) {
+                                if (montant_pari == -1) {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(ResumePartie.this);
+                                    builder.setMessage("Vous ne pouvez parier qu'avant la fin de la première manche")
+                                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                }
+                                            }).setTitle("Erreur");
+                                    builder.create();
+                                    builder.show();
+                                }
+                            }
+                        }).execute();
                     }
                 })
                 .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
@@ -313,7 +355,6 @@ public class ResumePartie extends AppCompatActivity {
             @Override
             public void processFinish(Partie partie){
                 ResumePartie.setPartie(partie);
-                Log.d("TESTING", "DUREE : " + partie.getDuree_partie());
                 miseAJourTableauDesScores();
 
                 if (partie.getEtat_partie() == 2) {
