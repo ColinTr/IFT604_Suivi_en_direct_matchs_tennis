@@ -183,7 +183,7 @@ class SerializablePari {
         this.id_utilisateur = id_utilisateur;
         this.montant_parie = montant_parie;
         this.id_partie = id_partie;
-        this.montant_gagne = montant_gagne;
+        this.montant_gagne = (montant_gagne === null ? 0 : montant_gagne);
         this.num_joueur_parie = num_joueur_parie;
         this.joueur_gagnant = (montant_gagne === null ? 0 : (montant_gagne === 0 ? (num_joueur_parie === 1 ? 2 : 1) : (num_joueur_parie === 1 ? 1 : 2)));
         this.joueur1 = undefined;
@@ -220,7 +220,7 @@ class SerializablePari {
             'id_utilisateur': this.id_utilisateur,
             'montant_parie': this.montant_parie,
             'id_partie': this.id_partie,
-            'num_joueur_parei': this.num_joueur_parie,
+            'num_joueur_parie': this.num_joueur_parie,
             'joueur1': this.joueur1,
             'joueur2': this.joueur2,
             'joueur_gagnant': this.joueur_gagnant,
