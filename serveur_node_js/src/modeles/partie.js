@@ -27,6 +27,10 @@ class Partie {
         this.tick_debut = tickDebut;
         this.modificateurVitesse = Math.max(process.argv[2], 1);
 
+        if(isNaN(this.modificateurVitesse)) {
+            this.modificateurVitesse = 1;
+        }
+
         this.manche = undefined;
     }
 
