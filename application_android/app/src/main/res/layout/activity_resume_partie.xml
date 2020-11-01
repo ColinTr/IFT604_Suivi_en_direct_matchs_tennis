@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activities.ResumePartie">
+    android:layout_height="match_parent">
 
     <ImageButton
         android:layout_width="40dp"
@@ -12,381 +10,386 @@
         android:layout_alignParentLeft="true"
         android:onClick="rafraichirMatch"
         android:scaleType="fitCenter"
-        android:src="@drawable/refresh_logo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:src="@drawable/refresh_logo"/>
 
-    <LinearLayout
+    <ScrollView android:id="@+id/Scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
-
-        <TextView
-            android:id="@+id/tv_temps_partie"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2:34:53"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="20dp"/>
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginBottom="30dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingBottom="20dp">
+
+            <TextView
+                android:id="@+id/tv_temps_partie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2:34:53"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="20dp"/>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="right"
-                android:weightSum="2" >
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginBottom="30dp">
 
-                <TextView
-                    android:id="@+id/tv_joueur1"
-                    android:gravity="center"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_gravity="start"
-                    android:text="P.Gaston (34)"
-                    android:textSize="18sp"
-                    android:textColor="#000000" />
+                    android:orientation="vertical"
+                    android:gravity="right"
+                    android:weightSum="2" >
 
-                <TextView
-                    android:id="@+id/tv_joueur2"
-                    android:gravity="center"
+                    <TextView
+                        android:id="@+id/tv_joueur1"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_gravity="start"
+                        android:text="P.Gaston (34)"
+                        android:textSize="18sp"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/tv_joueur2"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:hapticFeedbackEnabled="false"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="R.Thiem (2)" />
+
+                </LinearLayout>
+
+                <GridLayout
+                    android:id="@+id/gl_score_manches"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:hapticFeedbackEnabled="false"
-                    android:textSize="18sp"
-                    android:textColor="#000000"
-                    android:text="R.Thiem (2)" />
+                    android:layout_height="wrap_content"
+                    android:columnCount="3"
+                    android:padding="10dp"
+                    android:rowCount="2">
+
+                    <TextView
+                        android:id="@+id/tv_score_set_r1_c1"
+                        android:layout_row="0"
+                        android:layout_rowWeight="1"
+                        android:layout_column="0"
+                        android:layout_columnWeight="1"
+                        android:layout_marginRight="4dp"
+                        android:layout_marginBottom="20dp"
+                        android:background="#D5000000"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="7"
+                        android:textSize="25sp"
+                        android:textColor="#FFFFFF" />
+
+                    <TextView
+                        android:id="@+id/tv_score_set_r1_c2"
+                        android:layout_row="0"
+                        android:layout_rowWeight="1"
+                        android:layout_column="1"
+                        android:layout_columnWeight="1"
+                        android:layout_marginRight="4dp"
+                        android:layout_marginBottom="20dp"
+                        android:background="#D5000000"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="7"
+                        android:textSize="25sp"
+                        android:textColor="#FFFFFF" />
+
+                    <TextView
+                        android:id="@+id/tv_score_set_r1_c3"
+                        android:layout_row="0"
+                        android:layout_rowWeight="1"
+                        android:layout_column="2"
+                        android:layout_columnWeight="1"
+                        android:layout_marginBottom="20dp"
+                        android:background="#D5000000"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="7"
+                        android:textSize="25sp"
+                        android:textColor="#FFFFFF" />
+
+                    <TextView
+                        android:id="@+id/tv_score_set_r2_c1"
+                        android:layout_row="1"
+                        android:layout_rowWeight="1"
+                        android:layout_column="0"
+                        android:layout_columnWeight="1"
+                        android:layout_marginRight="4dp"
+                        android:background="#D5000000"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="7"
+                        android:textSize="25sp"
+                        android:textColor="#FFFFFF" />
+
+                    <TextView
+                        android:id="@+id/tv_score_set_r2_c2"
+                        android:layout_row="1"
+                        android:layout_rowWeight="1"
+                        android:layout_column="1"
+                        android:layout_columnWeight="1"
+                        android:layout_marginRight="4dp"
+                        android:background="#D5000000"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="7"
+                        android:textSize="25sp"
+                        android:textColor="#FFFFFF" />
+
+                    <TextView
+                        android:id="@+id/tv_score_set_r2_c3"
+                        android:layout_row="1"
+                        android:layout_rowWeight="1"
+                        android:layout_column="2"
+                        android:layout_columnWeight="1"
+                        android:background="#D5000000"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="7"
+                        android:textSize="25sp"
+                        android:textColor="#FFFFFF" />
+
+
+                </GridLayout>
 
             </LinearLayout>
 
-            <GridLayout
-                android:id="@+id/gl_score_manches"
+            <TextView
+                android:id="@+id/tv_text_etat_match"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:columnCount="3"
-                android:padding="10dp"
-                android:rowCount="2">
-
-                <TextView
-                    android:id="@+id/tv_score_set_r1_c1"
-                    android:layout_row="0"
-                    android:layout_rowWeight="1"
-                    android:layout_column="0"
-                    android:layout_columnWeight="1"
-                    android:layout_marginRight="4dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="#D5000000"
-                    android:gravity="center"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="7"
-                    android:textSize="25sp"
-                    android:textColor="#FFFFFF" />
-
-                <TextView
-                    android:id="@+id/tv_score_set_r1_c2"
-                    android:layout_row="0"
-                    android:layout_rowWeight="1"
-                    android:layout_column="1"
-                    android:layout_columnWeight="1"
-                    android:layout_marginRight="4dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="#D5000000"
-                    android:gravity="center"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="7"
-                    android:textSize="25sp"
-                    android:textColor="#FFFFFF" />
-
-                <TextView
-                    android:id="@+id/tv_score_set_r1_c3"
-                    android:layout_row="0"
-                    android:layout_rowWeight="1"
-                    android:layout_column="2"
-                    android:layout_columnWeight="1"
-                    android:layout_marginBottom="20dp"
-                    android:background="#D5000000"
-                    android:gravity="center"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="7"
-                    android:textSize="25sp"
-                    android:textColor="#FFFFFF" />
-
-                <TextView
-                    android:id="@+id/tv_score_set_r2_c1"
-                    android:layout_row="1"
-                    android:layout_rowWeight="1"
-                    android:layout_column="0"
-                    android:layout_columnWeight="1"
-                    android:layout_marginRight="4dp"
-                    android:background="#D5000000"
-                    android:gravity="center"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="7"
-                    android:textSize="25sp"
-                    android:textColor="#FFFFFF" />
-
-                <TextView
-                    android:id="@+id/tv_score_set_r2_c2"
-                    android:layout_row="1"
-                    android:layout_rowWeight="1"
-                    android:layout_column="1"
-                    android:layout_columnWeight="1"
-                    android:layout_marginRight="4dp"
-                    android:background="#D5000000"
-                    android:gravity="center"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="7"
-                    android:textSize="25sp"
-                    android:textColor="#FFFFFF" />
-
-                <TextView
-                    android:id="@+id/tv_score_set_r2_c3"
-                    android:layout_row="1"
-                    android:layout_rowWeight="1"
-                    android:layout_column="2"
-                    android:layout_columnWeight="1"
-                    android:background="#D5000000"
-                    android:gravity="center"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="7"
-                    android:textSize="25sp"
-                    android:textColor="#FFFFFF" />
-
-
-            </GridLayout>
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_text_etat_match"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Jeu en cours"
-            android:layout_gravity="left"
-            android:textSize="20sp"
-            android:layout_marginLeft="20dp"
-            android:textStyle="bold"
-            android:textColor="#000000"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="20dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/tv_joueur1_2"
-                    android:gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="start"
-                    android:text="P.Gaston (34)"
-                    android:textSize="18sp"
-                    android:textColor="#000000"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="40dp"/>
-
-                <TextView
-                    android:id="@+id/tv_joueur2_2"
-                    android:gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hapticFeedbackEnabled="false"
-                    android:textSize="18sp"
-                    android:textColor="#000000"
-                    android:text="R.Thiem (2)"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="40dp"/>
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="20dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/tv_service_joueur_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:text="Service (94 km/h)"
-                    android:textColor="#119802"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="40dp"/>
-
-                <TextView
-                    android:id="@+id/tv_service_joueur_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:text="Service (94 km/h)"
-                    android:textColor="#119802"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="40dp"/>
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="20dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/tv_points_joueur_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:text="30"
-                    android:textSize="30dp"
-                    android:textColor="#000000"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="70dp"/>
-
-                <TextView
-                    android:id="@+id/tv_points_joueur_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:text="15"
-                    android:textSize="30dp"
-                    android:textColor="#000000"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="70dp"/>
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="20dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/tv_contestation_joueur_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:text="Contestation acceptée"
-                    android:textColor="#EE0000"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="25dp"/>
-
-                <TextView
-                    android:id="@+id/tv_contestation_joueur_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:text="Contestation refusée"
-                    android:textColor="#EE0000"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="25dp"/>
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_text_coups_echange"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Coups échangés : "
+                android:text="Jeu en cours"
+                android:layout_gravity="left"
+                android:textSize="20sp"
+                android:layout_marginLeft="20dp"
+                android:textStyle="bold"
                 android:textColor="#000000"/>
 
-            <TextView
-                android:id="@+id/tv_coups_echange"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginTop="10dp"
-                android:text="9"
-                android:textSize="25dp"
-                android:textColor="#000000"
-                />
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
 
-        </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="30dp">
+                    <TextView
+                        android:id="@+id/tv_joueur1_2"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="start"
+                        android:text="P.Gaston (34)"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="40dp"/>
 
-            <RelativeLayout
+                    <TextView
+                        android:id="@+id/tv_joueur2_2"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hapticFeedbackEnabled="false"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:text="R.Thiem (2)"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="40dp"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
 
-                <Button
-                    android:id="@+id/btn_parier_joueur_1"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/tv_service_joueur_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:text="Service (94 km/h)"
+                        android:textColor="#119802"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="40dp"/>
+
+                    <TextView
+                        android:id="@+id/tv_service_joueur_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="Service (94 km/h)"
+                        android:textColor="#119802"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="40dp"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/tv_points_joueur_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:text="30"
+                        android:textSize="30dp"
+                        android:textColor="#000000"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="70dp"/>
+
+                    <TextView
+                        android:id="@+id/tv_points_joueur_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="15"
+                        android:textSize="30dp"
+                        android:textColor="#000000"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="70dp"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/tv_contestation_joueur_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:text="Contestation acceptée"
+                        android:textColor="#EE0000"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="25dp"/>
+
+                    <TextView
+                        android:id="@+id/tv_contestation_joueur_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="Contestation refusée"
+                        android:textColor="#EE0000"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="25dp"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_text_coups_echange"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Parier"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="40dp"
-                    android:onClick="parierSurJoueur1"/>
+                    android:text="Coups échangés : "
+                    android:textColor="#000000"/>
 
-                <Button
-                    android:id="@+id/btn_parier_joueur_2"
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/tv_coups_echange"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Parier"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="40dp"
-                    android:onClick="parierSurJoueur2"/>
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:text="9"
+                    android:textSize="25dp"
+                    android:textColor="#000000"
+                    />
 
-            </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="30dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <Button
+                        android:id="@+id/btn_parier_joueur_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Parier"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="40dp"
+                        android:onClick="parierSurJoueur1"/>
+
+                    <Button
+                        android:id="@+id/btn_parier_joueur_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Parier"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="40dp"
+                        android:onClick="parierSurJoueur2"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+    </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
