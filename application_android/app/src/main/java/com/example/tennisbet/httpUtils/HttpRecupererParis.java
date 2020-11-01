@@ -2,6 +2,7 @@ package com.example.tennisbet.httpUtils;
 
 import android.os.AsyncTask;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -50,12 +51,13 @@ public class HttpRecupererParis extends AsyncTask<Void, Void, ArrayList<Pari>> {
 
         try {
             //Connect to the server
-            HttpURLConnection connection = HttpUtils.getConnection("/paris/utilisateurs/"+utilisateur.getId(), "GET");
+            HttpURLConnection connection = HttpUtils.getConnection("/paris/utilisateur/"+utilisateur.getId(), "GET");
             connection.connect();
 
             //get the list from the input stream
             String result = HttpUtils.InputStreamToString(connection.getInputStream());
             JSONArray array = new JSONArray(result);
+
 
             listParis = getInfo(array);
         } catch (Exception e) {
@@ -86,6 +88,8 @@ public class HttpRecupererParis extends AsyncTask<Void, Void, ArrayList<Pari>> {
                 double montant_gagne = object.getDouble("montant_gagne");
 
                 int num_joueur_parie = object.getInt("num_joueur_parie");
+
+                Log.d("MONTAG", "HttpRecupererParis : MontantParie = "+montant_parie);
 
                 Pari pari = new Pari(id_pari,null,montant_parie,montant_gagne,joueur1,joueur2,null,num_joueur_parie,joueur_gagnant);
 

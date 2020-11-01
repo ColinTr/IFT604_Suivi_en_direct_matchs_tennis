@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.example.tennisbet.MatchListAdapter;
 import com.example.tennisbet.MyApplication;
+import com.example.tennisbet.PariListAdapter;
 import com.example.tennisbet.R;
 import com.example.tennisbet.httpUtils.HttpRecupererParis;
 import com.example.tennisbet.modele.Pari;
@@ -104,18 +105,10 @@ public class ListeParties extends AppCompatActivity {
     public void afficherlisteParies(View view) {
 
         System.out.println("Afficher la liste des paris");
-        Utilisateur utilisateur = ((MyApplication) getApplicationContext()).utilisateur;
-        //TODO
-        /*new HttpRecupererParis(new HttpRecupererParis.AsyncResponse(){
-            @Override
-            public void processFinish(ArrayList<Pari> listParis){
-                //Here we receive the result fired from async class of onPostExecute(result) method.
-                MatchListAdapter adapter = new MatchListAdapter(MyApplication.getAppContext() ,R.layout.list_paris_layout, listeParis);
-                ListView list = findViewById(R.id.lv_matchs);
-                list.setAdapter(adapter);
-            }
-        }, utilisateur).execute();*/
+        //Utilisateur utilisateur = ((MyApplication) getApplicationContext()).utilisateur;
 
+        Intent intent = new Intent(ListeParties.this, ListeParis.class);
+        startActivity(intent);
     }
 
     @Override
