@@ -313,7 +313,6 @@ public class ResumePartie extends AppCompatActivity {
             @Override
             public void processFinish(Partie partie){
                 ResumePartie.setPartie(partie);
-                Log.d("TESTING", "DUREE : " + partie.getDuree_partie());
                 miseAJourTableauDesScores();
 
                 if (partie.getEtat_partie() == 2) {

@@ -26,6 +26,7 @@ class Jeu {
         return new Promise((resolve, reject) => {
             let that = this;
             let newEchange = new Echange(this, -1, this.id_jeu, -1, -1, -1, 0, 0,0);
+
             database.creerEchange(newEchange.id_jeu, newEchange.gagne_par_joueur, newEchange.conteste_par_joueur, newEchange.contestation_acceptee, newEchange.etat_echange, newEchange.vitesse_service, newEchange.nombre_coup_echange)
                 .then((insertedId) => {
                     newEchange.id_echange = insertedId;
@@ -43,44 +44,47 @@ class Jeu {
 
         if(this.echange !== undefined){
 
-            this.echange.updateEchange();
-
-            if(this.echange.etat_echange === 1) {
-                // Si l'échange est gagné par le joueur 1
-                if(this.echange.gagne_par_joueur === 1) {
-                    // Si le joueur 1 était à 40 points et qu'il gagne un échange
-                    if (this.score_echanges_joueur_1 === 40) {
-                        this.gagne_par_joueur = 1;
-                        this.etat_Jeu = 1;
-                    } else {
-                        this.score_echanges_joueur_1 = incrementScoreJeu(this.score_echanges_joueur_1);
-                    }
-                } else {// Si l'échange est gagné par le joueur 2
-                    // Si le joueur 2 était à 40 points et qu'il gagne un échange
-                    if(this.score_echanges_joueur_2 === 40){
-                        this.gagne_par_joueur = 2;
-                        this.etat_Jeu = 1;
-                    } else {
-                        this.score_echanges_joueur_2 = incrementScoreJeu(this.score_echanges_joueur_2);
-                    }
-                }
-
-                database.updateJeu(this.id_jeu, this.gagne_par_joueur, this.joueur_au_service, this.score_echanges_joueur_1, this.score_echanges_joueur_2, this.etat_Jeu)
-                    .then((nbRowsAffected) => {
-                        if (nbRowsAffected <= 0) {
-                            return console.log('Critical Error : Unable to update all infos of jeu', that.id_jeu);
+            this.echange.updateEchange()
+                .then( () => {
+                    if(that.echange.etat_echange === 1) {
+                        // Si l'échange est gagné par le joueur 1
+                        if(that.echange.gagne_par_joueur === 1) {
+                            // Si le joueur 1 était à 40 points et qu'il gagne un échange
+                            if (that.score_echanges_joueur_1 === 40) {
+                                that.gagne_par_joueur = 1;
+                                that.etat_Jeu = 1;
+                            } else {
+                                that.score_echanges_joueur_1 = incrementScoreJeu(that.score_echanges_joueur_1);
+                            }
+                        } else {// Si l'échange est gagné par le joueur 2
+                            // Si le joueur 2 était à 40 points et qu'il gagne un échange
+                            if(that.score_echanges_joueur_2 === 40){
+                                that.gagne_par_joueur = 2;
+                                that.etat_Jeu = 1;
+                            } else {
+                                that.score_echanges_joueur_2 = incrementScoreJeu(that.score_echanges_joueur_2);
+                            }
                         }
-                    })
-                    .catch((errMsg) => {
-                        return console.log(errMsg);
-                    });
 
-                // Si l'échange est terminé et que le jeu n'est pas fini, on commence un nouvel échange
-                if(this.etat_Jeu !== 1){
-                    this.echange = undefined;
-                    this.initNewEchange();
-                }
-            }
+                        database.updateJeu(that.id_jeu, that.gagne_par_joueur, that.joueur_au_service, that.score_echanges_joueur_1, that.score_echanges_joueur_2, that.etat_Jeu)
+                            .then((nbRowsAffected) => {
+                                if (nbRowsAffected <= 0) {
+                                    return console.log('Critical Error : Unable to update all infos of jeu', that.id_jeu);
+                                }
+                            })
+                            .catch((errMsg) => {
+                                return console.log(errMsg);
+                            });
+
+                        // Si l'échange est terminé et que le jeu n'est pas fini, on commence un nouvel échange
+                        if(this.etat_Jeu !== 1){
+                            that.echange = undefined;
+                            that.initNewEchange();
+                        }
+                    }
+                }).catch((errMsg) => {
+                    return console.log(errMsg);
+                });
         }
     }
 
