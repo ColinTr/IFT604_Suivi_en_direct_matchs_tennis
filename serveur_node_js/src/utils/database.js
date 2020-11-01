@@ -129,6 +129,18 @@ exports.updateEtatPartie = function updateEtatPartie(idPartie, nouvelEtat){
     });
 };
 
+exports.updateDureePartie = function updateDureePartie(idPartie, duree_partie){
+    return new Promise((resolve, reject) => {
+        db.run(`UPDATE partie SET duree_partie = ? WHERE id_partie = ?`, [duree_partie, idPartie], function(err) {
+            if (err) {
+                reject(err.message);
+            }
+            // return the number of rows updated
+            resolve(this.changes);
+        });
+    });
+};
+
 exports.nombreDeManchesDeLaPartieTerminees = function nombreDeManchesDeLaPartieTerminees(idPartie) {
     return new Promise((resolve, reject) => {
         db.get(`SELECT count(*) as nombreManchesTerminees FROM partie INNER JOIN manche ON partie.id_partie = manche.id_partie WHERE manche.etat_manche = 1 AND partie.id_partie = ?`, [idPartie], (err, row) => {

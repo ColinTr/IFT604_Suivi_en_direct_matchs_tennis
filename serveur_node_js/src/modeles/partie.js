@@ -75,6 +75,17 @@ class Partie {
 
                 that.manche.updateManche();
 
+                that.duree_partie += Math.floor(Math.random() * 60); // entre 0 et 60 secondes entre chaque point
+
+                database.updateDureePartie(that.id_partie, that.duree_partie)
+                    .then((nbRowsAffected) => {
+                        if (nbRowsAffected <= 0) {
+                            return console.log('Critical Error : Unable to update duree_partie of partie', that.id_partie);
+                        }
+                    }).catch((errMsg) => {
+                        return console.log(errMsg);
+                    });
+
                 // Si la manche en cours est terminée, on met à jour les scores
                 if (that.manche.etat_manche === 1) {
                     if (that.manche.score_jeux_joueur_1 > that.manche.score_jeux_joueur_2) {
@@ -157,7 +168,7 @@ class Partie {
                                 }
                             }).catch((errMsg) => {
                                 return console.log(errMsg);
-                    });
+                             });
 
                         clearInterval(timer);
                     }
@@ -178,8 +189,6 @@ class Partie {
                     }
                 }
             }
-
-            that.duree_partie += Math.floor(Math.random() * 60); // entre 0 et 60 secondes entre chaque point
         }, Math.floor(500 / this.modificateurVitesse));
     }
 
