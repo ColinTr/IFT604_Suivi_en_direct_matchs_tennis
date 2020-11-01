@@ -26,12 +26,13 @@ router.get('/', function (req, res, next) {
 });
 const message = {
     data:{
-        title:"New Notification!",
+        title:"TESTTEST!",
         body:"Test"
     }
 };
+const test_token = "c0__q85hQTChessi_LTDrk:APA91bGQUcHC7ilnyi952sHEIqiQqXdHeU8FDcT_D_WW5S7v_CBlJIfe82ltvocoodTlRvuNMuvn0LHdBdKlaUKMURw7475dHHK6eUnLHo8YGch6inTytNv0rx2B1Ez9z5IDaMo9egfK";
 router.get('/sendTestNotification', function (req, res, next)  {
-    admin_firebase.sendNotification(message, "dwWrcsPYSOOkzt9RIStrY4:APA91bExs5EjP_qCt8RjT3IQn-etTuomG1Pns1WODxbWX9S8NEcUAMsXh0XJmFer2zXkFzf7KClHVndxD8-sXeY32KtC6YsKrmH3-WxBxdgF0PQqQyZ4jCBPubbMWovmUUnHEx4vTUuz")
+    admin_firebase.sendNotification(message, test_token)
         .then( msg => {
             res.send(msg);
         }).catch(errMsg => {

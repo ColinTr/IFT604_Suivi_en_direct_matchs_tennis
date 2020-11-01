@@ -5,7 +5,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import com.example.tennisbet.activities.ResumePartie;
+import com.example.tennisbet.MyApplication;
 import com.example.tennisbet.modele.Joueur;
 import com.example.tennisbet.modele.Manche;
 import com.example.tennisbet.modele.Partie;
@@ -41,7 +41,7 @@ public class HttpRecupererPartie extends AsyncTask<Void, Void, Partie> {
 
         try {
             //Connect to the server
-            HttpURLConnection connection = HttpUtils.getConnection("/parties/" + ResumePartie.getPartie().getId(), "GET");
+            HttpURLConnection connection = HttpUtils.getConnection("/parties/" + MyApplication.getIdPartieDontLUtilisateurRegardeLesDetails(), "GET");
             connection.connect();
 
             //get the list from the input stream

@@ -16,20 +16,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ListView;
 
 import com.example.tennisbet.LoadingDialog;
-import com.example.tennisbet.MatchListAdapter;
 import com.example.tennisbet.MyApplication;
 import com.example.tennisbet.R;
 import com.example.tennisbet.httpUtils.HttpEnvoyerInfosUtilisateurOperation;
-import com.example.tennisbet.httpUtils.HttpRecupererPartiesDuJourOperation;
-import com.example.tennisbet.modele.Partie;
 import com.example.tennisbet.modele.Utilisateur;
 import com.example.tennisbet.services.InformationsPartiesService;
 import com.example.tennisbet.services.MyFirebaseMessagingService;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void Entrer(View view) {
+        MyApplication.setIdPartieDontLUtilisateurRegardeLesDetails(-1);
+
         String nom_utilisateur = ((EditText) findViewById(R.id.et_nom_utilisateur)).getText().toString();
 
         final LoadingDialog loadingDialog = new LoadingDialog(MainActivity.this);

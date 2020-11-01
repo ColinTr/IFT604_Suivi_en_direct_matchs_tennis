@@ -65,6 +65,7 @@ public class ListeParties extends AppCompatActivity {
                         Intent intent = new Intent(ListeParties.this, ResumePartie.class);
                         intent.putExtra("partie", partie);
                         startActivity(intent);
+                        MyApplication.setIdPartieDontLUtilisateurRegardeLesDetails(partie.getId());
                         break;
                     case 2 :
                         Intent intent2 = new Intent(ListeParties.this, ResumePartieTermine.class);
@@ -82,6 +83,8 @@ public class ListeParties extends AppCompatActivity {
     }
 
     public void rafraichirListeMatch(View view) {
+        MyApplication.setIdPartieDontLUtilisateurRegardeLesDetails(-1);
+
         Toast.makeText(getApplicationContext(), "Mise à jour de la liste des parties...", Toast.LENGTH_LONG).show();
 
         new HttpRecupererPartiesDuJourOperation(new HttpRecupererPartiesDuJourOperation.AsyncResponse(){

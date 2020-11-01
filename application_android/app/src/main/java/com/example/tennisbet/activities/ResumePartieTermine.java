@@ -18,6 +18,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.example.tennisbet.MyApplication;
 import com.example.tennisbet.R;
 import com.example.tennisbet.modele.Echange;
 import com.example.tennisbet.modele.Jeu;
@@ -57,6 +58,8 @@ public class ResumePartieTermine extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void miseAJourAfficahge() {
+        MyApplication.setIdPartieDontLUtilisateurRegardeLesDetails(-1);
+
         miseAJourTableauDesScores();
 
         TextView tv_temps_partie = findViewById(R.id.tv_temps_partie);
