@@ -21,26 +21,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.tennisbet.MatchListAdapter;
 import com.example.tennisbet.MyApplication;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.tennisbet.R;
 import com.example.tennisbet.httpUtils.HttpEnvoyerParis;
-import com.example.tennisbet.httpUtils.HttpRecupererParis;
 import com.example.tennisbet.httpUtils.HttpRecupererPartie;
-import com.example.tennisbet.httpUtils.HttpRecupererPartiesDuJourOperation;
 import com.example.tennisbet.modele.Echange;
 import com.example.tennisbet.modele.Jeu;
 import com.example.tennisbet.modele.Manche;
 import com.example.tennisbet.modele.Partie;
 import com.example.tennisbet.services.InformationsPartiesService;
-
-import java.util.ArrayList;
 
 public class ResumePartie extends AppCompatActivity {
 
@@ -184,6 +177,8 @@ public class ResumePartie extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void miseAJourInformationPartieEnCours() {
         Manche mancheEnCours = null;
         Jeu jeuEnCours = null;
@@ -218,10 +213,12 @@ public class ResumePartie extends AppCompatActivity {
 
         if(jeuEnCours.getJoueur_au_service().equals(partie.getJoueur_1())){
             tv_service_joueur_1.setText("Service (" + echangeEnCours.getVitesse_service() + " km/h)");
+            tv_service_joueur_1.setVisibility(View.VISIBLE);
             tv_service_joueur_2.setVisibility(View.INVISIBLE);
         }
         else {
             tv_service_joueur_2.setText("Service (" + echangeEnCours.getVitesse_service() + " km/h)");
+            tv_service_joueur_2.setVisibility(View.VISIBLE);
             tv_service_joueur_1.setVisibility(View.INVISIBLE);
         }
 
@@ -232,23 +229,32 @@ public class ResumePartie extends AppCompatActivity {
             if (echangeEnCours.isContestation_acceptee()) {
                 tv_contestation_joueur_1.setText("Contestation acceptée");
                 tv_contestation_joueur_1.setTextColor(Color.parseColor("#28A745"));
+                tv_contestation_joueur_1.setVisibility(View.VISIBLE);
             } else {
                 tv_contestation_joueur_1.setText("Contestation refusée");
                 tv_contestation_joueur_1.setTextColor(Color.parseColor("#EE0000"));
+                tv_contestation_joueur_1.setVisibility(View.VISIBLE);
             }
 
             tv_contestation_joueur_1.setVisibility(View.VISIBLE);
         } else if (echangeEnCours.getConteste_par_joueur() != null && echangeEnCours.getConteste_par_joueur().equals(partie.getJoueur_2())) {
             if (echangeEnCours.isContestation_acceptee()) {
+                tv_contestation_joueur_2.setVisibility(View.VISIBLE);
                 tv_contestation_joueur_2.setText("Contestation acceptée");
                 tv_contestation_joueur_2.setTextColor(Color.parseColor("#28A745"));
             } else {
+                tv_contestation_joueur_2.setVisibility(View.VISIBLE);
                 tv_contestation_joueur_2.setText("Contestation refusée");
                 tv_contestation_joueur_2.setTextColor(Color.parseColor("#EE0000"));
             }
             tv_contestation_joueur_2.setVisibility(View.VISIBLE);
         }
+        int secondes = partie.getDuree_partie() % 60;
+        int heures = partie.getDuree_partie() / 60;
+        int minutes = heures % 60;
+        heures /= 60;
 
+        ((TextView) findViewById(R.id.tv_temps_partie)).setText(heures + ":" + minutes + ":" + secondes);
         ((TextView) findViewById(R.id.tv_coups_echange)).setText(String.valueOf(echangeEnCours.getNombre_coup_echangee()));
 
     }
@@ -303,9 +309,11 @@ public class ResumePartie extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Mise à jour de la partie en cours ...", Toast.LENGTH_LONG).show();
 
         new HttpRecupererPartie(new HttpRecupererPartie.AsyncResponse(){
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void processFinish(Partie partie){
                 ResumePartie.setPartie(partie);
+                Log.d("TESTING", "DUREE : " + partie.getDuree_partie());
                 miseAJourTableauDesScores();
 
                 if (partie.getEtat_partie() == 2) {

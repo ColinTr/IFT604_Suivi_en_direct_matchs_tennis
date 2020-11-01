@@ -54,9 +54,6 @@ public class MatchListAdapter extends ArrayAdapter<Partie> {
         LocalDateTime date_fin = getItem(position).getDateTime_fin_partie();
         ArrayList<Manche> liste_manches = getItem(position).getScore_manche();
 
-        //Create match object
-        Partie partie = new Partie(id, joueur1, joueur2, date_debut, date_fin);
-
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mRessource, parent, false);
 

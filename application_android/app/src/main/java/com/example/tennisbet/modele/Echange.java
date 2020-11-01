@@ -17,8 +17,8 @@ public class Echange implements Serializable {
     private Joueur conteste_par_joueur;
     private boolean contestation_acceptee; // 0 = non et 1 = oui
     private boolean etat_echange; // 0 = en cours et 1 = termine
-    private int Vitesse_service;
-    private int Nombre_coup_echangee;
+    private int vitesse_service;
+    private int nombre_coup_echangee;
 
     public Echange(int id, int id_jeu, Joueur gagne_par_joueur, Joueur conteste_par_joueur, boolean contestation_acceptee, boolean etat_echange, int vitesse_service, int nombre_coup_echangee) {
         this.id = id;
@@ -27,8 +27,8 @@ public class Echange implements Serializable {
         this.conteste_par_joueur = conteste_par_joueur;
         this.contestation_acceptee = contestation_acceptee;
         this.etat_echange = etat_echange;
-        Vitesse_service = vitesse_service;
-        Nombre_coup_echangee = nombre_coup_echangee;
+        this.vitesse_service = vitesse_service;
+        this.nombre_coup_echangee = nombre_coup_echangee;
     }
 
     public int getId() {
@@ -80,18 +80,18 @@ public class Echange implements Serializable {
     }
 
     public int getVitesse_service() {
-        return Vitesse_service;
+        return vitesse_service;
     }
 
     public void setVitesse_service(int vitesse_service) {
-        Vitesse_service = vitesse_service;
+        this.vitesse_service = vitesse_service;
     }
 
     public int getNombre_coup_echangee() {
-        return Nombre_coup_echangee;
+        return nombre_coup_echangee;
     }
 
     public void setNombre_coup_echangee(int nombre_coup_echangee) {
-        Nombre_coup_echangee = nombre_coup_echangee;
+        this.nombre_coup_echangee = nombre_coup_echangee;
     }
 }

@@ -11,23 +11,29 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.tennisbet.MyApplication;
 import com.example.tennisbet.R;
 import com.example.tennisbet.httpUtils.HttpEnvoyerParis;
+import com.example.tennisbet.httpUtils.HttpRecupererPartie;
 import com.example.tennisbet.modele.Partie;
+import com.example.tennisbet.services.InformationsPartiesService;
 
 public class ResumePartieAVenir extends AppCompatActivity {
 
-    private Partie partie;
+    private static Partie partie;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -42,11 +48,27 @@ public class ResumePartieAVenir extends AppCompatActivity {
         ((TextView) findViewById(R.id.tv_joueur1)).setText(partie.getJoueur_1().getPrenom().charAt(0) + "." + partie.getJoueur_1().getNom());
         ((TextView) findViewById(R.id.tv_joueur2)).setText(partie.getJoueur_2().getPrenom().charAt(0) + "." + partie.getJoueur_2().getNom());
 
-        miseAJourAfficahge();
+        miseAJourAffichage();
+
+        MyApplication.setIdPartieDontLUtilisateurRegardeLesDetails(partie.getId());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MyApplication.setIdPartieDontLUtilisateurRegardeLesDetails(-1);
+    }
+
+    public static Partie getPartie() {
+        return partie;
+    }
+
+    public static void setPartie(Partie partie) {
+        ResumePartieAVenir.partie = partie;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void miseAJourAfficahge() {
+    private void miseAJourAffichage() {
         switch (partie.getEtat_partie()) {
             case 1:
                 Intent intent = new Intent(this, ResumePartie.class);
@@ -58,8 +80,10 @@ public class ResumePartieAVenir extends AppCompatActivity {
                 Intent intent2 = new Intent(this, ResumePartieTermine.class);
                 intent2.putExtra("partie", partie);
                 startActivity(intent2);
+                break;
             case 0:
                 miseAJourInformationPartie();
+                break;
         }
     }
 
@@ -75,6 +99,17 @@ public class ResumePartieAVenir extends AppCompatActivity {
     }
 
     public void rafraichirMatch(View view) {
+        Toast.makeText(getApplicationContext(), "Mise à jour de la partie en cours ...", Toast.LENGTH_LONG).show();
+
+        new HttpRecupererPartie(new HttpRecupererPartie.AsyncResponse(){
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void processFinish(Partie partie){
+                ResumePartieAVenir.setPartie(partie);
+
+                miseAJourAffichage();
+            }
+        }).execute();
     }
 
     public void parierSurJoueur1(View view) {
@@ -122,4 +157,26 @@ public class ResumePartieAVenir extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
+
+    @Override
+    protected void onResume() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(InformationsPartiesService.BROADCAST_ACTION);
+        registerReceiver(myBroadcastReceiver, filter);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        unregisterReceiver(myBroadcastReceiver);
+        super.onPause();
+    }
+
+    private BroadcastReceiver myBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            rafraichirMatch(null);
+        }
+    };
 }
