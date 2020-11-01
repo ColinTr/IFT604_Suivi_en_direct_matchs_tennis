@@ -305,24 +305,6 @@ public class ResumePartie extends AppCompatActivity {
                 else {
                     miseAJourInformationPartieEnCours();
                 }
-                /*
-                switch(partie.getEtat_partie()) {
-                    case 1 :
-                        Intent intent = new Intent(ResumePartie.this, ResumePartie.class);
-                        intent.putExtra("partie", partie);
-                        startActivity(intent);
-                        break;
-                    case 2 :
-                        Intent intent2 = new Intent(ResumePartie.this, ResumePartieTermine.class);
-                        intent2.putExtra("partie", partie);
-                        startActivity(intent2);
-                        break;
-                    case 0 :
-                        Intent intent3 = new Intent(ResumePartie.this, ResumePartieAVenir.class);
-                        intent3.putExtra("partie", partie);
-                        startActivity(intent3);
-                        break;
-                }*/
             }
         }).execute();
     }
