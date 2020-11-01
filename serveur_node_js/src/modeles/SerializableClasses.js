@@ -178,14 +178,15 @@ class SerializableJeu {
 }
 
 class SerializablePari {
-    constructor(id_pari, id_utilisateur, num_joueur_parie, montant_parie, id_partie, montant_gagne) {
+    constructor(id_pari, id_utilisateur, id_joueur_parie, montant_parie, id_partie, montant_gagne) {
         this.id_pari = id_pari;
         this.id_utilisateur = id_utilisateur;
         this.montant_parie = montant_parie;
         this.id_partie = id_partie;
         this.montant_gagne = (montant_gagne === null ? 0 : montant_gagne);
-        this.num_joueur_parie = num_joueur_parie;
-        this.joueur_gagnant = (montant_gagne === null ? 0 : (montant_gagne === 0 ? (num_joueur_parie === 1 ? 2 : 1) : (num_joueur_parie === 1 ? 1 : 2)));
+        this.id_joueur_parie = id_joueur_parie;
+        this.num_joueur_parie = undefined;
+        this.joueur_gagnant = (montant_gagne === null ? 0 : (montant_gagne === 0 ? (id_joueur_parie === 1 ? 2 : 1) : (id_joueur_parie === 1 ? 1 : 2)));
         this.joueur1 = undefined;
         this.joueur2 = undefined;
     }
@@ -201,6 +202,7 @@ class SerializablePari {
                                 .then((joueur2Bdd) => {
                                     that.joueur1 = joueur1Bdd;
                                     that.joueur2 = joueur2Bdd;
+                                    that.num_joueur_parie = (that.id_joueur_parie === that.joueur1.id_joueur ? 1 : 2);
                                     resolve();
                                 }).catch((errMsg) => {
                                 reject(errMsg);
