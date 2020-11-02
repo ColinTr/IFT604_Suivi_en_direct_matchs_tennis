@@ -223,6 +223,12 @@ public class ResumePartie extends AppCompatActivity {
 
             ((TextView) findViewById(R.id.tv_points_joueur_1)).setText(String.valueOf(jeuEnCours.getScore_echange_joueur_1()));
             ((TextView) findViewById(R.id.tv_points_joueur_2)).setText(String.valueOf(jeuEnCours.getScore_echange_joueur_2()));
+        }
+
+        tv_contestation_joueur_1.setVisibility(View.INVISIBLE);
+        tv_contestation_joueur_2.setVisibility(View.INVISIBLE);
+
+        if(echangeEnCours != null) {
 
             if (jeuEnCours.getJoueur_au_service().equals(partie.getJoueur_1())) {
                 tv_service_joueur_1.setText("Service (" + echangeEnCours.getVitesse_service() + " km/h)");
@@ -233,12 +239,7 @@ public class ResumePartie extends AppCompatActivity {
                 tv_service_joueur_2.setVisibility(View.VISIBLE);
                 tv_service_joueur_1.setVisibility(View.INVISIBLE);
             }
-        }
 
-        tv_contestation_joueur_1.setVisibility(View.INVISIBLE);
-        tv_contestation_joueur_2.setVisibility(View.INVISIBLE);
-
-        if(echangeEnCours != null) {
             if (echangeEnCours.getConteste_par_joueur() != null && echangeEnCours.getConteste_par_joueur().equals(partie.getJoueur_1())) {
                 if (echangeEnCours.isContestation_acceptee()) {
                     tv_contestation_joueur_1.setText("Contestation acceptée");
