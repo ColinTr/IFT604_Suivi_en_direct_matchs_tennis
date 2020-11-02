@@ -53,7 +53,9 @@ public class ListeParties extends AppCompatActivity {
         rafraichirListeMatch(null);
 
         TextView tv_nom_uti = findViewById(R.id.tv_nom_uti);
-        tv_nom_uti.setText(((MyApplication) getApplicationContext()).utilisateur.getNomUtilisateur());
+        if(((MyApplication) getApplicationContext()).utilisateur != null) {
+            tv_nom_uti.setText(((MyApplication) getApplicationContext()).utilisateur.getNomUtilisateur());
+        }
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -189,21 +189,26 @@ public class ResumePartie extends AppCompatActivity {
         Jeu jeuEnCours = null;
         Echange echangeEnCours = null;
 
-        for (Manche manche : partie.getScore_manche()) {
-            if (!manche.isEtat_manche()) {
-                mancheEnCours = manche;
+        if(partie.getScore_manche() != null) {
+            for (Manche manche : partie.getScore_manche()) {
+                if (!manche.isEtat_manche()) {
+                    mancheEnCours = manche;
+                }
             }
-        }
 
-        for (Jeu jeu : mancheEnCours.getScore_jeu()) {
-            if (!jeu.isEtat_jeu()) {
-                jeuEnCours = jeu;
-            }
-        }
-
-        for (Echange echange : jeuEnCours.getEchangeList()) {
-            if (!echange.isEtat_echange()) {
-                echangeEnCours = echange;
+            if(mancheEnCours != null && mancheEnCours.getScore_jeu() != null) {
+                for (Jeu jeu : mancheEnCours.getScore_jeu()) {
+                    if (!jeu.isEtat_jeu()) {
+                        jeuEnCours = jeu;
+                    }
+                }
+                if(jeuEnCours != null && jeuEnCours.getEchangeList() != null) {
+                    for (Echange echange : jeuEnCours.getEchangeList()) {
+                        if (!echange.isEtat_echange()) {
+                            echangeEnCours = echange;
+                        }
+                    }
+                }
             }
         }
 
@@ -213,46 +218,53 @@ public class ResumePartie extends AppCompatActivity {
         TextView tv_contestation_joueur_1 = findViewById(R.id.tv_contestation_joueur_1);
         TextView tv_contestation_joueur_2 = findViewById(R.id.tv_contestation_joueur_2);
 
-        ((TextView) findViewById(R.id.tv_points_joueur_1)).setText(String.valueOf(jeuEnCours.getScore_echange_joueur_1()));
-        ((TextView) findViewById(R.id.tv_points_joueur_2)).setText(String.valueOf(jeuEnCours.getScore_echange_joueur_2()));
 
-        if(jeuEnCours.getJoueur_au_service().equals(partie.getJoueur_1())){
-            tv_service_joueur_1.setText("Service (" + echangeEnCours.getVitesse_service() + " km/h)");
-            tv_service_joueur_1.setVisibility(View.VISIBLE);
-            tv_service_joueur_2.setVisibility(View.INVISIBLE);
-        }
-        else {
-            tv_service_joueur_2.setText("Service (" + echangeEnCours.getVitesse_service() + " km/h)");
-            tv_service_joueur_2.setVisibility(View.VISIBLE);
-            tv_service_joueur_1.setVisibility(View.INVISIBLE);
+        if(jeuEnCours != null) {
+
+            ((TextView) findViewById(R.id.tv_points_joueur_1)).setText(String.valueOf(jeuEnCours.getScore_echange_joueur_1()));
+            ((TextView) findViewById(R.id.tv_points_joueur_2)).setText(String.valueOf(jeuEnCours.getScore_echange_joueur_2()));
+
+            if (jeuEnCours.getJoueur_au_service().equals(partie.getJoueur_1())) {
+                tv_service_joueur_1.setText("Service (" + echangeEnCours.getVitesse_service() + " km/h)");
+                tv_service_joueur_1.setVisibility(View.VISIBLE);
+                tv_service_joueur_2.setVisibility(View.INVISIBLE);
+            } else {
+                tv_service_joueur_2.setText("Service (" + echangeEnCours.getVitesse_service() + " km/h)");
+                tv_service_joueur_2.setVisibility(View.VISIBLE);
+                tv_service_joueur_1.setVisibility(View.INVISIBLE);
+            }
         }
 
         tv_contestation_joueur_1.setVisibility(View.INVISIBLE);
         tv_contestation_joueur_2.setVisibility(View.INVISIBLE);
 
-        if (echangeEnCours.getConteste_par_joueur() != null && echangeEnCours.getConteste_par_joueur().equals(partie.getJoueur_1())) {
-            if (echangeEnCours.isContestation_acceptee()) {
-                tv_contestation_joueur_1.setText("Contestation acceptée");
-                tv_contestation_joueur_1.setTextColor(Color.parseColor("#28A745"));
+        if(echangeEnCours != null) {
+            if (echangeEnCours.getConteste_par_joueur() != null && echangeEnCours.getConteste_par_joueur().equals(partie.getJoueur_1())) {
+                if (echangeEnCours.isContestation_acceptee()) {
+                    tv_contestation_joueur_1.setText("Contestation acceptée");
+                    tv_contestation_joueur_1.setTextColor(Color.parseColor("#28A745"));
+                    tv_contestation_joueur_1.setVisibility(View.VISIBLE);
+                } else {
+                    tv_contestation_joueur_1.setText("Contestation refusée");
+                    tv_contestation_joueur_1.setTextColor(Color.parseColor("#EE0000"));
+                    tv_contestation_joueur_1.setVisibility(View.VISIBLE);
+                }
+
                 tv_contestation_joueur_1.setVisibility(View.VISIBLE);
-            } else {
-                tv_contestation_joueur_1.setText("Contestation refusée");
-                tv_contestation_joueur_1.setTextColor(Color.parseColor("#EE0000"));
-                tv_contestation_joueur_1.setVisibility(View.VISIBLE);
+            } else if (echangeEnCours.getConteste_par_joueur() != null && echangeEnCours.getConteste_par_joueur().equals(partie.getJoueur_2())) {
+                if (echangeEnCours.isContestation_acceptee()) {
+                    tv_contestation_joueur_2.setVisibility(View.VISIBLE);
+                    tv_contestation_joueur_2.setText("Contestation acceptée");
+                    tv_contestation_joueur_2.setTextColor(Color.parseColor("#28A745"));
+                } else {
+                    tv_contestation_joueur_2.setVisibility(View.VISIBLE);
+                    tv_contestation_joueur_2.setText("Contestation refusée");
+                    tv_contestation_joueur_2.setTextColor(Color.parseColor("#EE0000"));
+                }
+                tv_contestation_joueur_2.setVisibility(View.VISIBLE);
             }
 
-            tv_contestation_joueur_1.setVisibility(View.VISIBLE);
-        } else if (echangeEnCours.getConteste_par_joueur() != null && echangeEnCours.getConteste_par_joueur().equals(partie.getJoueur_2())) {
-            if (echangeEnCours.isContestation_acceptee()) {
-                tv_contestation_joueur_2.setVisibility(View.VISIBLE);
-                tv_contestation_joueur_2.setText("Contestation acceptée");
-                tv_contestation_joueur_2.setTextColor(Color.parseColor("#28A745"));
-            } else {
-                tv_contestation_joueur_2.setVisibility(View.VISIBLE);
-                tv_contestation_joueur_2.setText("Contestation refusée");
-                tv_contestation_joueur_2.setTextColor(Color.parseColor("#EE0000"));
-            }
-            tv_contestation_joueur_2.setVisibility(View.VISIBLE);
+            ((TextView) findViewById(R.id.tv_coups_echange)).setText(String.valueOf(echangeEnCours.getNombre_coup_echangee()));
         }
         int secondes = partie.getDuree_partie() % 60;
         int heures = partie.getDuree_partie() / 60;
@@ -260,7 +272,6 @@ public class ResumePartie extends AppCompatActivity {
         heures /= 60;
 
         ((TextView) findViewById(R.id.tv_temps_partie)).setText(heures + ":" + minutes + ":" + secondes);
-        ((TextView) findViewById(R.id.tv_coups_echange)).setText(String.valueOf(echangeEnCours.getNombre_coup_echangee()));
 
         if(partie.getScore_manche().size() > 1){
             findViewById(R.id.btn_parier_joueur_1).setVisibility(View.INVISIBLE);
