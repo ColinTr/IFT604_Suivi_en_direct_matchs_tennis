@@ -99,9 +99,6 @@ public class ListeParties extends AppCompatActivity {
         }).execute();
     }
 
-    public void deconnexionUtilisateur(View view) {
-    }
-
     public void afficherlisteParies(View view) {
 
         System.out.println("Afficher la liste des paris");
@@ -117,6 +114,8 @@ public class ListeParties extends AppCompatActivity {
         filter.addAction(InformationsPartiesService.BROADCAST_ACTION);
         registerReceiver(myBroadcastReceiver, filter);
         super.onResume();
+
+        rafraichirListeMatch(null);
     }
 
     @Override
