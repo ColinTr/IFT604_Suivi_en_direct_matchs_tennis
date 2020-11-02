@@ -20,7 +20,7 @@ import com.example.tennisbet.modele.Utilisateur;
 public class MyApplication extends Application {
 
     private static MyApplication instance;
-    public Utilisateur utilisateur;
+    public static Utilisateur utilisateur;
 
     private static int idPartieDontLUtilisateurRegardeLesDetails;
 

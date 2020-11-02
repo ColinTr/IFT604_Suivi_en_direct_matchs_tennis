@@ -53,7 +53,9 @@ public class ListeParties extends AppCompatActivity {
         rafraichirListeMatch(null);
 
         TextView tv_nom_uti = findViewById(R.id.tv_nom_uti);
-        tv_nom_uti.setText(((MyApplication) getApplicationContext()).utilisateur.getNomUtilisateur());
+        if(((MyApplication) getApplicationContext()).utilisateur != null) {
+            tv_nom_uti.setText(((MyApplication) getApplicationContext()).utilisateur.getNomUtilisateur());
+        }
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -97,9 +99,6 @@ public class ListeParties extends AppCompatActivity {
         }).execute();
     }
 
-    public void deconnexionUtilisateur(View view) {
-    }
-
     public void afficherlisteParies(View view) {
 
         System.out.println("Afficher la liste des paris");
@@ -115,6 +114,8 @@ public class ListeParties extends AppCompatActivity {
         filter.addAction(InformationsPartiesService.BROADCAST_ACTION);
         registerReceiver(myBroadcastReceiver, filter);
         super.onResume();
+
+        rafraichirListeMatch(null);
     }
 
     @Override

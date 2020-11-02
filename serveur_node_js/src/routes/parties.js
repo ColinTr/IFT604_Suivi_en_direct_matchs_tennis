@@ -67,57 +67,10 @@ router.get('/:id_partie', function (req, res) {
                         return res.status(400).send(new Erreur(errMsg)).end();
                     })
             }
-        })
-        .catch((errMsg)=>{
+        }).catch((errMsg)=>{
             console.log(new Erreur(errMsg));
             return res.status(400).send(new Erreur(errMsg)).end();
         })
-
-
-
-
-
-    /*database.idPartieExisteTIl(req.params['id_partie'])
-        .then((nbPartiesAvecId) => {
-            if (nbPartiesAvecId !== 1) {
-                console.log(new Erreur('La partie d\'id ' + req.params['id_partie'] + ' n\'existe pas.'));
-                return res.status(400).send(new Erreur('La partie d\'id ' + req.params['id_partie'] + ' n\'existe pas.')).end();
-            } else {
-                database.recupererPartieViaId(req.params['id_partie'])
-                    .then((rowPartie) => {
-                        database.trouverJoueurViaIdJoueur(rowPartie.id_joueur_1)
-                            .then((joueur_1) => {
-                                if (joueur_1 !== undefined) {
-                                    database.trouverJoueurViaIdJoueur(rowPartie.id_joueur_2)
-                                        .then((joueur_2) => {
-                                            if (joueur_2 !== undefined) {
-                                                console.log('Envoi des informations détaillées d\'une partie...');
-                                                return res.status(200).send(new Partie(rowPartie.id_partie, joueur_1, joueur_2, rowPartie.terrain, rowPartie.tournoi, rowPartie.datetime_debut_partie, rowPartie.datetime_fin_partie, rowPartie.etat_partie, rowPartie.score_manche_joueur_1, rowPartie.score_manche_joueur_2, rowPartie.tick_debut)).end();
-                                            } else {
-                                                console.log(new Erreur('Unable to get infos of Partie : No joueur with id' + rowPartie.id_joueur_2 + 'were found in database'));
-                                                return res.status(400).send(new Erreur('Unable to get infos of Partie : No joueur with id' + rowPartie.id_joueur_2 + 'were found in database')).end(); // Bad request status code
-                                            }
-                                        }).catch((errMsg) => {
-                                            console.log(new Erreur(errMsg));
-                                            return res.status(400).send(new Erreur(errMsg)).end();
-                                        });
-                                } else {
-                                    console.log(new Erreur('Unable to get infos of Partie : No joueur with id' + rowPartie.id_joueur_1 + 'were found in database'));
-                                    return res.status(400).send(new Erreur('Unable to get infos of Partie : No joueur with id' + rowPartie.id_joueur_1 + 'were found in database')).end(); // Bad request status code
-                                }
-                            }).catch((errMsg) => {
-                                console.log(new Erreur(errMsg));
-                                return res.status(400).send(new Erreur(errMsg)).end();
-                            });
-                    }).catch((errMsg) => {
-                        console.log(new Erreur(errMsg));
-                        return res.status(400).send(new Erreur(errMsg)).end();
-                    });
-            }
-        }).catch((errMsg) => {
-            console.log(new Erreur(errMsg));
-            return res.status(400).send(new Erreur(errMsg)).end();
-        });*/
 });
 
 //GET Évènements d’un match (points et contestations)

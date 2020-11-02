@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
 public class HttpEnvoyerInfosUtilisateurOperation extends AsyncTask<Void, Void, String> {
@@ -57,7 +58,9 @@ public class HttpEnvoyerInfosUtilisateurOperation extends AsyncTask<Void, Void, 
             utilisateur.setId(Integer.parseInt(myJsonObject.getString("id_utilisateur")));
             // On renvoie l'id de l'utilisateur récupéré
             return myJsonObject.getString("id_utilisateur");
-        } catch (IOException | JSONException e) {
+        } catch (SocketTimeoutException ignored){
+        }
+        catch (IOException | JSONException e) {
             e.printStackTrace();
         }
         return null;
