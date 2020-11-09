@@ -6,14 +6,14 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import './assets/global.css'
 
-import {Router } from 'react-router-dom';
+import {Router} from 'react-router-dom';
 import {createBrowserHistory} from 'history'
 
 const customHistory = createBrowserHistory();
 
 ReactDOM.render(
-    <Router history={customHistory} >
-        <App />
+    <Router history={customHistory}>
+        <App/>
     </Router>,
     document.getElementById('root')
 );
