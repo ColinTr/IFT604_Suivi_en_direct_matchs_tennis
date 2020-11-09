@@ -15,20 +15,24 @@ class ListeParties extends Component {
         if (!navigator.onLine) {
             this.setState({ listePartiesData: localStorage.getItem('listePartiesData') });
         }
+
+        this.updateListeParties();
         setInterval(() => {
             console.log("componentDidMount called");
-            axios.get('http://localhost:3000/parties')
-                .then(response => {
-                    this.setState({ listePartiesData: response.data });
-                    localStorage.setItem('listePartiesData', response.data);
-                })
-                // Catch any error here
-                .catch(error => {
-                    console.log(error)
-                });
+            this.updateListeParties();
         }, 10000);
+    }
 
-
+    updateListeParties(){
+        axios.get('http://localhost:3000/parties')
+            .then(response => {
+                this.setState({ listePartiesData: response.data });
+                localStorage.setItem('listePartiesData', response.data);
+            })
+            // Catch any error here
+            .catch(error => {
+                console.log(error)
+            });
     }
     // The render method contains the JSX code which will be compiled to HTML.
     render() {
