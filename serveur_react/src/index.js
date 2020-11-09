@@ -5,6 +5,7 @@ import 'mdbreact/dist/css/mdb.css'
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import './assets/global.css'
+import registerServiceWorker from './RegisterServiceWorker';
 
 import {Router} from 'react-router-dom';
 import {createBrowserHistory} from 'history'
@@ -17,4 +18,5 @@ ReactDOM.render(
     </Router>,
     document.getElementById('root')
 );
+registerServiceWorker();
 

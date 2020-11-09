@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 
 import Login from "./Login"
+import ListeParties from "./ListeParties"
 
 class Accueil extends Component {
 
     render(){
         return(
-            <Login/>
+            <div>
+                <Login/>
+                <ListeParties/>
+            </div>
         )
     }
 }
