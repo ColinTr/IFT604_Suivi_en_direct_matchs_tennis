@@ -10,6 +10,7 @@ class ListeParties extends Component {
             listePartiesData : []
         };
     }
+
     // This is called when an instance of a component is being created and inserted into the DOM.
     componentDidMount() {
         if (!navigator.onLine) {
@@ -17,8 +18,8 @@ class ListeParties extends Component {
         }
 
         this.updateListeParties();
+
         setInterval(() => {
-            console.log("componentDidMount called");
             this.updateListeParties();
         }, 10000);
     }
@@ -34,9 +35,9 @@ class ListeParties extends Component {
                 console.log(error)
             });
     }
+
     // The render method contains the JSX code which will be compiled to HTML.
     render() {
-        console.log("render called");
         return (
             <div className="list-group">
                 {this.state.listePartiesData.map(function (partieData, index) {
