@@ -15,8 +15,10 @@ const partiesRouter = require('./src/routes/parties');
 const utilisateurRouter = require('./src/routes/utilisateurs');
 const parisRouter = require('./src/routes/paris');
 const joueursRouter = require('./src/routes/joueurs');
+const cors = require('cors');
 
 const app = express();
+//app.use(cors());
 
 app.use(logger('dev'));
 app.use(express.json());

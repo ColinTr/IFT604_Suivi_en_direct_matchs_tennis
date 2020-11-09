@@ -9,6 +9,7 @@
   "dependencies": {
     "body-parser": "latest",
     "cookie-parser": "~1.4.3",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "~4.16.0",
     "firebase": "^8.0.0",
