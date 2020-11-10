@@ -26,7 +26,7 @@ router.get('/:nom_utilisateur/:firebase_token', (req, res) =>{
                     if(nbRowsUpdated === 1) {
                         // Et on renvoie l'id de l'utilisateur ainsi créé
                         console.log('Envoi de l\'id utilisateur ' + idUtilisateur);
-                        return res.status(200).send(`{ id_utilisateur : ` + idUtilisateur + `}`);
+                        return res.status(200).send(`{ "id_utilisateur" : ` + idUtilisateur + `}`);
                     } else {
                         console.log("Erreur lors de la mise à jour du token de l\'utilisateur " + idUtilisateur);
                         return res.status(400).send(new Erreur("Erreur lors de la mise à jour du token de l\'utilisateur " + idUtilisateur)).end();

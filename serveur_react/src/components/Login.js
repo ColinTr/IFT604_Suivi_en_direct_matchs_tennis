@@ -34,7 +34,8 @@ class Login extends Component {
                 let url = 'http://localhost:3000/utilisateurs/' + that.state.nom_utilisateur + '/' + that.state.token;
                 axios.get(url)
                     .then(response => {
-                        console.log(response.data);
+                        localStorage.setItem('nomUtilisateur', that.state.nom_utilisateur);
+                        localStorage.setItem('idUtilisateur', response.data.id_utilisateur);
                     })
                     // Catch any error here
                     .catch(error => {

@@ -8,8 +8,13 @@ class Accueil extends Component {
     render(){
         return(
             <div className="mt-3">
-                <Login/>
-                <ListeParties/>
+                {!localStorage.getItem("nomUtilisateur")
+                    ?
+                    <Login/>
+                    :
+                    <ListeParties/>
+                }
+
             </div>
         )
     }

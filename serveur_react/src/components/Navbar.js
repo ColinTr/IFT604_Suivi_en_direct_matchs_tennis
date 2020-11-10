@@ -43,7 +43,7 @@ class Navbar extends Component {
                             :
                             (
                                 <MDBNavItem>
-                                    <MDBNavLink className="waves-effect waves-light" to="/login" onClick={()=>localStorage.clear()}>
+                                    <MDBNavLink className="waves-effect waves-light" to="/" onClick={()=>localStorage.clear()}>
                                         Se deconnecter
                                         <MDBIcon className="fa-lg ml-3" icon="user" />
                                     </MDBNavLink>
