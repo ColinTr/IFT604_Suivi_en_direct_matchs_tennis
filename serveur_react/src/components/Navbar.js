@@ -56,7 +56,7 @@ class Navbar extends Component {
                                     <MDBNavLink to="/" icon="times-circle" onClick={() => {
                                         localStorage.clear();
                                     }}>
-                                        <MDBIcon className="fa-sm" icon="door-open" />
+                                        <MDBIcon className="fa-lg" icon="door-open" />
                                     </MDBNavLink>
                                 </MDBNavItem>
                             )

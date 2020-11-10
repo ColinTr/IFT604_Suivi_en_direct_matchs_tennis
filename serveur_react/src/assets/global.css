@@ -104,6 +104,34 @@
     color: white;
 }
 
+.rowMatchEnCours {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.heureMatchEnCours {
+    display: flex;
+    font-size: x-large;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.resultatManche {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.resultatMancheNomJoueurs {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.resultatMancheScore {
+    display: flex;
+    justify-content: flex-start;
+}
 .rotate:hover{
     transform: rotate(0.3turn);
     transition: transform 500ms ease-in-out;
