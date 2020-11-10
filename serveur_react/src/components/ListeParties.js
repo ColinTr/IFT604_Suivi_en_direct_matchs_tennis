@@ -51,7 +51,7 @@ class ListeParties extends Component {
         return (
             <MDBContainer>
                 <MDBBtn outline style={{"borderRadius":"50%", "width":"50px", "height":"50px"}} onClick={this.updateListeParties}><MDBIcon icon="sync-alt" /></MDBBtn>
-                <MDBContainer style={{width: '30%'}} >
+                <MDBContainer>
                     <MDBTable className="sticky-top listParties">
                         <MDBTableBody>
                             {this.state.listePartiesData.map(function (partieData, index) {

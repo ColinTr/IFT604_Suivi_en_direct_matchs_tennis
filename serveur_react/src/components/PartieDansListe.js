@@ -5,8 +5,8 @@ class PartieDansListe extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            nomJoueur1: props.data.joueur1.prenom + " " + props.data.joueur1.nom,
-            nomJoueur2: props.data.joueur2.prenom + " " + props.data.joueur2.nom,
+            nomJoueur1: props.data.joueur1.prenom + " " + props.data.joueur1.nom + " (" + props.data.joueur1.rang + ")",
+            nomJoueur2: props.data.joueur2.prenom + " " + props.data.joueur2.nom + " (" + props.data.joueur2.rang + ")",
             joueurGagnant: props.data.joueur_gagnant,
             listeManches: props.data.liste_manches,
             etat_partie: props.data.etat_partie,
@@ -22,10 +22,10 @@ class PartieDansListe extends Component {
                     <a href="/" className="lienVersPartie">
                         <MDBRow>
                             <MDBContainer className='listPartieRow'>
-                                <MDBCol className={this.state.joueurGagnant === 1 ? "font-weight-bold" : ""}>
+                                <MDBCol className={this.state.joueurGagnant === 1 ? "listPartieRowItemNomJoueur font-weight-bold" : "listPartieRowItemNomJoueur"}>
                                     {this.state.nomJoueur1}
                                 </MDBCol>
-                                <MDBCol className="listPartieRowItem">
+                                <MDBCol className="listPartieRowItemScore">
                                     {this.state.listeManches.map(manche => {
                                         return (
                                             <button key={manche.id_manche} type="button"
@@ -37,10 +37,10 @@ class PartieDansListe extends Component {
                         </MDBRow>
                         <MDBRow>
                             <MDBContainer className='listPartieRow'>
-                                <MDBCol className={this.state.joueurGagnant === 2 ? "font-weight-bold" : ""}>
+                                <MDBCol className={this.state.joueurGagnant === 2 ? "listPartieRowItemNomJoueur font-weight-bold" : "listPartieRowItemNomJoueur"}>
                                     {this.state.nomJoueur2}
                                 </MDBCol>
-                                <MDBCol className="listPartieRowItem">
+                                <MDBCol className="listPartieRowItemScore">
                                     {this.state.listeManches.map(manche => {
                                         return (
                                             <button key={manche.id_manche} type="button"
@@ -60,18 +60,12 @@ class PartieDansListe extends Component {
                     <a href="/" className="lienVersPartie">
                         <MDBRow>
                             <MDBContainer className='d-flex align-items-center'>
-                                <MDBCol className={this.state.joueurGagnant === 1 ? "font-weight-bold" : ""}>
-                                    {this.state.nomJoueur1}
+                                <MDBCol className={this.state.joueurGagnant === 1 ? "nomJoueurMatchNonCommence font-weight-bold" : "nomJoueurMatchNonCommence"}>
+                                    <span className="nomJoueur1MatchNonCommence">{this.state.nomJoueur1}</span>
+                                    <span className="nomJoueur2MatchNonCommence">{this.state.nomJoueur2}</span>
                                 </MDBCol>
-                                <MDBCol className='font-weight-bold'>
-                                    {this.state.datetime_debut_partie.split(" ")[1]}
-                                </MDBCol>
-                            </MDBContainer>
-                        </MDBRow>
-                        <MDBRow>
-                            <MDBContainer className='d-flex align-items-center'>
-                                <MDBCol className={this.state.joueurGagnant === 2 ? "font-weight-bold" : ""}>
-                                    {this.state.nomJoueur2}
+                                <MDBCol className='heureMatchNonCommence font-weight-bold'>
+                                    {this.state.datetime_debut_partie.split(" ")[1].substring(0,5)}
                                 </MDBCol>
                             </MDBContainer>
                         </MDBRow>

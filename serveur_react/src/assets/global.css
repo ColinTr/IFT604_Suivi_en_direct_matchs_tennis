@@ -53,7 +53,12 @@
     justify-content: center;
 }
 
-.listPartieRowItem {
+.listPartieRowItemNomJoueur {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.listPartieRowItemScore {
     display: flex;
     flex-wrap: nowrap;
     justify-content: flex-end;
@@ -71,4 +76,24 @@
 
 .lienVersPartie:hover {
     text-decoration: none;
+}
+
+.nomJoueurMatchNonCommence {
+    display: flex;
+    flex-direction: column;
+}
+
+.heureMatchNonCommence {
+    display: flex;
+    justify-content: center;
+    font-size: x-large;
+}
+
+.nomJoueur1MatchNonCommence {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.nomJoueur2MatchNonCommence {
+    margin-bottom: 10px;
 }
