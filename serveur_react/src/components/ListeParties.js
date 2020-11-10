@@ -34,6 +34,7 @@ class ListeParties extends Component {
     updateListeParties() {
         axios.get('http://localhost:3000/parties')
             .then(response => {
+                this.setState({listePartiesData: []});
                 this.setState({listePartiesData: response.data});
                 localStorage.setItem('listePartiesData', response.data);
             })
@@ -47,7 +48,7 @@ class ListeParties extends Component {
     render() {
         return (
             <MDBContainer style={{width: '30%'}} >
-                <MDBTable className="sticky-top">
+                <MDBTable className="sticky-top listParties">
                     <MDBTableBody>
                         {this.state.listePartiesData.map(function (partieData, index) {
                                 return <PartieDansListe key={partieData.id_partie} data={partieData}/>

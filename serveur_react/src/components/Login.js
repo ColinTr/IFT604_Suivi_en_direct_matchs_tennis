@@ -3,7 +3,7 @@ import {MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn} from 'mdbreact';
 import logo from '../assets/images/tennis_raquette.png';
 import {askForPermissionToReceiveNotifications} from '../notification/push-notification';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 
 class Login extends Component {
 
@@ -26,8 +26,6 @@ class Login extends Component {
     };
 
     Connexion() {
-
-
         let that = this;
         if (this.state.nom_utilisateur === "") {
             document.getElementById("NomVide").style.display = 'block';
@@ -39,7 +37,7 @@ class Login extends Component {
                     .then(response => {
                         localStorage.setItem('nomUtilisateur', that.state.nom_utilisateur);
                         localStorage.setItem('idUtilisateur', response.data.id_utilisateur);
-                        that.setState({redirect : true})
+                        that.setState({redirect: true})
                     })
                     // Catch any error here
                     .catch(error => {
@@ -51,7 +49,7 @@ class Login extends Component {
 
     render() {
         if (this.state.redirect) {
-            return <Redirect to='/' />
+            return <Redirect to='/'/>
         }
         return (
             <MDBContainer>

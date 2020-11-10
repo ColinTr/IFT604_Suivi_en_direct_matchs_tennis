@@ -1,6 +1,6 @@
 
 :root {
-    --primary:  #7D9309;
+    --primary: #7D9309;
     --secondary: #1C1C19;
     --tiertary: #CBD90A;
 }
@@ -39,3 +39,31 @@
     margin-bottom: 50px;
 }
 
+.unclickable {
+    pointer-events: none;
+}
+
+.listParties {
+    display: flex;
+    justify-content: center;
+}
+
+.listPartieRowItem {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+}
+
+.listPartieRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.linkPartieDansListe:hover {
+    background-color: #EEEEEE;
+}
+
+.lienVersPartie:hover {
+    text-decoration: none;
+}
