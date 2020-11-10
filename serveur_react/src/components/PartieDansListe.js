@@ -16,7 +16,7 @@ class PartieDansListe extends Component {
         return (
             <tr>
                 <td style={{padding: 0}} className="linkPartieDansListe">
-                    <a href="/">
+                    <a href="/" className="lienVersPartie">
                         <MDBRow>
                             <MDBContainer className='listPartieRow'>
                                 <MDBCol className={this.state.joueurGagnant === 1 ? "font-weight-bold" : ""}>
