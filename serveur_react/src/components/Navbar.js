@@ -1,5 +1,14 @@
 import React, {Component} from "react";
-import {MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse, MDBIcon} from "mdbreact";
+import {
+    MDBNavbar,
+    MDBNavbarBrand,
+    MDBNavbarNav,
+    MDBNavItem,
+    MDBNavLink,
+    MDBNavbarToggler,
+    MDBCollapse,
+    MDBIcon
+} from "mdbreact";
 import {withRouter} from 'react-router-dom';
 
 class Navbar extends Component {
@@ -43,13 +52,11 @@ class Navbar extends Component {
                             :
                             (
                                 <MDBNavItem>
-                                    <MDBNavLink className="waves-effect waves-light" to="/" onClick={()=>{
-                                        console.log(localStorage.getItem("nomUtilisateur"))
-                                        localStorage.clear()
-                                        console.log(localStorage.getItem("nomUtilisateur"))
+                                    <MDBNavLink className="waves-effect waves-light" to="/" onClick={() => {
+                                        localStorage.clear();
                                     }}>
                                         Se deconnecter
-                                        <MDBIcon className="fa-lg ml-3" icon="user" />
+                                        <MDBIcon className="fa-lg ml-3" icon="user"/>
                                     </MDBNavLink>
                                 </MDBNavItem>
                             )

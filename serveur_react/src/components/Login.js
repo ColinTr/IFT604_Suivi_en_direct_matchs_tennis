@@ -1,13 +1,16 @@
 import React, {Component} from 'react';
 import {MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn} from 'mdbreact';
-import logo from '../assets/images/tennis_raquette.png'
+import logo from '../assets/images/tennis_raquette.png';
 import {askForPermissionToReceiveNotifications} from '../notification/push-notification';
-import axios from 'axios'
+import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 class Login extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
+            redirect: false,
             nom_utilisateur: "",
             token: ""
         };
@@ -23,19 +26,20 @@ class Login extends Component {
     };
 
     Connexion() {
+
+
         let that = this;
-        console.log(this.state.nom_utilisateur);
         if (this.state.nom_utilisateur === "") {
             document.getElementById("NomVide").style.display = 'block';
         } else if (this.state.nom_utilisateur !== "") {
             askForPermissionToReceiveNotifications().then(function (result) {
                 that.setState({token: result});
-                console.log("Token : " + that.state.token);
                 let url = 'http://localhost:3000/utilisateurs/' + that.state.nom_utilisateur + '/' + that.state.token;
                 axios.get(url)
                     .then(response => {
                         localStorage.setItem('nomUtilisateur', that.state.nom_utilisateur);
                         localStorage.setItem('idUtilisateur', response.data.id_utilisateur);
+                        that.setState({redirect : true})
                     })
                     // Catch any error here
                     .catch(error => {
@@ -46,6 +50,9 @@ class Login extends Component {
     }
 
     render() {
+        if (this.state.redirect) {
+            return <Redirect to='/' />
+        }
         return (
             <MDBContainer>
                 <MDBRow className="d-flex justify-content-center">
@@ -56,7 +63,8 @@ class Login extends Component {
                             </div>
                             <p className="h5 text-center mb-4">Connexion</p>
                             <div className="grey-text">
-                                <MDBInput label="Nom d'utilisateur" validate error="wrong" success="right" name="nom_utilisateur"
+                                <MDBInput label="Nom d'utilisateur" validate error="wrong" success="right"
+                                          name="nom_utilisateur"
                                           value={this.state.nom_utilisateur} onChange={this.handleChangeNom}/>
                             </div>
                             <div className="text-center">
