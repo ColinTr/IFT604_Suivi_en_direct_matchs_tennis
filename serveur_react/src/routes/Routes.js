@@ -5,6 +5,7 @@ import {MDBAnimation} from 'mdbreact'
 import Accueil from "../components/Accueil"
 import NoMatch from "../components/NoMatch"
 import Joueurs from "../components/Joueurs"
+import ListeParis from "../components/ListeParis"
 
 const Routes = () => {
     return (
@@ -12,6 +13,7 @@ const Routes = () => {
             <Switch>
                 <Route path='/' exact component={Accueil}/>
                 <Route path='/joueurs' component={Joueurs}/>
+                <Route path='/paris' component={ListeParis}/>
                 <Route component={NoMatch}/>
             </Switch>
         </MDBAnimation>

@@ -5,3 +5,37 @@
     --tiertary: #CBD90A;
 }
 
+.pariDiv {
+    display: flex;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    margin-right: 30px;
+    justify-content: center;
+}
+
+.pariTable {
+    border-radius: 25px;
+    border: 2px solid #73AD21;
+    font-weight: bolder;
+}
+
+.joueursParis {
+    background-color: rgb(134, 170, 2);
+    color: black;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.list-paris {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.titreParis {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
