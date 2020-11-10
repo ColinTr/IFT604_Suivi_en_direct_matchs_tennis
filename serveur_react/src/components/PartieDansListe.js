@@ -17,11 +17,11 @@ class PartieDansListe extends Component {
             <tr>
                 <td>
                     <MDBRow>
-                        <MDBContainer className='d-flex align-items-center'>
+                        <MDBContainer className='listPartieRow'>
                             <MDBCol className={this.state.joueurGagnant === 1 ? "font-weight-bold" : ""}>
                                 {this.state.nomJoueur1}
                             </MDBCol>
-                            <MDBCol>
+                            <MDBCol className="listPartieRowItem">
                                 {this.state.listeManches.map(manche => {
                                     return (
                                         <button key={manche.id_manche} type="button"
@@ -32,11 +32,11 @@ class PartieDansListe extends Component {
                         </MDBContainer>
                     </MDBRow>
                     <MDBRow>
-                        <MDBContainer className='d-flex align-items-center'>
+                        <MDBContainer className='listPartieRow'>
                             <MDBCol className={this.state.joueurGagnant === 2 ? "font-weight-bold" : ""}>
                                 {this.state.nomJoueur2}
                             </MDBCol>
-                            <MDBCol>
+                            <MDBCol  className="listPartieRowItem">
                                 {this.state.listeManches.map(manche => {
                                     return (
                                         <button key={manche.id_manche} type="button"

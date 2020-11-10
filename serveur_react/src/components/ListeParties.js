@@ -47,7 +47,7 @@ class ListeParties extends Component {
     render() {
         return (
             <MDBContainer style={{width: '30%'}} >
-                <MDBTable className="sticky-top">
+                <MDBTable className="sticky-top listParties">
                     <MDBTableBody>
                         {this.state.listePartiesData.map(function (partieData, index) {
                                 return <PartieDansListe key={partieData.id_partie} data={partieData}/>

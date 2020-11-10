@@ -43,3 +43,20 @@
     pointer-events: none;
 }
 
+.listParties {
+    display: flex;
+    justify-content: center;
+}
+
+.listPartieRowItem {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+}
+
+.listPartieRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
