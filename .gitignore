@@ -1,2 +1,6 @@
 .idea
 application_android/app/local.properties
+package-lock.json
+serveur_node_js/src/bdd_site.db
+serveur_node_js/src/bdd_site.db
+serveur_node_js/src/bdd_site.db

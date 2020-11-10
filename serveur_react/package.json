@@ -8,9 +8,11 @@
     "@testing-library/user-event": "^12.2.0",
     "axios": "^0.21.0",
     "bootstrap": "^4.5.3",
+    "firebase": "^8.0.1",
     "mdbreact": "^4.27.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-native": "^0.63.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "web-vitals": "^0.2.4"

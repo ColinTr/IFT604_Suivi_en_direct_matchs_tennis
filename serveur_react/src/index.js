@@ -6,6 +6,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import './assets/global.css'
 import registerServiceWorker from './RegisterServiceWorker';
+import { initializeFirebase } from './notification/push-notification';
 
 import {Router} from 'react-router-dom';
 import {createBrowserHistory} from 'history'
@@ -18,5 +19,6 @@ ReactDOM.render(
     </Router>,
     document.getElementById('root')
 );
+initializeFirebase();
 registerServiceWorker();
 
