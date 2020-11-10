@@ -6,6 +6,7 @@
  */
 
 const database = require('../utils/database');
+const index = require('../routes/index');
 
 class Echange {
     constructor(parent, id_echange, id_jeu, gagne_par_joueur, conteste_par_joueur, contestation_acceptee, etat_echange, vitesse_service, nombre_coup_echange) {
@@ -82,6 +83,21 @@ class Echange {
                     }
                 }
             }
+
+            // ==================== SSE contestation ====================
+            if(that.conteste_par_joueur !== -1){
+                // Évènement de manche terminée, on envoie une notification via SSE à nos clients :
+                const messageContestation = {"id": that.id_echange, "retry": 5000,
+                    "data": "{" +
+                        "\"type_notification\" : \"contestation\"" +
+                        ", \"nom_joueur_1\" : \"" + that.parent.parent.parent.joueur1.prenom + " " + that.parent.parent.parent.joueur1.nom + "\"" +
+                        ", \"nom_joueur_2\" : \"" + that.parent.parent.parent.joueur2.prenom + " " + that.parent.parent.parent.joueur2.nom + "\"" +
+                        ", \"conteste_par_joueur\" : " + that.conteste_par_joueur +
+                        ", \"contestation_acceptee\" : " + that.contestation_acceptee + "}"};
+                const sseManager = index.getApp().get('sseManager'); // On récupère notre manager
+                sseManager.broadcast(messageContestation); // On envoie une notification à tous les clients connectés au site
+            }
+            // =============================================================
 
             database.updateEchange(that.id_echange, that.gagne_par_joueur, that.conteste_par_joueur, that.contestation_acceptee, that.etat_echange, that.vitesse_service, that.nombre_coup_echange)
                 .then((nbRows) => {

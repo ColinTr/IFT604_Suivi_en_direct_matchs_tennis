@@ -6,21 +6,65 @@
  */
 
 const express = require('express');
+const app = express();
 const router = express.Router();
 
-const Partie = require('../modeles/partie.js');
-const Joueur = require('../modeles/joueur.js');
+const crypto = require('crypto');
 
 const admin_firebase = require('../utils/firebase_push_notification');
-const notification_options = {
-    priority: "high",
-    timeToLive: 60 * 60 * 24
-};
+
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-    res.send('Bienvenu dans le serveur du service Échanges.').end();
+    res.send('Bienvenue dans le serveur du service Échanges.').end();
 });
+
+
+// ===================== SSE =====================
+const SSEManager = require('../utils/SSEManager');
+
+const sseManager = new SSEManager();
+
+/* On enregistre notre instance dans notre application Express, il sera lors possible
+   de récupérer celle-ci via la méthode "get"
+*/
+app.set('sseManager', sseManager);
+
+router.get('/SSE', function(req, res) {
+    /* Notre route étant publique nous n'avons pas l'identité de l'utilisateur,
+      nous générons donc un identifiant aléatoirement
+    */
+    const id = crypto.randomBytes(16).toString('hex');
+
+    /* On ouvre la connexion avec notre client */
+    sseManager.open(id, res);
+
+    /* On envoie le nombre de clients connectés à l'ensemble des clients */
+    sseManager.broadcast({
+        id: Date.now(),
+        type: 'count',
+        data: sseManager.count()
+    });
+
+    /* en cas de fermeture de la connexion, on supprime le client de notre manager */
+    req.on('close', () => {
+        /* En cas de deconnexion on supprime le client de notre manager */
+        sseManager.delete(id);
+        /* On envoie le nouveau nombre de clients connectés */
+        sseManager.broadcast({
+            id: Date.now(),
+            type: 'count',
+            data: sseManager.count()
+        });
+    });
+});
+
+router.get('/broadcastTestSse', function (req, res, next)  {
+    const message = {"id": 9, "retry": 5000, "data": "message sent by broadcastTestSse route"};
+    sseManager.broadcast(message);
+    res.send("ok");
+});
+// ===============================================
 
 const message = {
     data:{
@@ -38,3 +82,7 @@ router.get('/sendTestNotification', function (req, res, next)  {
 });
 
 module.exports = router;
+
+module.exports.getApp = function getApp(){
+    return app;
+};

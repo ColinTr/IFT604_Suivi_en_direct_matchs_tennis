@@ -9,7 +9,7 @@ import registerServiceWorker from './RegisterServiceWorker';
 import { initializeFirebase } from './notification/push-notification';
 
 import {Router} from 'react-router-dom';
-import {createBrowserHistory} from 'history'
+import {createBrowserHistory} from 'history';
 
 const customHistory = createBrowserHistory();
 
@@ -19,6 +19,6 @@ ReactDOM.render(
     </Router>,
     document.getElementById('root')
 );
+
 initializeFirebase();
 registerServiceWorker();
-

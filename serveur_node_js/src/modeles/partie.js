@@ -10,6 +10,7 @@ const Manche = require('./manche');
 const dateTimeUtils = require('../utils/dateTimeUtils');
 const admin_firebase = require('../utils/firebase_push_notification');
 const Erreur = require('../utils/erreur');
+const index = require('../routes/index');
 
 class Partie {
     constructor(id_partie, joueur1, joueur2, terrain, tournoi, datetime_debut_partie, datetime_fin_partie, etat_partie, score_manche_joueur_1, score_manche_joueur_2, tickDebut) {
@@ -26,11 +27,10 @@ class Partie {
         this.duree_partie = 0;
         this.tick_debut = tickDebut;
         this.modificateurVitesse = Math.max(process.argv[2], 1);
-
         if(isNaN(this.modificateurVitesse)) {
+
             this.modificateurVitesse = 1;
         }
-
         this.manche = undefined;
     }
 
@@ -88,6 +88,22 @@ class Partie {
 
                 // Si la manche en cours est terminée, on met à jour les scores
                 if (that.manche.etat_manche === 1) {
+
+                    // ==================== SSE manche terminée ====================
+                    // Évènement de manche terminée, on envoie une notification via SSE à nos clients :
+                    const messageMancheTerminee = {"id": that.manche.id_manche, "retry": 5000,
+                        "data": "{" +
+                            "\"type_notification\" : \"manche_terminee\"" +
+                            ", \"id_manche\" : " + that.manche.id_manche +
+                            ", \"id_partie\" : " + that.id_partie +
+                            ", \"nom_joueur_1\" : \"" + that.joueur1.prenom + " " + that.joueur1.nom + "\"" +
+                            ", \"nom_joueur_2\" : \"" + that.joueur2.prenom + " " + that.joueur2.nom + "\"" +
+                            ", \"score_joueur_1\" : " + that.manche.score_jeux_joueur_1 +
+                            ", \"score_joueur_2\" : " + that.manche.score_jeux_joueur_2 + "}"};
+                    const sseManager = index.getApp().get('sseManager'); // On récupère notre manager
+                    sseManager.broadcast(messageMancheTerminee); // On envoie une notification à tous les clients connectés au site
+                    // =============================================================
+
                     if (that.manche.score_jeux_joueur_1 > that.manche.score_jeux_joueur_2) {
                         that.score_manche_joueur_1 = that.score_manche_joueur_1 + 1;
                     } else {
