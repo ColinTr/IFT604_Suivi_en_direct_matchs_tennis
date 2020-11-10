@@ -132,3 +132,13 @@
     display: flex;
     justify-content: flex-start;
 }
+.rotate:hover{
+    transform: rotate(0.3turn);
+    transition: transform 500ms ease-in-out;
+}
+
+.rotate{
+    transition: all 500ms;
+    -webkit-transition: all 500ms;
+    -moz-transition: all 500ms;
+}
