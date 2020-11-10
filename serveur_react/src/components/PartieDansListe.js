@@ -37,7 +37,7 @@ class PartieDansListe extends Component {
                                 <MDBCol className={this.state.joueurGagnant === 2 ? "font-weight-bold" : ""}>
                                     {this.state.nomJoueur2}
                                 </MDBCol>
-                                <MDBCol  className="listPartieRowItem">
+                                <MDBCol className="listPartieRowItem">
                                     {this.state.listeManches.map(manche => {
                                         return (
                                             <button key={manche.id_manche} type="button"

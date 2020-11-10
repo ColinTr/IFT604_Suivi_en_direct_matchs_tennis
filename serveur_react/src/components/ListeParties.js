@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PartieDansListe from './PartieDansListe'
 import axios from 'axios'
-import {MDBContainer, MDBTable, MDBTableBody} from "mdbreact";
+import {MDBContainer, MDBTable, MDBTableBody, MDBBtn, MDBIcon} from "mdbreact";
 
 class ListeParties extends Component {
     // Adds a class constructor that assigns the initial state values:
@@ -47,15 +47,18 @@ class ListeParties extends Component {
     // The render method contains the JSX code which will be compiled to HTML.
     render() {
         return (
-            <MDBContainer style={{width: '30%'}} >
-                <MDBTable className="sticky-top listParties">
-                    <MDBTableBody>
-                        {this.state.listePartiesData.map(function (partieData, index) {
-                                return <PartieDansListe key={partieData.id_partie} data={partieData}/>
-                            }
-                        )}
-                    </MDBTableBody>
-                </MDBTable>
+            <MDBContainer>
+                <MDBBtn outline style={{"borderRadius":"50%", "width":"50px", "height":"50px"}}><MDBIcon icon="sync-alt" /></MDBBtn>
+                <MDBContainer style={{width: '30%'}} >
+                    <MDBTable className="sticky-top listParties">
+                        <MDBTableBody>
+                            {this.state.listePartiesData.map(function (partieData, index) {
+                                    return <PartieDansListe key={partieData.id_partie} data={partieData}/>
+                                }
+                            )}
+                        </MDBTableBody>
+                    </MDBTable>
+                </MDBContainer>
             </MDBContainer>
         );
     }
