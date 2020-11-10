@@ -7,7 +7,7 @@ class Accueil extends Component {
 
     render(){
         return(
-            <div>
+            <div className="mt-3">
                 <Login/>
                 <ListeParties/>
             </div>
