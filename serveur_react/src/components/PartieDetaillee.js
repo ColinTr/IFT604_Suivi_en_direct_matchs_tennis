@@ -217,12 +217,13 @@ class PartieDetaillee extends Component{
                             </MDBRow>
 
                             <MDBRow>
-                                <MDBCol className="d-flex justify-content-center" sm="6">
+                                <MDBCol className="d-flex justify-content-center mb-3" >
                                     {(this.state.etatPartie === 0 || (this.state.etatPartie === 1 && this.state.listeManches.length <= 1)) ?
                                         <MDBBtn onClick={this.ParieJoueur1}>Parier</MDBBtn>
                                         : <div></div> }
                                 </MDBCol>
-                                <MDBCol className="d-flex justify-content-center" sm="6">
+                                <MDBCol className="d-flex justify-content-center mb-3 text-center"></MDBCol>
+                                <MDBCol className="d-flex justify-content-center">
                                     {(this.state.etatPartie === 0 || (this.state.etatPartie === 1 && this.state.listeManches.length <= 1)) ?
                                         (<MDBBtn onClick={this.ParieJoueur2}>Parier</MDBBtn>)
                                         : (<div></div>) }
