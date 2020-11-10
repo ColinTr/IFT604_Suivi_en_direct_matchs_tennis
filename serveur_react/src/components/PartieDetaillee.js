@@ -99,11 +99,14 @@ class PartieDetaillee extends Component{
 
             axios.post('http://localhost:3000/paris', paris)
                 .then(res => {
-                    console.log(res);
-                    console.log(res.data);
                 })
                 .catch(error => {
-                    console.log(error)
+                    Swal.fire({
+                        title: 'Erreur!',
+                        text: 'Impossible de créer le pari, la manche 1 est terminé',
+                        icon: 'error',
+                        confirmButtonText: 'Cancel'
+                    })
                 });
         }
     }
@@ -138,11 +141,14 @@ class PartieDetaillee extends Component{
 
             axios.post('http://localhost:3000/paris', paris)
                 .then(res => {
-                    console.log(res);
-                    console.log(res.data);
                 })
                 .catch(error => {
-                    console.log(error)
+                    Swal.fire({
+                        title: 'Erreur!',
+                        text: 'Impossible de créer le pari, la manche 1 est terminé',
+                        icon: 'error',
+                        confirmButtonText: 'Cancel'
+                    })
                 });
         }
     }
