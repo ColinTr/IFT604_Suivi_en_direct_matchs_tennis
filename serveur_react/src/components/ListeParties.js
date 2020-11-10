@@ -22,6 +22,8 @@ class ListeParties extends Component {
 
         this.updateListeParties();
 
+        this.updateListeParties = this.updateListeParties.bind(this);
+
         this.intervalID = setInterval(() => {
             this.updateListeParties();
         }, 10000);
@@ -48,7 +50,7 @@ class ListeParties extends Component {
     render() {
         return (
             <MDBContainer>
-                <MDBBtn outline style={{"borderRadius":"50%", "width":"50px", "height":"50px"}}><MDBIcon icon="sync-alt" /></MDBBtn>
+                <MDBBtn outline style={{"borderRadius":"50%", "width":"50px", "height":"50px"}} onClick={this.updateListeParties}><MDBIcon icon="sync-alt" /></MDBBtn>
                 <MDBContainer style={{width: '30%'}} >
                     <MDBTable className="sticky-top listParties">
                         <MDBTableBody>
