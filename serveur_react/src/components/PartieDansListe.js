@@ -36,11 +36,12 @@ class PartieDansListe extends Component {
                                     </MDBCol>
                                 </MDBContainer>
                             </MDBRow>
+                            <MDBRow>
                                 <MDBContainer className='listPartieRow'>
                                     <MDBCol className={this.state.joueurGagnant === 2 ? "font-weight-bold" : ""}>
                                         {this.state.nomJoueur2}
                                     </MDBCol>
-                                    <MDBCol  className="listPartieRowItem">
+                                    <MDBCol className="listPartieRowItem">
                                         {this.state.listeManches.map(manche => {
                                             return (
                                                 <button key={manche.id_manche} type="button"
@@ -50,35 +51,36 @@ class PartieDansListe extends Component {
                                     </MDBCol>
                                 </MDBContainer>
                             </MDBRow>
-                        </td>
-                    </tr>
-                )
-            }
-            else {
-                return (
-                    <tr>
-                        <td>
-                            <MDBRow>
-                                <MDBContainer className='d-flex align-items-center'>
-                                    <MDBCol className={this.state.joueurGagnant === 1 ? "font-weight-bold" : ""}>
-                                        {this.state.nomJoueur1}
-                                    </MDBCol>
-                                    <MDBCol className='font-weight-bold'>
-                                        {this.state.datetime_debut_partie.split(" ")[1]}
-                                    </MDBCol>
-                                </MDBContainer>
-                            </MDBRow>
-                            <MDBRow>
-                                <MDBContainer className='d-flex align-items-center'>
-                                    <MDBCol className={this.state.joueurGagnant === 2 ? "font-weight-bold" : ""}>
-                                        {this.state.nomJoueur2}
-                                    </MDBCol>
-                                </MDBContainer>
-                            </MDBRow>
                         </a>
                     </td>
                 </tr>
+            )
+        }
+        else {
+            return (
+                <tr>
+                    <td>
+                        <MDBRow>
+                            <MDBContainer className='d-flex align-items-center'>
+                                <MDBCol className={this.state.joueurGagnant === 1 ? "font-weight-bold" : ""}>
+                                    {this.state.nomJoueur1}
+                                </MDBCol>
+                                <MDBCol className='font-weight-bold'>
+                                    {this.state.datetime_debut_partie.split(" ")[1]}
+                                </MDBCol>
+                            </MDBContainer>
+                        </MDBRow>
+                        <MDBRow>
+                            <MDBContainer className='d-flex align-items-center'>
+                                <MDBCol className={this.state.joueurGagnant === 2 ? "font-weight-bold" : ""}>
+                                    {this.state.nomJoueur2}
+                                </MDBCol>
+                            </MDBContainer>
+                        </MDBRow>
+                    </td>
+                </tr>
             );
+        }
     }
 }
 
