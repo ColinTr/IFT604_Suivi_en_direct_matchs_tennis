@@ -50,7 +50,7 @@ class ListeParties extends Component {
     render() {
         return (
             <MDBContainer>
-                <MDBBtn outline style={{"borderRadius":"50%", "width":"50px", "height":"50px"}} onClick={this.updateListeParties}><MDBIcon icon="sync-alt" /></MDBBtn>
+                <MDBBtn className="rotate" outline style={{"borderRadius":"50%", "width":"50px", "height":"50px"}} onClick={this.updateListeParties}><MDBIcon icon="sync-alt" /></MDBBtn>
                 <MDBContainer>
                     <MDBTable className="sticky-top listParties">
                         <MDBTableBody>

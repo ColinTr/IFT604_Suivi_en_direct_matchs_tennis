@@ -2,6 +2,7 @@ import React from 'react'
 import {Route, Switch} from 'react-router-dom'
 import {MDBAnimation} from 'mdbreact'
 
+import AuthRoute from "./AuthRoute";
 import Accueil from "../components/Accueil"
 import NoMatch from "../components/NoMatch"
 import Joueurs from "../components/Joueurs"
@@ -14,10 +15,9 @@ const Routes = () => {
             <Switch>
                 <Route path='/' exact component={Accueil}/>
                 <Route path='/joueurs' component={Joueurs}/>
-                <Route path='/paris' component={ListeParis}/>
-                <Route path='/parties/:idPartie' component={PartieDetaillee}/>
+                <AuthRoute path='/paris' component={ListeParis}/>
+                <AuthRoute path='/parties/:idPartie' component={PartieDetaillee}/>
                 <Route component={NoMatch}/>
-
             </Switch>
         </MDBAnimation>
     )
