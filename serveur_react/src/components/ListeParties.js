@@ -12,6 +12,8 @@ class ListeParties extends Component {
         };
     }
 
+    intervalID = 0;
+
     // This is called when an instance of a component is being created and inserted into the DOM.
     componentDidMount() {
         if (!navigator.onLine) {
@@ -20,9 +22,13 @@ class ListeParties extends Component {
 
         this.updateListeParties();
 
-        setInterval(() => {
+        this.intervalID = setInterval(() => {
             this.updateListeParties();
         }, 10000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.intervalID);
     }
 
     updateListeParties() {
