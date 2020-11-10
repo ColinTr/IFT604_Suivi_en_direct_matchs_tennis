@@ -25,7 +25,7 @@ class PartieDansListe extends Component {
                                 {this.state.listeManches.map(manche => {
                                     return (
                                         <button key={manche.id_manche} type="button"
-                                                className={manche.score_jeux_joueur_1 === 6 ? "btn btn-success" : "btn btn-dark"}>{manche.score_jeux_joueur_1}</button>
+                                                className={manche.score_jeux_joueur_1 === 6 ? "btn btn-success unclickable" : "btn btn-dark unclickable"}>{manche.score_jeux_joueur_1}</button>
                                     )
                                 })}
                             </MDBCol>
@@ -40,7 +40,7 @@ class PartieDansListe extends Component {
                                 {this.state.listeManches.map(manche => {
                                     return (
                                         <button key={manche.id_manche} type="button"
-                                                className={manche.score_jeux_joueur_2 === 6 ? "btn btn-success" : "btn btn-dark"}>{manche.score_jeux_joueur_2}</button>
+                                                className={manche.score_jeux_joueur_2 === 6 ? "btn btn-success unclickable" : "btn btn-dark unclickable"}>{manche.score_jeux_joueur_2}</button>
                                     )
                                 })}
                             </MDBCol>

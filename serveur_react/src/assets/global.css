@@ -39,3 +39,7 @@
     margin-bottom: 50px;
 }
 
+.unclickable {
+    pointer-events: none;
+}
+
