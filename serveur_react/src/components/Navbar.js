@@ -51,19 +51,14 @@ class Navbar extends Component {
                             ""
                             :
                             (
-                                <React.Fragment>
-                                    <MDBNavItem>
-                                        <b>{localStorage.getItem("nomUtilisateur")}</b>
-                                    </MDBNavItem>
-                                    <MDBNavItem>
-                                        <MDBNavLink className="waves-effect waves-light" to="/" onClick={() => {
-                                            localStorage.clear();
-                                        }}>
-                                            Se deconnecter
-                                            <MDBIcon className="fa-lg ml-3" icon="user"/>
-                                        </MDBNavLink>
-                                    </MDBNavItem>
-                                </React.Fragment>
+                                <MDBNavItem className="infoUtilisateurNavBar">
+                                    <span>{localStorage.getItem('nomUtilisateur')}</span>
+                                    <MDBNavLink to="/" icon="times-circle" onClick={() => {
+                                        localStorage.clear();
+                                    }}>
+                                        <MDBIcon className="fa-sm" icon="door-open" />
+                                    </MDBNavLink>
+                                </MDBNavItem>
                             )
                         }
                     </MDBNavbarNav>
