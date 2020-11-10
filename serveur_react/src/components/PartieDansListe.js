@@ -16,8 +16,8 @@ class PartieDansListe extends Component {
     }
 
     render() {
-        if (this.state.etat_partie === 1 || this.state.datetime_fin_partie !== null){
-            return (
+        (this.state.etat_partie === 1 || this.state.datetime_fin_partie !== null) ? 
+        ( 
                 <tr>
                     <td style={{padding: 0}} className="linkPartieDansListe">
                         <a href="/" className="lienVersPartie">
@@ -54,10 +54,8 @@ class PartieDansListe extends Component {
                         </a>
                     </td>
                 </tr>
-            )
-        }
-        else {
-            return (
+        )
+        : (
                 <tr>
                     <td>
                         <MDBRow>
@@ -79,8 +77,7 @@ class PartieDansListe extends Component {
                         </MDBRow>
                     </td>
                 </tr>
-            );
-        }
+            )
     }
 }
 
