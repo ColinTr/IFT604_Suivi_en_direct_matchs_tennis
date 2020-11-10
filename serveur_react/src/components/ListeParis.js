@@ -28,6 +28,7 @@ class ListeParis extends Component {
         //Faire avec l'id de l'utilisateur
         axios.get('http://localhost:3000/paris/utilisateur/' + localStorage.getItem('idUtilisateur'))
             .then(response => {
+                this.setState({listeParisData: []});
                 this.setState({ listeParisData: response.data });
                 localStorage.setItem('listeParisData', response.data);
             })

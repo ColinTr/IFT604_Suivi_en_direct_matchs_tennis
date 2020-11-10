@@ -34,6 +34,7 @@ class ListeParties extends Component {
     updateListeParties() {
         axios.get('http://localhost:3000/parties')
             .then(response => {
+                this.setState({listePartiesData: []});
                 this.setState({listePartiesData: response.data});
                 localStorage.setItem('listePartiesData', response.data);
             })
