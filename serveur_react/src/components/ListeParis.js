@@ -26,7 +26,7 @@ class ListeParis extends Component {
 
     updateListeParis(){
         //Faire avec l'id de l'utilisateur
-        axios.get('http://localhost:3000/paris/utilisateur/6')
+        axios.get('http://localhost:3000/paris/utilisateur/' + localStorage.getItem('idUtilisateur'))
             .then(response => {
                 this.setState({ listeParisData: response.data });
                 localStorage.setItem('listeParisData', response.data);
