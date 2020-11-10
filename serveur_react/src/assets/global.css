@@ -39,6 +39,11 @@
     margin-bottom: 50px;
 }
 
+.titreJoueurs {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
 .unclickable {
     pointer-events: none;
 }
