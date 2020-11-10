@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse} from "mdbreact";
+import {MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse, MDBIcon} from "mdbreact";
 import {withRouter} from 'react-router-dom';
 
 class Navbar extends Component {
@@ -28,9 +28,28 @@ class Navbar extends Component {
                             <MDBNavLink to="/joueurs">Joueurs</MDBNavLink>
                         </MDBNavItem>
 
-                        <MDBNavItem>
-                            <MDBNavLink to="/paris">Paris</MDBNavLink>
-                        </MDBNavItem>
+                        {!localStorage.getItem("nomUtilisateur")
+                            ? ""
+                            :
+                            (<MDBNavItem>
+                                <MDBNavLink to="/paris">Paris</MDBNavLink>
+                            </MDBNavItem>)
+                        }
+                    </MDBNavbarNav>
+                    <MDBNavbarNav right>
+                        {!localStorage.getItem("nomUtilisateur")
+                            ?
+                            ""
+                            :
+                            (
+                                <MDBNavItem>
+                                    <MDBNavLink className="waves-effect waves-light" to="/login" onClick={()=>localStorage.clear()}>
+                                        Se deconnecter
+                                        <MDBIcon className="fa-lg ml-3" icon="user" />
+                                    </MDBNavLink>
+                                </MDBNavItem>
+                            )
+                        }
                     </MDBNavbarNav>
                 </MDBCollapse>
             </MDBNavbar>
