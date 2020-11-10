@@ -15,7 +15,7 @@ class PartieDansListe extends Component {
     render() {
         return (
             <tr>
-                <td>
+                <td style={{padding: 0}} className="linkPartieDansListe">
                     <a href="/">
                         <MDBRow>
                             <MDBContainer className='d-flex align-items-center'>
@@ -50,7 +50,6 @@ class PartieDansListe extends Component {
                     </a>
                 </td>
             </tr>
-
         );
     }
 }
