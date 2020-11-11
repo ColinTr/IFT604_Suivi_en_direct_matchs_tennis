@@ -1,4 +1,5 @@
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/messaging';   // for cloud messaging
 
 export const initializeFirebase = () => {
 

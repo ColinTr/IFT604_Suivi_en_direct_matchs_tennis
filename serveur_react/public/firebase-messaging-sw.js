@@ -1,6 +1,7 @@
 importScripts('https://www.gstatic.com/firebasejs/4.8.1/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/4.8.1/firebase-messaging.js');
 
+
 var firebaseConfig = {
     apiKey: "AIzaSyBcQ_eStpGNWjtm8nX5pXvlSc9fq_UQHiI",
     authDomain: "tennisbet2.firebaseapp.com",

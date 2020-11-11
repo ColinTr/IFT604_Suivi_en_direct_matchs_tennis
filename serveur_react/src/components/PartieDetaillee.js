@@ -17,8 +17,16 @@ class PartieDetaillee extends Component{
             rangJoueur2: "",
             dureePartieSecondes : "",
             etatPartie : 0,
-            listeManches : []
+            listeManches : [],
+            contestationsAccepteJ1 : 0,
+            contestationsRefuseJ1 : 0,
+            contestationsAccepteJ2 : 0,
+            contestationsRefuseJ2 : 0,
+            nbCoupsEchanges : 0,
+            pointsMarquesJ1 : 0,
+            pointsMarquesJ2 : 0,
         }
+        this.setNombreContestations = this.setNombreContestations.bind(this);
     }
 
     intervalID = 1;
@@ -39,7 +47,6 @@ class PartieDetaillee extends Component{
         axios.get('http://localhost:3000/parties/'+idPartie)
             .then(response => {
                 const data = response.data
-                console.log(response.data)
                 this.setState({
                     nomJoueur1 : data.joueur1.prenom + " " + data.joueur1.nom,
                     idJoueur1 : data.joueur1.id_joueur,
@@ -51,8 +58,8 @@ class PartieDetaillee extends Component{
                     etatPartie : data.etat_partie,
                     listeManches : data.liste_manches,
                     joueurGagnant : data.joueur_gagnant,
-
                 })
+                this.setNombreContestations(data.liste_manches)
             })
             // Catch any error here
             .catch(error => {
@@ -67,6 +74,61 @@ class PartieDetaillee extends Component{
         hour /= 60;
 
         return hour.toFixed(0)+" : "+minutes.toFixed(0)+" : "+newSeconds
+    }
+
+    setNombreContestations = (listesManches) => {
+        let contestationsAccepteJ1 = 0;
+        let contestationsAccepteJ2 = 0;
+        let constestationsRefuseJ1 = 0;
+        let contestationsRefuseJ2 = 0;
+        let nbCoupsEchanges = 0;
+        let pointsMarqueJ1 = 0;
+        let pointsMarqueJ2 = 0;
+
+        listesManches.forEach((manche) => {
+            manche.liste_jeux.forEach((jeu) => {
+                jeu.list_echanges.forEach((echange) => {
+                    nbCoupsEchanges = nbCoupsEchanges + echange.nombre_coup_echange;
+
+                    //Si echange gagne par joueur 1
+                    if(echange.gagne_par_joueur === 1)
+                    {
+                        pointsMarqueJ1 = pointsMarqueJ1 + 1
+                    }//Sinon gagne par joueur 2
+                    else {
+                        pointsMarqueJ2 = pointsMarqueJ2 + 1
+                    }
+                    
+                    //Contestation refuse du joueur 1
+                    if(echange.conteste_par_joueur === 1 && echange.contestation_acceptee === 0)
+                    {
+                        constestationsRefuseJ1 = constestationsRefuseJ1 + 1
+                    }//Contestation accepte du joueur 1
+                    else if(echange.conteste_par_joueur === 1 && echange.contestation_acceptee === 1)
+                    {
+                        contestationsAccepteJ1 = contestationsAccepteJ1 + 1
+                    }//Contestation refuse du joueur 2
+                    else if(echange.conteste_par_joueur === 2 && echange.contestation_acceptee === 0)
+                    {
+                        contestationsRefuseJ2 = contestationsRefuseJ2 + 1
+                    }//Contestation accepte du joueur 2
+                    else if (echange.conteste_par_joueur === 2 && echange.contestation_acceptee === 1)
+                    {
+                        contestationsAccepteJ2 = contestationsAccepteJ2 + 1
+                    }
+                })
+            })
+        })
+
+        this.setState({
+            contestationsAccepteJ1 : contestationsAccepteJ1,
+            contestationsRefuseJ1 : constestationsRefuseJ1,
+            contestationsAccepteJ2 : contestationsAccepteJ2,
+            contestationsRefuseJ2 : contestationsRefuseJ2,
+            nbCoupsEchanges : nbCoupsEchanges,
+            pointsMarqueJ1 : pointsMarqueJ1,
+            pointsMarqueJ2 : pointsMarqueJ2
+        })
     }
 
     ParieJoueur1 = async () => {
@@ -191,9 +253,9 @@ class PartieDetaillee extends Component{
                                 <MDBCol className="d-flex justify-content-center mb-3 text-center">{this.state.nomJoueur2}</MDBCol>
                             </MDBRow>
                             <MDBRow>
-                                <MDBCol className="d-flex justify-content-center mb-3 text-center">72</MDBCol>
+                                <MDBCol className="d-flex justify-content-center mb-3 text-center">{this.state.pointsMarquesJ1}</MDBCol>
                                 <MDBCol className="d-flex justify-content-center mb-3 text-center">Points marqués</MDBCol>
-                                <MDBCol className="d-flex justify-content-center mb-3 text-center">73</MDBCol>
+                                <MDBCol className="d-flex justify-content-center mb-3 text-center">{this.state.pointsMarquesJ2}</MDBCol>
                             </MDBRow>
                             <MDBRow>
                                 <MDBCol className="d-flex justify-content-center mb-3 text-center">151</MDBCol>
@@ -206,20 +268,20 @@ class PartieDetaillee extends Component{
                                 <MDBCol className="d-flex justify-content-center mb-3 text-danger text-center">Contestations</MDBCol>
                             </MDBRow>
                             <MDBRow>
-                                <MDBCol className="d-flex justify-content-center mb-3 text-center">2</MDBCol>
+                                <MDBCol className="d-flex justify-content-center mb-3 text-center">{this.state.contestationsAccepteJ1}</MDBCol>
                                 <MDBCol className="d-flex justify-content-center mb-3 text-center">Contestations validés</MDBCol>
-                                <MDBCol className="d-flex justify-content-center mb-3 text-center">0</MDBCol>
+                                <MDBCol className="d-flex justify-content-center mb-3 text-center">{this.state.contestationsAccepteJ2}</MDBCol>
                             </MDBRow>
                             <MDBRow>
-                                <MDBCol className="d-flex justify-content-center mb-3 text-center">0</MDBCol>
+                                <MDBCol className="d-flex justify-content-center mb-3 text-center">{this.state.contestationsRefuseJ1}</MDBCol>
                                 <MDBCol className="d-flex justify-content-center mb-3 text-center">Contestations refusées</MDBCol>
-                                <MDBCol className="d-flex justify-content-center mb-3 text-center">2</MDBCol>
+                                <MDBCol className="d-flex justify-content-center mb-3 text-center">{this.state.contestationsRefuseJ2}</MDBCol>
                             </MDBRow>
                             <MDBRow>
                                 <MDBCol className="d-flex justify-content-center mb-1 text-center">Coups échangés :</MDBCol>
                             </MDBRow>
                             <MDBRow>
-                                <MDBCol className="d-flex justify-content-center mb-3 text-center">2517</MDBCol>
+                                <MDBCol className="d-flex justify-content-center mb-3 text-center">{this.state.nbCoupsEchanges}</MDBCol>
                             </MDBRow>
 
                             <MDBRow>
@@ -229,7 +291,7 @@ class PartieDetaillee extends Component{
                                         : <div></div> }
                                 </MDBCol>
                                 <MDBCol className="d-flex justify-content-center mb-3 text-center"></MDBCol>
-                                <MDBCol className="d-flex justify-content-center">
+                                <MDBCol className="d-flex justify-content-center mb-3">
                                     {(this.state.etatPartie === 0 || (this.state.etatPartie === 1 && this.state.listeManches.length <= 1)) ?
                                         (<MDBBtn onClick={this.ParieJoueur2}>Parier</MDBBtn>)
                                         : (<div></div>) }
