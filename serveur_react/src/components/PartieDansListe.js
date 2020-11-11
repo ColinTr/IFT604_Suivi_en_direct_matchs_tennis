@@ -57,7 +57,7 @@ class PartieDansListe extends Component {
         : (
             <tr>
                 <td style={{padding: 0}} className="linkPartieDansListe">
-                    <a href={'/parties/'+this.props.data.id_partie }>
+                    <a className="lienVersPartie" href={'/parties/'+this.props.data.id_partie }>
                         <MDBRow>
                             <MDBContainer className='d-flex align-items-center'>
                                 <MDBCol className={this.state.joueurGagnant === 1 ? "nomJoueurMatchNonCommence font-weight-bold" : "nomJoueurMatchNonCommence"}>

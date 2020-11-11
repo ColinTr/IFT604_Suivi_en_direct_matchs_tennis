@@ -25,6 +25,10 @@ class PartieDetaillee extends Component {
             nbCoupsEchanges: 0,
             pointsMarquesJ1: 0,
             pointsMarquesJ2: 0,
+            joueurAuService: 0,
+            pointsJ1JeuEnCours: 0,
+            pointsJ2JeuEnCours: 0,
+            
         };
         this.updateDataPartie = this.updateDataPartie.bind(this);
         this.updatePartie = this.updatePartie.bind(this);
@@ -82,11 +86,20 @@ class PartieDetaillee extends Component {
         let nbCoupsEchanges = 0;
         let pointsMarquesJ1 = 0;
         let pointsMarquesJ2 = 0;
+        let joueurAuService = 0;
+        let pointsJ1JeuEnCours = 0;
+        let pointsJ2JeuEnCours = 0;
 
         let listesManches = dataPartie.liste_manches;
 
         listesManches.forEach((manche) => {
             manche.liste_jeux.forEach((jeu) => {
+                if(jeu.etat_Jeu === 0) { 
+                    joueurAuService = jeu.joueur_au_service; 
+                    pointsJ1JeuEnCours = jeu.score_echanges_joueur_1;
+                    pointsJ2JeuEnCours = jeu.score_echanges_joueur_2;
+                }
+                
                 jeu.list_echanges.forEach((echange) => {
                     nbCoupsEchanges += echange.nombre_coup_echange;
 
@@ -132,7 +145,10 @@ class PartieDetaillee extends Component {
             contestationsRefuseJ2: contestationsRefuseJ2,
             nbCoupsEchanges: nbCoupsEchanges,
             pointsMarquesJ1: pointsMarquesJ1,
-            pointsMarquesJ2: pointsMarquesJ2
+            pointsMarquesJ2: pointsMarquesJ2,
+            joueurAuService: joueurAuService,
+            pointsJ1JeuEnCours: pointsJ1JeuEnCours,
+            pointsJ2JeuEnCours: pointsJ2JeuEnCours
         })
     };
 
@@ -242,6 +258,33 @@ class PartieDetaillee extends Component {
                                 <MDBCol
                                     className="d-flex justify-content-center mb-3 text-center">{this.state.nomJoueur2}</MDBCol>
                             </MDBRow>
+                            {(this.state.etatPartie === 1) ?
+                                (
+                                    <MDBContainer>
+                                        <MDBRow><MDBCol className="ml-5 m-3"><b>Stats jeu en cours</b></MDBCol></MDBRow>
+
+                                        <MDBRow>
+                                            <MDBCol 
+                                                className="d-flex justify-content-center mb-3 text-center text-success">{(this.state.joueurAuService === 1) ? "Service" : ""}</MDBCol>
+                                            <MDBCol className="d-flex justify-content-center mb-3 text-center"/>
+                                            <MDBCol
+                                                className="d-flex justify-content-center mb-3 text-center text-success">{(this.state.joueurAuService === 2) ? "Service" : ""}</MDBCol>
+                                        </MDBRow>
+
+                                        <MDBRow>
+                                            <MDBCol 
+                                                className="d-flex justify-content-center mb-3 text-center">{this.state.pointsJ1JeuEnCours}</MDBCol>
+                                            <MDBCol className="d-flex justify-content-center mb-3 text-center">Points</MDBCol>
+                                            <MDBCol
+                                                className="d-flex justify-content-center mb-3 text-center">{this.state.pointsJ2JeuEnCours}</MDBCol>
+                                        </MDBRow>
+
+                                        <MDBRow><MDBCol className="ml-5 m-3"><b>Stats de la partie en cours</b></MDBCol></MDBRow>
+                                    </MDBContainer>
+                                )
+                                : ""
+
+                            }
                             <MDBRow>
                                 <MDBCol
                                     className="d-flex justify-content-center mb-3 text-center">{this.state.pointsMarquesJ1}</MDBCol>
