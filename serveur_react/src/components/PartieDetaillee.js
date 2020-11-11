@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {MDBContainer, MDBRow, MDBCol, MDBCard, MDBBtn} from "mdbreact";
+import {MDBContainer, MDBRow, MDBCol, MDBCard, MDBBtn, MDBIcon} from "mdbreact";
 import axios from "axios";
 import Swal from 'sweetalert2';
 
@@ -33,9 +33,9 @@ class PartieDetaillee extends Component{
 
     // This is called when an instance of a component is being created and inserted into the DOM.
     componentDidMount() {
-        this.updatePartie(this.state.idPartie);
+        this.updatePartie();
         this.intervalID = setInterval(() => {
-            this.updatePartie(this.state.idPartie);
+            this.updatePartie();
         }, 10000);
     }
 
@@ -43,8 +43,8 @@ class PartieDetaillee extends Component{
         clearInterval(this.intervalID);
     }
 
-    updatePartie(idPartie) {
-        axios.get('http://localhost:3000/parties/'+idPartie)
+    updatePartie() {
+        axios.get('http://localhost:3000/parties/' + this.state.idPartie)
             .then(response => {
                 const data = response.data
                 this.setState({
@@ -219,6 +219,9 @@ class PartieDetaillee extends Component{
         return(
             <MDBContainer>
                 <MDBRow className="rowMatchEnCours">
+                    <MDBCol size="1">
+                        <MDBBtn className="rotate" outline style={{"borderRadius":"50%", "width":"50px", "height":"50px"}} onClick={this.updatePartie}><MDBIcon icon="sync-alt" /></MDBBtn>
+                    </MDBCol>
                     <MDBCol>
                         <MDBCard className="p-3">
                             <MDBRow>
@@ -299,6 +302,8 @@ class PartieDetaillee extends Component{
                             </MDBRow>
 
                         </MDBCard>
+                    </MDBCol>
+                    <MDBCol size="1">
                     </MDBCol>
                 </MDBRow>
             </MDBContainer>
