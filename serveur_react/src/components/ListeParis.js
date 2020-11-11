@@ -7,9 +7,12 @@ class ListeParis extends Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
             listeParisData : []
         };
+
+        this.intervalID = 0;
     }
 
     // This is called when an instance of a component is being created and inserted into the DOM.
@@ -20,9 +23,13 @@ class ListeParis extends Component {
 
         this.updateListeParis();
 
-        setInterval(() => {
+        this.intervalID = setInterval(() => {
             this.updateListeParis();
         }, 10000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.intervalID);
     }
 
     updateListeParis(){
@@ -53,6 +60,8 @@ class ListeParis extends Component {
                     {this.state.listeParisData.map(function (parisData, index) {
                         if(parisData.joueur1 !== undefined && parisData.joueur2 !== undefined) {
                             return <ParisDansListe key={parisData.id_pari} data={parisData}/>
+                        } else {
+                            return null;
                         }
                     })}
                 </div>
