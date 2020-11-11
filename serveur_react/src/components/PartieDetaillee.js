@@ -27,6 +27,7 @@ class PartieDetaillee extends Component{
             pointsMarquesJ2 : 0,
         }
         this.setNombreContestations = this.setNombreContestations.bind(this);
+        this.updatePartie = this.updatePartie.bind(this);
     }
 
     intervalID = 1;
