@@ -17,13 +17,14 @@ class ParisDansListe extends Component {
     render() {
         return (
             <div className="pariDiv">
-                <MDBTable className="pariTable">
+                <MDBTable style={{borderRadius: "25px"}} className="pariTable">
                     <MDBTableBody>
                         <tr className="joueursParis"><td className="bold">{this.state.nomJoueur1} vs {this.state.nomJoueur2}</td></tr>
-                        <tr className="joueurGagnantParis"><td><span className="bold">Joueur Gagnant = </span>{this.state.joueurGagnant === 1 ?  this.state.nomJoueur1 : this.state.nomJoueur2}</td></tr>
-                        <tr className="miseParis"><td><span className="bold">Mise = </span>{this.state.montantParie + ' €'}</td></tr>
-                        <tr className="montantGagneParis"><td><span className="bold">Montant Gagne = </span><span style={{color: this.state.montantGagne > 0 ? "green" : "red"}}>{this.state.montantGagne + ' €'}</span></td></tr>
-                        <tr className="joueurParieParis"><td><span className="bold">Joueur Parie = </span>{this.state.numJoueurParie === 1 ? this.state.nomJoueur1 : this.state.nomJoueur2}</td></tr>
+                        <tr><td><span className="bold">Mise : </span>{this.state.montantParie + ' €'}</td></tr>
+                        <tr><td><span className="bold">Prédiction : </span>{this.state.numJoueurParie === 1 ? this.state.nomJoueur1 : this.state.nomJoueur2}</td></tr>
+                        <tr><td><span className="bold">Gagnant : </span>{this.state.joueurGagnant === 1 ?  this.state.nomJoueur1 : (this.state.joueurGagnant === 2 ? this.state.nomJoueur2 : "Partie non terminée") }</td></tr>
+                        <tr><td><span className="bold">Montant gagné : </span><span style={{ color: this.state.joueurGagnant === 0 ? "" : (this.state.montantGagne > 0 ? "green" : "red")}}><b>{this.state.joueurGagnant === 0  ? "Partie non terminée" : this.state.montantGagne + ' €'}</b></span></td></tr>
+
                     </MDBTableBody>
                 </MDBTable>
             </div>

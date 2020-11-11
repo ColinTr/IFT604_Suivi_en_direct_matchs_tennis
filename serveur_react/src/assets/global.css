@@ -1,8 +1,8 @@
 
 :root {
-    --primary: #7D9309;
-    --secondary: #1C1C19;
-    --tiertary: #CBD90A;
+    --primaryColor: #7D9309;
+    --secondaryColor: #1C1C19;
+    --tiertaryColor: #CBD90A;
 }
 
 .pariDiv {
@@ -14,13 +14,13 @@
 }
 
 .pariTable {
-    border-radius: 25px;
-    border: 2px solid #73AD21;
     font-weight: bolder;
+
+    border: 2px solid var(--tiertaryColor);
 }
 
 .joueursParis {
-    background-color: rgb(134, 170, 2);
+    background-color: var(--tiertaryColor);
     color: black;
 }
 
