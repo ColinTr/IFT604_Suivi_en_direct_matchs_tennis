@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import ParisDansListe from './ParisDansListe';
+import * as Swal from "sweetalert2";
 
 class ListeParis extends Component {
 
@@ -34,7 +35,12 @@ class ListeParis extends Component {
             })
             // Catch any error here
             .catch(error => {
-                console.log(error)
+                Swal.fire({
+                    title: 'Erreur!',
+                    text: error.response.data.error,
+                    icon: 'error',
+                    confirmButtonText: 'Cancel'
+                })
             });
     }
 
@@ -45,9 +51,10 @@ class ListeParis extends Component {
                 <h1 className="text-center titreParis">Liste de vos paris</h1>
                 <div className="list-paris">
                     {this.state.listeParisData.map(function (parisData, index) {
+                        if(parisData.joueur1 !== undefined && parisData.joueur2 !== undefined) {
                             return <ParisDansListe key={parisData.id_pari} data={parisData}/>
                         }
-                    )}
+                    })}
                 </div>
             </div>
         );

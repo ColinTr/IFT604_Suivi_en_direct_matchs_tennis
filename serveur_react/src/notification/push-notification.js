@@ -3,7 +3,7 @@ import 'firebase/messaging';   // for cloud messaging
 
 export const initializeFirebase = () => {
 
-    var firebaseConfig = {
+    const firebaseConfig = {
         apiKey: "AIzaSyBcQ_eStpGNWjtm8nX5pXvlSc9fq_UQHiI",
         authDomain: "tennisbet2.firebaseapp.com",
         databaseURL: "https://tennisbet2.firebaseio.com",
@@ -15,7 +15,7 @@ export const initializeFirebase = () => {
     };
 
     firebase.initializeApp(firebaseConfig);
-}
+};
 
 export const askForPermissionToReceiveNotifications = async () => {
     try {
@@ -27,4 +27,4 @@ export const askForPermissionToReceiveNotifications = async () => {
     } catch (error) {
         console.error(error);
     }
-}
+};

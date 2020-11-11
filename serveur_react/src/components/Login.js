@@ -4,6 +4,7 @@ import logo from '../assets/images/tennis_raquette.png';
 import {askForPermissionToReceiveNotifications} from '../notification/push-notification';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom';
+import * as Swal from "sweetalert2";
 
 class Login extends Component {
 
@@ -41,7 +42,12 @@ class Login extends Component {
                     })
                     // Catch any error here
                     .catch(error => {
-                        console.log(error)
+                        Swal.fire({
+                            title: 'Erreur!',
+                            text: error.response.data.error,
+                            icon: 'error',
+                            confirmButtonText: 'Cancel'
+                        })
                     });
             })
         }

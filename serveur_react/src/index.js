@@ -5,7 +5,7 @@ import 'mdbreact/dist/css/mdb.css'
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import './assets/global.css'
-import registerServiceWorker from './RegisterServiceWorker';
+// import registerServiceWorker from './RegisterServiceWorker';
 import { initializeFirebase } from './notification/push-notification';
 
 import {Router} from 'react-router-dom';
@@ -21,4 +21,4 @@ ReactDOM.render(
 );
 
 initializeFirebase();
-//registerServiceWorker();
+// registerServiceWorker();

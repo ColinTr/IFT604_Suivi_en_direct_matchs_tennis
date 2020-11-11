@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PartieDansListe from './PartieDansListe'
 import axios from 'axios'
 import {MDBContainer, MDBTable, MDBTableBody, MDBBtn, MDBIcon} from "mdbreact";
+import * as Swal from "sweetalert2";
 
 class ListeParties extends Component {
     // Adds a class constructor that assigns the initial state values:
@@ -42,7 +43,12 @@ class ListeParties extends Component {
             })
             // Catch any error here
             .catch(error => {
-                console.log(error)
+                Swal.fire({
+                    title: 'Erreur!',
+                    text: error.response.data.error,
+                    icon: 'error',
+                    confirmButtonText: 'Cancel'
+                })
             });
     }
 

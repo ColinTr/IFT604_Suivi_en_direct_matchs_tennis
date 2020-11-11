@@ -47,12 +47,21 @@ class PartieDetaillee extends Component {
     updatePartie() {
         axios.get('http://localhost:3000/parties/' + this.state.idPartie)
             .then(response => {
-                const data = response.data;
-                this.updateDataPartie(data)
+                if(response.status === 200) {
+                    const data = response.data;
+                    this.updateDataPartie(data)
+                } else if(response.status === 400) {
+
+                }
             })
             // Catch any error here
             .catch(error => {
-                console.log(error)
+                Swal.fire({
+                    title: 'Erreur!',
+                    text: error.response.data.error,
+                    icon: 'error',
+                    confirmButtonText: 'Cancel'
+                })
             });
     }
 
@@ -127,10 +136,10 @@ class PartieDetaillee extends Component {
         })
     };
 
-    ParieJoueur1 = async () => {
+    ParierSurJoueur = async (num_joueur) => {
         const {value: montant_parie} = await Swal.fire({
             title: 'Parier',
-            text: 'Combien voulez-vous parier sur le joueur 1',
+            text: 'Combien voulez-vous parier sur le joueur ' + num_joueur,
             icon: 'info',
             input: 'text',
             inputLabel: 'Montant du pari',
@@ -151,65 +160,39 @@ class PartieDetaillee extends Component {
             const paris = {
                 id_utilisateur: localStorage.getItem('idUtilisateur'),
                 id_partie: this.state.idPartie,
-                id_joueur: this.state.idJoueur1,
+                id_joueur: (num_joueur === 1 ? this.state.idJoueur1 : this.state.idJoueur2),
                 montant_pari: parseInt(montant_parie)
             };
 
             axios.post('http://localhost:3000/paris', paris)
                 .then(res => {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 6500,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer);
+                            toast.addEventListener('mouseleave', Swal.resumeTimer);
+                        }
+                    });
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Votre pari a bien été enregistré !'
+                    })
                 })
                 .catch(error => {
                     Swal.fire({
                         title: 'Erreur!',
-                        text: 'Impossible de créer le pari, la manche 1 est terminé',
+                        text: error.response.data.error,
                         icon: 'error',
                         confirmButtonText: 'Cancel'
                     })
                 });
         }
-    }
-
-    ParieJoueur2 = async () => {
-        const {value: montant_parie} = await Swal.fire({
-            title: 'Parier',
-            text: 'Combien voulez-vous parier sur le joueur 2',
-            icon: 'info',
-            input: 'text',
-            inputLabel: 'Montant du pari',
-            confirmButtonText: 'Parier',
-            cancelButtonText: 'Annuler',
-            showCancelButton: true,
-            inputValidator: (inputValue) => {
-                if (!inputValue) {
-                    return 'Veuillez rentrer une valeur'
-                }
-                if (isNaN(inputValue)) {
-                    return 'Veuillez rentrer un chiffre'
-                }
-            }
-        });
-
-        if (montant_parie) {
-            const paris = {
-                id_utilisateur: localStorage.getItem('idUtilisateur'),
-                id_partie: this.state.idPartie,
-                id_joueur: this.state.idJoueur2,
-                montant_pari: parseInt(montant_parie)
-            };
-
-            axios.post('http://localhost:3000/paris', paris)
-                .then(res => {
-                })
-                .catch(error => {
-                    Swal.fire({
-                        title: 'Erreur!',
-                        text: 'Impossible de créer le pari, la manche 1 est terminé',
-                        icon: 'error',
-                        confirmButtonText: 'Cancel'
-                    })
-                });
-        }
-    }
+    };
 
     render() {
         return (
@@ -255,7 +238,7 @@ class PartieDetaillee extends Component {
                             <MDBRow>
                                 <MDBCol
                                     className="d-flex justify-content-center mb-3 text-center">{this.state.nomJoueur1}</MDBCol>
-                                <MDBCol className="d-flex justify-content-center mb-3 text-center"></MDBCol>
+                                <MDBCol className="d-flex justify-content-center mb-3 text-center"/>
                                 <MDBCol
                                     className="d-flex justify-content-center mb-3 text-center">{this.state.nomJoueur2}</MDBCol>
                             </MDBRow>
@@ -276,7 +259,7 @@ class PartieDetaillee extends Component {
                             <MDBRow>
                                 <MDBCol
                                     className="d-flex justify-content-center mb-3 text-danger text-center">Contestations</MDBCol>
-                                <MDBCol className="d-flex justify-content-center mb-3 text-center"></MDBCol>
+                                <MDBCol className="d-flex justify-content-center mb-3 text-center"/>
                                 <MDBCol
                                     className="d-flex justify-content-center mb-3 text-danger text-center">Contestations</MDBCol>
                             </MDBRow>
@@ -308,14 +291,14 @@ class PartieDetaillee extends Component {
                             <MDBRow>
                                 <MDBCol className="d-flex justify-content-center mb-3">
                                     {(this.state.etatPartie === 0 || (this.state.etatPartie === 1 && this.state.listeManches.length <= 1)) ?
-                                        <MDBBtn onClick={this.ParieJoueur1}>Parier</MDBBtn>
-                                        : <div></div>}
+                                        <MDBBtn onClick={() => this.ParierSurJoueur(1)}>Parier</MDBBtn>
+                                        : <div/>}
                                 </MDBCol>
-                                <MDBCol className="d-flex justify-content-center mb-3 text-center"></MDBCol>
+                                <MDBCol className="d-flex justify-content-center mb-3 text-center"/>
                                 <MDBCol className="d-flex justify-content-center mb-3">
                                     {(this.state.etatPartie === 0 || (this.state.etatPartie === 1 && this.state.listeManches.length <= 1)) ?
-                                        (<MDBBtn onClick={this.ParieJoueur2}>Parier</MDBBtn>)
-                                        : (<div></div>)}
+                                        (<MDBBtn onClick={() => this.ParierSurJoueur(2)}>Parier</MDBBtn>)
+                                        : (<div/>)}
                                 </MDBCol>
                             </MDBRow>
 
