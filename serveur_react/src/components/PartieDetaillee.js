@@ -71,8 +71,8 @@ class PartieDetaillee extends Component {
         let constestationsRefuseJ1 = 0;
         let contestationsRefuseJ2 = 0;
         let nbCoupsEchanges = 0;
-        let pointsMarqueJ1 = 0;
-        let pointsMarqueJ2 = 0;
+        let pointsMarquesJ1 = 0;
+        let pointsMarquesJ2 = 0;
 
         let listesManches = dataPartie.liste_manches;
 
@@ -83,10 +83,10 @@ class PartieDetaillee extends Component {
 
                     //Si echange gagne par joueur 1
                     if (echange.gagne_par_joueur === 1) {
-                        pointsMarqueJ1 = pointsMarqueJ1 + 1
+                        pointsMarquesJ1 = pointsMarquesJ1 + 1
                     }//Sinon gagne par joueur 2
                     else {
-                        pointsMarqueJ2 = pointsMarqueJ2 + 1
+                        pointsMarquesJ2 = pointsMarquesJ2 + 1
                     }
 
                     //Contestation refuse du joueur 1
@@ -122,8 +122,8 @@ class PartieDetaillee extends Component {
             contestationsAccepteJ2: contestationsAccepteJ2,
             contestationsRefuseJ2: contestationsRefuseJ2,
             nbCoupsEchanges: nbCoupsEchanges,
-            pointsMarqueJ1: pointsMarqueJ1,
-            pointsMarqueJ2: pointsMarqueJ2
+            pointsMarquesJ1: pointsMarquesJ1,
+            pointsMarquesJ2: pointsMarquesJ2
         })
     };
 

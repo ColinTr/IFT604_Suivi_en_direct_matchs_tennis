@@ -21,4 +21,4 @@ ReactDOM.render(
 );
 
 initializeFirebase();
-registerServiceWorker();
+//registerServiceWorker();
