@@ -17,8 +17,8 @@ class Echange {
         this.conteste_par_joueur = conteste_par_joueur;
         this.contestation_acceptee = contestation_acceptee;
         this.etat_echange = etat_echange;
-        this.vitesse_service = Math.floor(Math.random() * (250 - 60 + 1)) + 60; // entre 60 et 250 km/h
-        this.nombre_coup_echange = Math.floor(Math.random() * (30 - 1 + 1)) + 1; // entre 1 et 30 coups par échange
+        this.vitesse_service = vitesse_service === 0 ? Math.floor(Math.random() * (250 - 60 + 1)) + 60 : vitesse_service; // entre 60 et 250 km/h
+        this.nombre_coup_echange = nombre_coup_echange === 0 ? Math.floor(Math.random() * (30 - 1 + 1)) + 1 : nombre_coup_echange; // entre 1 et 30 coups par échange
     }
 
     updateEchange(){
