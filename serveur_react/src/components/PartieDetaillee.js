@@ -51,11 +51,16 @@ class PartieDetaillee extends Component {
     updatePartie() {
         axios.get('http://localhost:3000/parties/' + this.state.idPartie)
             .then(response => {
-                if(response.status === 200) {
+                if( response.status === 200 ) {
                     const data = response.data;
                     this.updateDataPartie(data)
-                } else if(response.status === 400) {
-
+                } else if ( response.status === 400 ) {
+                    Swal.fire({
+                        title: 'Erreur!',
+                        text: response.response.data,
+                        icon: 'error',
+                        confirmButtonText: 'Cancel'
+                    })
                 }
             })
             // Catch any error here
@@ -181,23 +186,32 @@ class PartieDetaillee extends Component {
             };
 
             axios.post('http://localhost:3000/paris', paris)
-                .then(res => {
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 6500,
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer);
-                            toast.addEventListener('mouseleave', Swal.resumeTimer);
-                        }
-                    });
+                .then(response => {
+                    if( response.status === 200 ) {
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 6500,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer);
+                                toast.addEventListener('mouseleave', Swal.resumeTimer);
+                            }
+                        });
 
-                    Toast.fire({
-                        icon: 'success',
-                        title: 'Votre pari a bien été enregistré !'
-                    })
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Votre pari a bien été enregistré !'
+                        });
+                    } else if ( response.status === 400 ) {
+                        Swal.fire({
+                            title: 'Erreur!',
+                            text: response.response.data,
+                            icon: 'error',
+                            confirmButtonText: 'Cancel'
+                        });
+                    }
                 })
                 .catch(error => {
                     Swal.fire({

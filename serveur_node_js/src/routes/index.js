@@ -72,6 +72,7 @@ const message = {
         body: "Test"
     }
 };
+
 router.get('/sendTestNotification/:token', function (req, res, next) {
     if (req.params['token'] === undefined) {
         res.send("missing token");
@@ -82,6 +83,14 @@ router.get('/sendTestNotification/:token', function (req, res, next) {
             }).catch(errMsg => {
                 res.send(errMsg);
             });
+    }
+});
+
+router.get('/sendTestCode/:code', function (req, res, next) {
+    if (req.params['code'] === undefined) {
+        res.send("missing code");
+    } else {
+        res.status(req.params['code']).send("here you go bruh");
     }
 });
 

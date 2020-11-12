@@ -37,9 +37,18 @@ class ListeParties extends Component {
     updateListeParties() {
         axios.get('http://localhost:3000/parties')
             .then(response => {
-                this.setState({listePartiesData: []});
-                this.setState({listePartiesData: response.data});
-                localStorage.setItem('listePartiesData', response.data);
+                if( response.status === 200 ) {
+                    this.setState({listePartiesData: []});
+                    this.setState({listePartiesData: response.data});
+                    localStorage.setItem('listePartiesData', response.data);
+                } else if ( response.status === 400 ) {
+                    Swal.fire({
+                        title: 'Erreur!',
+                        text: response.response.data,
+                        icon: 'error',
+                        confirmButtonText: 'Cancel'
+                    })
+                }
             })
             // Catch any error here
             .catch(error => {

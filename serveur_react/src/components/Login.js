@@ -33,9 +33,18 @@ class Login extends Component {
             let url = 'http://localhost:3000/utilisateurs/' + that.state.nom_utilisateur + '/' + that.state.token;
             axios.get(url)
                 .then(response => {
-                    localStorage.setItem('nomUtilisateur', that.state.nom_utilisateur);
-                    localStorage.setItem('idUtilisateur', response.data.id_utilisateur);
-                    that.setState({redirect: true})
+                    if( response.status === 200 ) {
+                        localStorage.setItem('nomUtilisateur', that.state.nom_utilisateur);
+                        localStorage.setItem('idUtilisateur', response.data.id_utilisateur);
+                        that.setState({redirect: true})
+                    } else if ( response.status === 400 ) {
+                        Swal.fire({
+                            title: 'Erreur!',
+                            text: response.response.data,
+                            icon: 'error',
+                            confirmButtonText: 'Cancel'
+                        })
+                    }
                 })
                 // Catch any error here
                 .catch(error => {
