@@ -57,31 +57,29 @@ class PartieDetaillee extends Component {
     }
 
     updatePartie() {
-        if(navigator.onLine) {
-            axios.get('http://localhost:3000/parties/' + this.state.idPartie)
-                .then(response => {
-                    if( response.status === 200 ) {
-                        const data = response.data;
-                        this.updateDataPartie(data)
-                    } else if ( response.status === 400 ) {
-                        Swal.fire({
-                            title: 'Erreur!',
-                            text: response.response.data,
-                            icon: 'error',
-                            confirmButtonText: 'Cancel'
-                        })
-                    }
-                })
-                // Catch any error here
-                .catch(error => {
+        axios.get('http://localhost:3000/parties/' + this.state.idPartie)
+            .then(response => {
+                if( response.status === 200 ) {
+                    const data = response.data;
+                    this.updateDataPartie(data)
+                } else if ( response.status === 400 ) {
                     Swal.fire({
                         title: 'Erreur!',
-                        text: error.response.data.error,
+                        text: response.response.data,
                         icon: 'error',
                         confirmButtonText: 'Cancel'
                     })
-                });
-        }
+                }
+            })
+            // Catch any error here
+            .catch(error => {
+                Swal.fire({
+                    title: 'Erreur!',
+                    text: error.response.data.error,
+                    icon: 'error',
+                    confirmButtonText: 'Cancel'
+                })
+            });
     }
 
     convertSecondsToStringHourMinuteSecond = (seconds) => {
@@ -107,10 +105,8 @@ class PartieDetaillee extends Component {
         let vitesseServiceJ1 = 0;
         let vitesseServiceJ2 = 0;
 
-
         let nbServiceJ1 = 0;
         let nbServiceJ2 = 0;
-
 
         let listesManches = dataPartie.liste_manches;
 

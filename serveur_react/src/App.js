@@ -12,10 +12,8 @@ class App extends Component {
         // Partie client du SSE (Server Sent Events)
         // Crée une connection HTTP avec le server
         // Les messages reçus sont en format event stream
-        if (navigator.onLine) {
-            this.eventSource = new EventSource("http://localhost:3000/SSE");
-            this.eventSource.addEventListener('open', () => console.log('Connected to the SSE Server at http://localhost:3000/SSE'));
-        }
+        this.eventSource = new EventSource("http://localhost:3000/SSE");
+        this.eventSource.addEventListener('open', () => console.log('Connected to the SSE Server at http://localhost:3000/SSE'));
     }
 
     componentDidMount() {
@@ -49,15 +47,13 @@ class App extends Component {
         }
 
         // Lorsqu'on reçoit un SSE
-        if (navigator.onLine) {
-            this.eventSource = new EventSource("http://localhost:3000/SSE");
-            this.eventSource.addEventListener('open', () => console.log('Connected to the SSE Server at http://localhost:3000/SSE'));
-            this.eventSource.onmessage = event => {
-                console.log("Received SSE : " + event.data);
+        this.eventSource = new EventSource("http://localhost:3000/SSE");
+        this.eventSource.addEventListener('open', () => console.log('Connected to the SSE Server at http://localhost:3000/SSE'));
+        this.eventSource.onmessage = event => {
+            console.log("Received SSE : " + event.data);
 
-                NotificationApiUsage.creerNotification(event.data);
-            };
-        }
+            NotificationApiUsage.creerNotification(event.data);
+        };
     };
 
     render() {
