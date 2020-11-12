@@ -24,6 +24,8 @@ const filesToCachePriority = [
     "/static/js/bundle.js.map",
     "/static/js/1.chunk.js.map",
     "/static/js/0.chunk.js",
+    "/static/js/0.chunk.js.map",
+    "/static/media/tennis_raquette.04bda21f.png",
 ];
 var CACHE = 'network-or-cache';
 
@@ -36,8 +38,6 @@ self.addEventListener('install', function(evt) {
  
 self.addEventListener('fetch', function(evt) {
   console.log('The service worker is serving the asset.');
-
- 
   evt.respondWith(fromNetwork(evt.request, 400).catch(function () {
     return fromCache(evt.request);
   }));
@@ -70,7 +70,7 @@ function fromNetwork(request, timeout) {
 function fromCache(request) {
   return caches.open(CACHE).then(function (cache) {
     return cache.match(request).then(function (matching) {
-      return matching || Promise.reject('no-match');
+      return matching || Promise.reject('no-match' + request);
     });
   });
 }
