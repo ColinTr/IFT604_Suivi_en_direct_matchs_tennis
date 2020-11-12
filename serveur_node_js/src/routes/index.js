@@ -30,7 +30,7 @@ const sseManager = new SSEManager();
 */
 app.set('sseManager', sseManager);
 
-router.get('/SSE', function(req, res) {
+router.get('/SSE', function (req, res) {
     /* Notre route étant publique nous n'avons pas l'identité de l'utilisateur,
       nous générons donc un identifiant aléatoirement
     */
@@ -59,7 +59,7 @@ router.get('/SSE', function(req, res) {
     });
 });
 
-router.get('/broadcastTestSse', function (req, res, next)  {
+router.get('/broadcastTestSse', function (req, res, next) {
     const message = {"id": 9, "retry": 5000, "data": "message sent by broadcastTestSse route"};
     sseManager.broadcast(message);
     res.send("ok");
@@ -67,22 +67,26 @@ router.get('/broadcastTestSse', function (req, res, next)  {
 // ===============================================
 
 const message = {
-    data:{
-        title:"New Notification!",
-        body:"Test"
+    data: {
+        title: "New Notification!",
+        body: "Test"
     }
 };
-router.get('/sendTestNotification', function (req, res, next)  {
-    admin_firebase.sendNotification(message, "dwWrcsPYSOOkzt9RIStrY4:APA91bExs5EjP_qCt8RjT3IQn-etTuomG1Pns1WODxbWX9S8NEcUAMsXh0XJmFer2zXkFzf7KClHVndxD8-sXeY32KtC6YsKrmH3-WxBxdgF0PQqQyZ4jCBPubbMWovmUUnHEx4vTUuz")
-        .then( msg => {
-            res.send(msg);
-        }).catch(errMsg => {
-            res.send(errMsg);
-        });
+router.get('/sendTestNotification/:token', function (req, res, next) {
+    if (req.params['token'] === undefined) {
+        res.send("missing token");
+    } else {
+        admin_firebase.sendNotification(message, req.params['token'])
+            .then(msg => {
+                res.send(msg);
+            }).catch(errMsg => {
+                res.send(errMsg);
+            });
+    }
 });
 
 module.exports = router;
 
-module.exports.getApp = function getApp(){
+module.exports.getApp = function getApp() {
     return app;
 };

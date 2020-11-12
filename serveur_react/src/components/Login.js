@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn} from 'mdbreact';
 import logo from '../assets/images/tennis_raquette.png';
-import {askForPermissionToReceiveNotifications} from '../notification/push-notification';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom';
 import * as Swal from "sweetalert2";
@@ -13,7 +12,7 @@ class Login extends Component {
         this.state = {
             redirect: false,
             nom_utilisateur: "",
-            token: ""
+            token: props.token
         };
 
         this.Connexion = this.Connexion.bind(this);
@@ -31,25 +30,22 @@ class Login extends Component {
         if (this.state.nom_utilisateur === "") {
             document.getElementById("NomVide").style.display = 'block';
         } else if (this.state.nom_utilisateur !== "") {
-            askForPermissionToReceiveNotifications().then(function (result) {
-                that.setState({token: result});
-                let url = 'http://localhost:3000/utilisateurs/' + that.state.nom_utilisateur + '/' + that.state.token;
-                axios.get(url)
-                    .then(response => {
-                        localStorage.setItem('nomUtilisateur', that.state.nom_utilisateur);
-                        localStorage.setItem('idUtilisateur', response.data.id_utilisateur);
-                        that.setState({redirect: true})
+            let url = 'http://localhost:3000/utilisateurs/' + that.state.nom_utilisateur + '/' + that.state.token;
+            axios.get(url)
+                .then(response => {
+                    localStorage.setItem('nomUtilisateur', that.state.nom_utilisateur);
+                    localStorage.setItem('idUtilisateur', response.data.id_utilisateur);
+                    that.setState({redirect: true})
+                })
+                // Catch any error here
+                .catch(error => {
+                    Swal.fire({
+                        title: 'Erreur!',
+                        text: error.response.data.error,
+                        icon: 'error',
+                        confirmButtonText: 'Cancel'
                     })
-                    // Catch any error here
-                    .catch(error => {
-                        Swal.fire({
-                            title: 'Erreur!',
-                            text: error.response.data.error,
-                            icon: 'error',
-                            confirmButtonText: 'Cancel'
-                        })
-                    });
-            })
+                });
         }
     }
 
