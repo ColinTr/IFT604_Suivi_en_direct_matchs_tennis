@@ -33,31 +33,33 @@ class ListeParis extends Component {
     }
 
     updateListeParis(){
-        //Faire avec l'id de l'utilisateur
-        axios.get('http://localhost:3000/paris/utilisateur/' + localStorage.getItem('idUtilisateur'))
-            .then(response => {
-                if( response.status === 200 ) {
-                    this.setState({listeParisData: []});
-                    this.setState({ listeParisData: response.data });
-                    localStorage.setItem('listeParisData', JSON.stringify(response.data));
-                } else if ( response.status === 400 ) {
+        if(navigator.onLine){
+            //Faire avec l'id de l'utilisateur
+            axios.get('http://localhost:3000/paris/utilisateur/' + localStorage.getItem('idUtilisateur'))
+                .then(response => {
+                    if( response.status === 200 ) {
+                        this.setState({listeParisData: []});
+                        this.setState({ listeParisData: response.data });
+                        localStorage.setItem('listeParisData', JSON.stringify(response.data));
+                    } else if ( response.status === 400 ) {
+                        Swal.fire({
+                            title: 'Erreur!',
+                            text: response.response.data,
+                            icon: 'error',
+                            confirmButtonText: 'Cancel'
+                        })
+                    }
+                })
+                // Catch any error here
+                .catch(error => {
                     Swal.fire({
                         title: 'Erreur!',
-                        text: response.response.data,
+                        text: error.response.data.error,
                         icon: 'error',
                         confirmButtonText: 'Cancel'
                     })
-                }
-            })
-            // Catch any error here
-            .catch(error => {
-                Swal.fire({
-                    title: 'Erreur!',
-                    text: error.response.data.error,
-                    icon: 'error',
-                    confirmButtonText: 'Cancel'
-                })
-            });
+                });
+        }
     }
 
     // The render method contains the JSX code which will be compiled to HTML.

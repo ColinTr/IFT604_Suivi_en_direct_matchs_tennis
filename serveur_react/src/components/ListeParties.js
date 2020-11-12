@@ -35,30 +35,32 @@ class ListeParties extends Component {
     }
 
     updateListeParties() {
-        axios.get('http://localhost:3000/parties')
-            .then(response => {
-                if( response.status === 200 ) {
-                    this.setState({listePartiesData: []});
-                    this.setState({listePartiesData: response.data});
-                    localStorage.setItem('listePartiesData', JSON.stringify(response.data));
-                } else if ( response.status === 400 ) {
+        if (navigator.onLine) {
+            axios.get('http://localhost:3000/parties')
+                .then(response => {
+                    if( response.status === 200 ) {
+                        this.setState({listePartiesData: []});
+                        this.setState({listePartiesData: response.data});
+                        localStorage.setItem('listePartiesData', JSON.stringify(response.data));
+                    } else if ( response.status === 400 ) {
+                        Swal.fire({
+                            title: 'Erreur!',
+                            text: response.response.data,
+                            icon: 'error',
+                            confirmButtonText: 'Cancel'
+                        })
+                    }
+                })
+                // Catch any error here
+                .catch(error => {
                     Swal.fire({
                         title: 'Erreur!',
-                        text: response.response.data,
+                        text: error,
                         icon: 'error',
                         confirmButtonText: 'Cancel'
                     })
-                }
-            })
-            // Catch any error here
-            .catch(error => {
-                Swal.fire({
-                    title: 'Erreur!',
-                    text: error,
-                    icon: 'error',
-                    confirmButtonText: 'Cancel'
-                })
-            });
+                });
+        }
     }
 
     // The render method contains the JSX code which will be compiled to HTML.
@@ -69,7 +71,6 @@ class ListeParties extends Component {
                 <MDBContainer>
                     <MDBTable className="sticky-top listParties">
                         <MDBTableBody>
-                            {console.log('DEBUG' + this.state.listePartiesData)}
                             {this.state.listePartiesData.map(function (partieData, index) {
                                     return <PartieDansListe key={partieData.id_partie} data={partieData}/>
                                 }
