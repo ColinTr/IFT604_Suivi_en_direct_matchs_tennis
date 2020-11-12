@@ -19,7 +19,7 @@ exports.sendNotification = function sendNotification(message, token) {
         admin.messaging().sendToDevice(token, message)
             .then((response) => {
                 // Response is a message ID string.
-                console.log('Successfully sent message:', response);
+                console.log('Successfully sent message:', response.results);
                 resolve('Successfully sent message:' + response);
             })
             .catch((error) => {
