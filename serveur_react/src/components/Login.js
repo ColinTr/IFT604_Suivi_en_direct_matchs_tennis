@@ -40,7 +40,7 @@ class Login extends Component {
                     } else if ( response.status === 400 ) {
                         Swal.fire({
                             title: 'Erreur!',
-                            text: response.response.data,
+                            text: response.data,
                             icon: 'error',
                             confirmButtonText: 'Cancel'
                         })
@@ -50,7 +50,7 @@ class Login extends Component {
                 .catch(error => {
                     Swal.fire({
                         title: 'Erreur!',
-                        text: error.response.data.error,
+                        text: error.message,
                         icon: 'error',
                         confirmButtonText: 'Cancel'
                     })
