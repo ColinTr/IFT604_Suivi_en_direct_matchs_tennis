@@ -28,6 +28,8 @@ class PartieDetaillee extends Component {
             joueurAuService: 0,
             pointsJ1JeuEnCours: 0,
             pointsJ2JeuEnCours: 0,
+            vitesseMoyenneServiceJ1 : 0,
+            vitesseMoyenneServiceJ2 : 0
             
         };
         this.updateDataPartie = this.updateDataPartie.bind(this);
@@ -94,11 +96,19 @@ class PartieDetaillee extends Component {
         let joueurAuService = 0;
         let pointsJ1JeuEnCours = 0;
         let pointsJ2JeuEnCours = 0;
+        let vitesseServiceJ1 = 0;
+        let vitesseServiceJ2 = 0;
+
+
+        let nbServiceJ1 = 0;
+        let nbServiceJ2 = 0;
+
 
         let listesManches = dataPartie.liste_manches;
 
         listesManches.forEach((manche) => {
             manche.liste_jeux.forEach((jeu) => {
+
                 if(jeu.etat_Jeu === 0) { 
                     joueurAuService = jeu.joueur_au_service; 
                     pointsJ1JeuEnCours = jeu.score_echanges_joueur_1;
@@ -106,6 +116,17 @@ class PartieDetaillee extends Component {
                 }
                 
                 jeu.list_echanges.forEach((echange) => {
+
+                    if(jeu.joueur_au_service === 1)
+                    {
+                        vitesseServiceJ1 = vitesseServiceJ1 + echange.vitesse_service
+                        nbServiceJ1 = nbServiceJ1 + 1
+                    }else if(jeu.joueur_au_service === 2)
+                    {
+                        vitesseServiceJ2 = vitesseServiceJ2 + echange.vitesse_service
+                        nbServiceJ2 = nbServiceJ2 + 1
+                    }
+
                     nbCoupsEchanges += echange.nombre_coup_echange;
 
                     //Si echange gagne par joueur 1
@@ -153,17 +174,20 @@ class PartieDetaillee extends Component {
             pointsMarquesJ2: pointsMarquesJ2,
             joueurAuService: joueurAuService,
             pointsJ1JeuEnCours: pointsJ1JeuEnCours,
-            pointsJ2JeuEnCours: pointsJ2JeuEnCours
+            pointsJ2JeuEnCours: pointsJ2JeuEnCours,
+            vitesseMoyenneServiceJ1 : (vitesseServiceJ1/nbServiceJ1).toFixed(1) ,
+            vitesseMoyenneServiceJ2 : (vitesseServiceJ2/nbServiceJ2).toFixed(1)
         })
     };
 
     ParierSurJoueur = async (num_joueur) => {
+        console.log(num_joueur)
         const {value: montant_parie} = await Swal.fire({
             title: 'Parier',
-            text: 'Combien voulez-vous parier sur le joueur ' + num_joueur,
+            text: "Vous souhaitez parier sur "+(num_joueur === 1 ? this.state.nomJoueur1 : this.state.nomJoueur2)+".",
             icon: 'info',
             input: 'text',
-            inputLabel: 'Montant du pari',
+            inputLabel: 'Veuillez saisir un montant :',
             confirmButtonText: 'Parier',
             cancelButtonText: 'Annuler',
             showCancelButton: true,
@@ -237,7 +261,7 @@ class PartieDetaillee extends Component {
                         <MDBCard className="p-3">
                             <MDBRow>
                                 <MDBCol className="heureMatchEnCours"
-                                        sm="12"><b>{this.convertSecondsToStringHourMinuteSecond(this.state.dureePartieSecondes)}</b></MDBCol>
+                                        sm="12"><b>{this.state.etatPartie === 0 ? "Match à venir" : this.convertSecondsToStringHourMinuteSecond(this.state.dureePartieSecondes)}</b></MDBCol>
                             </MDBRow>
                             <MDBRow className="resultatManche">
                                 <MDBCol
@@ -299,51 +323,58 @@ class PartieDetaillee extends Component {
                                 : ""
 
                             }
-                            <MDBRow>
-                                <MDBCol
-                                    className="d-flex justify-content-center mb-3 text-center">{this.state.pointsMarquesJ1}</MDBCol>
-                                <MDBCol className="d-flex justify-content-center mb-3 text-center">Points
-                                    marqués</MDBCol>
-                                <MDBCol
-                                    className="d-flex justify-content-center mb-3 text-center">{this.state.pointsMarquesJ2}</MDBCol>
-                            </MDBRow>
-                            <MDBRow>
-                                <MDBCol className="d-flex justify-content-center mb-3 text-center">151</MDBCol>
-                                <MDBCol className="d-flex justify-content-center mb-3 text-center">Vitesse moyenne au
-                                    service</MDBCol>
-                                <MDBCol className="d-flex justify-content-center mb-3 text-center">165</MDBCol>
-                            </MDBRow>
-                            <MDBRow>
-                                <MDBCol
-                                    className="d-flex justify-content-center mb-3 text-danger text-center">Contestations</MDBCol>
-                                <MDBCol className="d-flex justify-content-center mb-3 text-center"/>
-                                <MDBCol
-                                    className="d-flex justify-content-center mb-3 text-danger text-center">Contestations</MDBCol>
-                            </MDBRow>
-                            <MDBRow>
-                                <MDBCol
-                                    className="d-flex justify-content-center mb-3 text-center">{this.state.contestationsAccepteJ1}</MDBCol>
-                                <MDBCol className="d-flex justify-content-center mb-3 text-center">Contestations
-                                    validés</MDBCol>
-                                <MDBCol
-                                    className="d-flex justify-content-center mb-3 text-center">{this.state.contestationsAccepteJ2}</MDBCol>
-                            </MDBRow>
-                            <MDBRow>
-                                <MDBCol
-                                    className="d-flex justify-content-center mb-3 text-center">{this.state.contestationsRefuseJ1}</MDBCol>
-                                <MDBCol className="d-flex justify-content-center mb-3 text-center">Contestations
-                                    refusées</MDBCol>
-                                <MDBCol
-                                    className="d-flex justify-content-center mb-3 text-center">{this.state.contestationsRefuseJ2}</MDBCol>
-                            </MDBRow>
-                            <MDBRow>
-                                <MDBCol className="d-flex justify-content-center mb-1 text-center">Coups échangés
-                                    :</MDBCol>
-                            </MDBRow>
-                            <MDBRow>
-                                <MDBCol
-                                    className="d-flex justify-content-center mb-3 text-center">{this.state.nbCoupsEchanges}</MDBCol>
-                            </MDBRow>
+
+                            {(this.state.etatPartie === 0) ?
+                                ""
+                                :
+                                (<React.Fragment>
+                                    <MDBRow>
+                                        <MDBCol
+                                            className="d-flex justify-content-center mb-3 text-center">{this.state.pointsMarquesJ1}</MDBCol>
+                                        <MDBCol className="d-flex justify-content-center mb-3 text-center">Points
+                                            marqués</MDBCol>
+                                        <MDBCol
+                                            className="d-flex justify-content-center mb-3 text-center">{this.state.pointsMarquesJ2}</MDBCol>
+                                    </MDBRow>
+                                    <MDBRow>
+                                        <MDBCol className="d-flex justify-content-center mb-3 text-center">{this.state.vitesseMoyenneServiceJ1}</MDBCol>
+                                        <MDBCol className="d-flex justify-content-center mb-3 text-center">Vitesse moyenne au
+                                            service (km/h)</MDBCol>
+                                        <MDBCol className="d-flex justify-content-center mb-3 text-center">{this.state.vitesseMoyenneServiceJ2}</MDBCol>
+                                    </MDBRow>
+                                    <MDBRow>
+                                        <MDBCol
+                                            className="d-flex justify-content-center mb-3 text-danger text-center">Contestations</MDBCol>
+                                        <MDBCol className="d-flex justify-content-center mb-3 text-center"/>
+                                        <MDBCol
+                                            className="d-flex justify-content-center mb-3 text-danger text-center">Contestations</MDBCol>
+                                    </MDBRow>
+                                    <MDBRow>
+                                        <MDBCol
+                                            className="d-flex justify-content-center mb-3 text-center">{this.state.contestationsAccepteJ1}</MDBCol>
+                                        <MDBCol className="d-flex justify-content-center mb-3 text-center">Contestations
+                                            validés</MDBCol>
+                                        <MDBCol
+                                            className="d-flex justify-content-center mb-3 text-center">{this.state.contestationsAccepteJ2}</MDBCol>
+                                    </MDBRow>
+                                    <MDBRow>
+                                        <MDBCol
+                                            className="d-flex justify-content-center mb-3 text-center">{this.state.contestationsRefuseJ1}</MDBCol>
+                                        <MDBCol className="d-flex justify-content-center mb-3 text-center">Contestations
+                                            refusées</MDBCol>
+                                        <MDBCol
+                                            className="d-flex justify-content-center mb-3 text-center">{this.state.contestationsRefuseJ2}</MDBCol>
+                                    </MDBRow>
+                                    <MDBRow>
+                                        <MDBCol className="d-flex justify-content-center mb-1 text-center">Coups échangés
+                                            :</MDBCol>
+                                    </MDBRow>
+                                    <MDBRow>
+                                        <MDBCol
+                                            className="d-flex justify-content-center mb-3 text-center">{this.state.nbCoupsEchanges}</MDBCol>
+                                    </MDBRow>
+                                </React.Fragment>)
+                             }
 
                             <MDBRow>
                                 <MDBCol className="d-flex justify-content-center mb-3">
