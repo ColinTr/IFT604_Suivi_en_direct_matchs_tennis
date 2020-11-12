@@ -7,17 +7,21 @@ class PartieDetaillee extends Component {
 
     constructor(props) {
         super(props);
+
+        const tempData = JSON.parse(this.props.location.state.mesProps);
+
         this.state = {
+            dataPartie: tempData,
             idPartie: props.match.params.idPartie,
-            nomJoueur1: "",
-            idJoueur1: 0,
-            nomJoueur2: "",
-            idJoueur2: 0,
-            rangJoueur1: "",
-            rangJoueur2: "",
-            dureePartieSecondes: "",
-            etatPartie: 0,
-            listeManches: [],
+            nomJoueur1: tempData.joueur1.prenom + " " + tempData.joueur1.nom,
+            idJoueur1: tempData.joueur1.id_joueur,
+            nomJoueur2: tempData.joueur2.prenom + " " + tempData.joueur2.nom,
+            idJoueur2: tempData.joueur2.id_joueur,
+            rangJoueur1: tempData.joueur1.rang,
+            rangJoueur2: tempData.joueur2.rang,
+            dureePartieSecondes: tempData.duree_partie,
+            etatPartie: tempData.etat_partie,
+            listeManches: tempData.liste_manches,
             contestationsAccepteJ1: 0,
             contestationsRefuseJ1: 0,
             contestationsAccepteJ2: 0,
@@ -30,8 +34,8 @@ class PartieDetaillee extends Component {
             pointsJ2JeuEnCours: 0,
             vitesseMoyenneServiceJ1 : 0,
             vitesseMoyenneServiceJ2 : 0
-            
         };
+
         this.updateDataPartie = this.updateDataPartie.bind(this);
         this.updatePartie = this.updatePartie.bind(this);
     }
@@ -40,6 +44,8 @@ class PartieDetaillee extends Component {
 
     // This is called when an instance of a component is being created and inserted into the DOM.
     componentDidMount() {
+        this.updateDataPartie(this.state.dataPartie);
+
         this.updatePartie();
         this.intervalID = setInterval(() => {
             this.updatePartie();
@@ -51,29 +57,31 @@ class PartieDetaillee extends Component {
     }
 
     updatePartie() {
-        axios.get('http://localhost:3000/parties/' + this.state.idPartie)
-            .then(response => {
-                if( response.status === 200 ) {
-                    const data = response.data;
-                    this.updateDataPartie(data)
-                } else if ( response.status === 400 ) {
+        if(navigator.onLine) {
+            axios.get('http://localhost:3000/parties/' + this.state.idPartie)
+                .then(response => {
+                    if( response.status === 200 ) {
+                        const data = response.data;
+                        this.updateDataPartie(data)
+                    } else if ( response.status === 400 ) {
+                        Swal.fire({
+                            title: 'Erreur!',
+                            text: response.response.data,
+                            icon: 'error',
+                            confirmButtonText: 'Cancel'
+                        })
+                    }
+                })
+                // Catch any error here
+                .catch(error => {
                     Swal.fire({
                         title: 'Erreur!',
-                        text: response.response.data,
+                        text: error.response.data.error,
                         icon: 'error',
                         confirmButtonText: 'Cancel'
                     })
-                }
-            })
-            // Catch any error here
-            .catch(error => {
-                Swal.fire({
-                    title: 'Erreur!',
-                    text: error.response.data.error,
-                    icon: 'error',
-                    confirmButtonText: 'Cancel'
-                })
-            });
+                });
+        }
     }
 
     convertSecondsToStringHourMinuteSecond = (seconds) => {

@@ -1,10 +1,12 @@
 import React, {Component} from "react";
 import {MDBRow, MDBCol, MDBContainer} from "mdbreact";
+import {Link} from "react-router-dom";
 
 class PartieDansListe extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            data: props.data,
             nomJoueur1: props.data.joueur1.prenom + " " + props.data.joueur1.nom + " (" + props.data.joueur1.rang + ")",
             nomJoueur2: props.data.joueur2.prenom + " " + props.data.joueur2.nom + " (" + props.data.joueur2.rang + ")",
             joueurGagnant: props.data.joueur_gagnant,
@@ -19,7 +21,10 @@ class PartieDansListe extends Component {
         return (this.state.etat_partie === 1 || this.state.datetime_fin_partie !== null) ? (
             <tr>
                 <td style={{padding: 0}} className="linkPartieDansListe">
-                    <a className="lienVersPartie" href={'/parties/'+this.props.data.id_partie }>
+                    <Link className="lienVersPartie" to={{
+                        pathname: '/parties/'+this.props.data.id_partie,
+                        state: { mesProps: JSON.stringify(this.state.data) }
+                    }}>
                         <MDBRow>
                             <MDBContainer className='listPartieRow'>
                                 <MDBCol className={this.state.joueurGagnant === 1 ? "listPartieRowItemNomJoueur font-weight-bold" : "listPartieRowItemNomJoueur"}>
@@ -50,14 +55,17 @@ class PartieDansListe extends Component {
                                 </MDBCol>
                             </MDBContainer>
                         </MDBRow>
-                    </a>
+                    </Link>
                 </td>
             </tr>
         )
         : (
             <tr>
                 <td style={{padding: 0}} className="linkPartieDansListe">
-                    <a className="lienVersPartie" href={'/parties/'+this.props.data.id_partie }>
+                    <Link className="lienVersPartie" to={{
+                        pathname: '/parties/'+this.props.data.id_partie,
+                        state: { mesProps: JSON.stringify(this.state.data) }
+                    }}>
                         <MDBRow>
                             <MDBContainer className='d-flex align-items-center'>
                                 <MDBCol className={this.state.joueurGagnant === 1 ? "nomJoueurMatchNonCommence font-weight-bold" : "nomJoueurMatchNonCommence"}>
@@ -69,7 +77,7 @@ class PartieDansListe extends Component {
                                 </MDBCol>
                             </MDBContainer>
                         </MDBRow>
-                    </a>
+                    </Link>
                 </td>
             </tr>
         )
