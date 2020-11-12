@@ -18,7 +18,7 @@ class ListeParis extends Component {
     // This is called when an instance of a component is being created and inserted into the DOM.
     componentDidMount() {
         if (!navigator.onLine) {
-            this.setState({ listeParisData: localStorage.getItem('listeParisData') });
+            this.setState({ listeParisData: JSON.parse(localStorage.getItem('listeParisData'))});
         }
 
         this.updateListeParis();
@@ -39,7 +39,7 @@ class ListeParis extends Component {
                 if( response.status === 200 ) {
                     this.setState({listeParisData: []});
                     this.setState({ listeParisData: response.data });
-                    localStorage.setItem('listeParisData', response.data);
+                    localStorage.setItem('listeParisData', JSON.stringify(response.data));
                 } else if ( response.status === 400 ) {
                     Swal.fire({
                         title: 'Erreur!',

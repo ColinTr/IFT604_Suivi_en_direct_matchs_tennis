@@ -18,7 +18,7 @@ class ListeParties extends Component {
     // This is called when an instance of a component is being created and inserted into the DOM.
     componentDidMount() {
         if (!navigator.onLine) {
-            this.setState({listePartiesData: localStorage.getItem('listePartiesData')});
+            this.setState({listePartiesData: JSON.parse(localStorage.getItem('listePartiesData'))});
         }
 
         this.updateListeParties();
@@ -40,7 +40,7 @@ class ListeParties extends Component {
                 if( response.status === 200 ) {
                     this.setState({listePartiesData: []});
                     this.setState({listePartiesData: response.data});
-                    localStorage.setItem('listePartiesData', response.data);
+                    localStorage.setItem('listePartiesData', JSON.stringify(response.data));
                 } else if ( response.status === 400 ) {
                     Swal.fire({
                         title: 'Erreur!',
