@@ -37,6 +37,13 @@ class App extends Component {
                 .catch(function(err) {
                     console.log("Service worker registration failed, error:", err);
                 });
+
+                navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                    console.log("Service Worker registration successful", registration.scope);
+                })
+                .catch(function(err) {
+                    console.log("Service worker registration failed, error:", err);
+                });
         }
 
         // Lorsqu'on reçoit un SSE
