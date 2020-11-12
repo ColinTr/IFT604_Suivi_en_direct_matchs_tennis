@@ -104,6 +104,13 @@
     color: white;
 }
 
+.OFFLINE {
+    display: flex;
+    align-items: center;
+    color: red;
+    font-weight: bold;
+}
+
 .rowMatchEnCours {
     display: flex;
     justify-content: center;

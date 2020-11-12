@@ -45,6 +45,17 @@ class Navbar extends Component {
                             </MDBNavItem>)
                         }
                     </MDBNavbarNav>
+                    <MDBNavbarNav center>
+                        {(navigator.onLine)
+                            ?
+                            ""
+                            :
+                            (<MDBNavItem className="OFFLINE">
+                                <span>OFFLINE</span>
+                                <MDBIcon icon="broadcast-tower" />
+                            </MDBNavItem>)
+                        }
+                    </MDBNavbarNav>
                     <MDBNavbarNav right>
                         {!localStorage.getItem("nomUtilisateur")
                             ?
