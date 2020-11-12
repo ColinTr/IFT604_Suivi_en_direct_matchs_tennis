@@ -55,7 +55,7 @@ class ListeParis extends Component {
 
                 Swal.fire({
                     title: 'Erreur!',
-                    text: error.response.data.error,
+                    text: error,
                     icon: 'error',
                     confirmButtonText: 'Cancel'
                 })
