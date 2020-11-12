@@ -53,12 +53,20 @@ class ListeParis extends Component {
                 // On récupère la liste des paris que l'on avait en localstorage
                 this.setState({ listeParisData: JSON.parse(localStorage.getItem('listeParisData'))});
 
-                Swal.fire({
-                    title: 'Erreur!',
-                    text: error,
+                Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer);
+                        toast.addEventListener('mouseleave', Swal.resumeTimer);
+                    }
+                }).fire({
                     icon: 'error',
-                    confirmButtonText: 'Cancel'
-                })
+                    title: error
+                });
             });
     }
 

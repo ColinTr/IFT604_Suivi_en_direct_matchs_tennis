@@ -73,12 +73,20 @@ class PartieDetaillee extends Component {
             })
             // Catch any error here
             .catch(error => {
-                Swal.fire({
-                    title: 'Erreur!',
-                    text: error,
+                Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer);
+                        toast.addEventListener('mouseleave', Swal.resumeTimer);
+                    }
+                }).fire({
                     icon: 'error',
-                    confirmButtonText: 'Cancel'
-                })
+                    title: error
+                });
             });
     }
 
