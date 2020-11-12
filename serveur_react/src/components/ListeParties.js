@@ -69,6 +69,7 @@ class ListeParties extends Component {
                 <MDBContainer>
                     <MDBTable className="sticky-top listParties">
                         <MDBTableBody>
+                            {console.log('DEBUG' + this.state.listePartiesData)}
                             {this.state.listePartiesData.map(function (partieData, index) {
                                     return <PartieDansListe key={partieData.id_partie} data={partieData}/>
                                 }
