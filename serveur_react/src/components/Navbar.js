@@ -6,8 +6,7 @@ import {
     MDBNavItem,
     MDBNavLink,
     MDBNavbarToggler,
-    MDBCollapse,
-    MDBIcon
+    MDBCollapse
 } from "mdbreact";
 import {withRouter} from 'react-router-dom';
 
@@ -44,30 +43,29 @@ class Navbar extends Component {
                                 <MDBNavLink to="/paris">Paris</MDBNavLink>
                             </MDBNavItem>)
                         }
+
                     </MDBNavbarNav>
-                    <MDBNavbarNav center>
+                    <MDBNavbarNav right>
                         {(navigator.onLine)
                             ?
                             ""
                             :
                             (<MDBNavItem className="OFFLINE">
-                                <span>OFFLINE</span>
-                                <MDBIcon icon="broadcast-tower" />
+                                <i className="fas fa-broadcast-tower" />
+                                <span className="ml-1">OFFLINE</span>
                             </MDBNavItem>)
                         }
-                    </MDBNavbarNav>
-                    <MDBNavbarNav right>
                         {!localStorage.getItem("nomUtilisateur")
                             ?
                             ""
                             :
                             (
-                                <MDBNavItem className="infoUtilisateurNavBar">
+                                <MDBNavItem className="infoUtilisateurNavBar ml-3">
                                     <span>{localStorage.getItem('nomUtilisateur')}</span>
                                     <MDBNavLink to="/" icon="times-circle" onClick={() => {
                                         localStorage.clear();
                                     }}>
-                                        <MDBIcon className="fa-lg" icon="door-open" />
+                                        <i className="fas fa-door-open fa-lg" />
                                     </MDBNavLink>
                                 </MDBNavItem>
                             )

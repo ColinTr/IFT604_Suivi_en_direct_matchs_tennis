@@ -26,6 +26,8 @@ const filesToCachePriority = [
     "/static/js/0.chunk.js",
     "/static/js/0.chunk.js.map",
     "/static/media/tennis_raquette.04bda21f.png",
+    "./assets/fontawesome/css/all.css",
+    "./assets/fontawesome/js/all.js"
 ];
 var CACHE = 'network-or-cache';
 
