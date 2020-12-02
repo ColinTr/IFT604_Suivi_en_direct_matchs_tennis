@@ -15,6 +15,7 @@ const partiesRouter = require('./src/routes/parties');
 const utilisateurRouter = require('./src/routes/utilisateurs');
 const parisRouter = require('./src/routes/paris');
 const joueursRouter = require('./src/routes/joueurs');
+const dataRouter = require('./src/routes/data');
 const cors = require('cors');
 
 const app = express();
@@ -31,8 +32,12 @@ app.use('/parties', partiesRouter);
 app.use('/utilisateurs', utilisateurRouter);
 app.use('/joueurs', joueursRouter);
 app.use('/paris', parisRouter);
+app.use('/data', dataRouter);
 
 const generateur = require('./src/utils/generateur');
 generateur.demarrer();
+
+app.set('views', './src/views');
+app.set('view engine', 'pug');
 
 module.exports = app;
