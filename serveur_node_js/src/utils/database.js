@@ -180,6 +180,19 @@ exports.recupererPartieViaId = function recupererPartieViaId(idPartie) {
     });
 };
 
+exports.recupererToutesLesPartiesDuJoueur = function recupererToutesLesPartiesDuJoueur(idJoueur) {
+    return new Promise((resolve, reject) => {
+        db.all(`SELECT * FROM partie WHERE id_joueur_1 = ? OR id_joueur_2 = ?`, [idJoueur, idJoueur], (err, row) => {
+            if (err) {
+                reject(err.message);
+            } else {
+                // return all the partie where the id_joueur is
+                resolve(row);
+            }
+        });
+    });
+};
+
 exports.recupererToutesLesParties = function recupererToutesLesParties() {
     return new Promise((resolve, reject) => {
         db.all(`SELECT * FROM partie`, (err, row) => {

@@ -3,15 +3,13 @@ const database = require('../database');
 
 // Route /data/horaire/:id_partie
 exports.createPageHoraire = function createPageHoraire(idPartie) {
-    return new Promise(((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         database.recupererPartieViaId(idPartie)
             .then(partie => {
                 const root = create({version: '1.0'})
                     .ele('rdf:RDF', {
                         "xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-                        "xmlns:horaire": "http://localhost:3000/data/horaire",
-                        "xmlns:partie": "http://localhost:3000/data/partie",
-                        "xmlns:joueur": "http://localhost:3000/data/joueur"
+                        "xmlns:horaire": "http://localhost:3000/data/horaire"
                     })
                     .ele('rdf:Description', {'rdf:about': 'http://localhost:3000/data/horaire/' + idPartie})
                     .ele('horaire:datetime_debut_partie').txt(partie.datetime_debut_partie).up()
@@ -22,15 +20,16 @@ exports.createPageHoraire = function createPageHoraire(idPartie) {
                     .up();
                 resolve(root.end({prettyPrint: true}));
             })
-            .catch(errmsg => {
-                reject(errmsg);
+            .catch(errMsg => {
+                console.log(errMsg);
+                reject(errMsg);
             });
-    }));
+    });
 };
 
 // Route /data/horaire
 exports.createListeHoraires = function createListeHoraires() {
-    return new Promise(((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         database.recupererToutesLesParties()
             .then(listeParties => {
                 const root = create({version: '1.0'})
@@ -40,7 +39,7 @@ exports.createListeHoraires = function createListeHoraires() {
                         "xmlns:partie": "http://localhost:3000/data/partie",
                         "xmlns:joueur": "http://localhost:3000/data/joueur"
                     });
-                listeParties.forEach(function(partie) {
+                listeParties.forEach(function (partie) {
                     console.log("horaire");
                     root.ele('rdf:Description', {'rdf:about': 'http://localhost:3000/data/horaire/' + partie.id_partie})
                         .ele('horaire:datetime_debut_partie').txt(partie.datetime_debut_partie).up()
@@ -52,8 +51,9 @@ exports.createListeHoraires = function createListeHoraires() {
                 root.up();
                 resolve(root.end({prettyPrint: true}));
             })
-            .catch(errmsg => {
-                reject(errmsg);
+            .catch(errMsg => {
+                console.log(errMsg);
+                reject(errMsg);
             });
-    }));
+    });
 };

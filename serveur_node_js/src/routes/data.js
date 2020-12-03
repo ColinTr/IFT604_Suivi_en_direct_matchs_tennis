@@ -17,7 +17,6 @@ router.get('/', (req, res) => {
         res.setHeader('Content-Type', 'application/rdf+xml');
         // TODO
     } else {
-        console.log("here")
         return res.status(400).send("Type non reconnu").end();
     }
 });
@@ -79,7 +78,13 @@ router.get('/joueur', (req, res) => {
         // TODO
     } else if (accept === "application/rdf+xml") {
         res.setHeader('Content-Type', 'application/rdf+xml');
-        // TODO
+        JoueurBuilder.createListeJoueurs()
+            .then(pageHoraire => {
+                return res.send(pageHoraire).end;
+            })
+            .catch(errMsg => {
+                return res.status(400).send(errMsg).end;
+            });
     } else {
         return res.status(400).send("Type non reconnu").end();
     }
@@ -88,9 +93,9 @@ router.get('/joueur', (req, res) => {
 /* Requete HTTP GET sur /data/horaire/:id_joueur */
 router.get('/joueur/:id_joueur', (req, res) => {
     const accept = req.headers.accept;
-    const idJoueur = req.params.id_joueur;
+    const id_joueur = req.params.id_joueur;
 
-    if(idJoueur === null) {
+    if(id_joueur === null) {
         return res.status(400).send("id_joueur manquant").end();
     }
 
@@ -99,7 +104,7 @@ router.get('/joueur/:id_joueur', (req, res) => {
         // TODO
     } else if (accept === "application/rdf+xml") {
         res.setHeader('Content-Type', 'application/rdf+xml');
-        JoueurBuilder.createPageJoueur(idJoueur)
+        JoueurBuilder.createPageJoueur(id_joueur)
             .then(pageJoueur => {
                 return res.send(pageJoueur).end;
             })

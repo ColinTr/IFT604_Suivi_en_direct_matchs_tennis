@@ -39,7 +39,7 @@ exports.createListeParties = function createListeParties() {
                         "xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
                         "xmlns:partie": "http://localhost:3000/data/partie"
                     });
-                listeParties.forEach(function(partie) {
+                listeParties.forEach(function (partie) {
                     console.log("partie");
                     root.ele('rdf:Description', {'rdf:about': 'http://localhost:3000/data/partie/' + partie.id_partie})
                         .ele('partie:datetime_debut_partie').txt(partie.datetime_debut_partie).up()
@@ -51,7 +51,7 @@ exports.createListeParties = function createListeParties() {
                         .ele('partie:horaire', {'rdf:resource': 'http://localhost:3000/data/horaire/' + partie.id_partie}).up()
                         .ele('partie:joueur1', {'rdf:resource': 'http://localhost:3000/data/joueur/' + partie.id_joueur_1}).up()
                         .ele('partie:joueur2', {'rdf:resource': 'http://localhost:3000/data/joueur/' + partie.id_joueur_2}).up()
-                     .up()
+                        .up()
                 });
                 root.up();
                 resolve(root.end({prettyPrint: true}));
