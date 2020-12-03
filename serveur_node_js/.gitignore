@@ -3,3 +3,4 @@ client/.idea/*
 server/.idea/*
 node_modules/
 src/bdd_site.db
+package-lock.json
