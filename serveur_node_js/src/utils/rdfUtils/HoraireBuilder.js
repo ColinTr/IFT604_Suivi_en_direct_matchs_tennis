@@ -1,8 +1,7 @@
 const {create, fragment} = require('xmlbuilder2');
 const database = require('../database');
 
-// Route /data/horaire/:id_partie
-exports.createPageHoraire = function createPageHoraire(idPartie) {
+function createPageHoraire(idPartie) {
     return new Promise((resolve, reject) => {
         database.recupererPartieViaId(idPartie)
             .then(partie => {
@@ -19,10 +18,9 @@ exports.createPageHoraire = function createPageHoraire(idPartie) {
                 reject(errMsg);
             });
     });
-};
+}
 
-// Route /data/horaire
-exports.createListeHoraires = function createListeHoraires() {
+function createListeHoraires() {
     return new Promise((resolve, reject) => {
         database.recupererToutesLesParties()
             .then(listeParties => {
@@ -41,9 +39,9 @@ exports.createListeHoraires = function createListeHoraires() {
                 reject(errMsg);
             });
     });
-};
+}
 
-exports.createHoraireFragment = function createHoraireFragment(partie) {
+function createHoraireFragment(partie) {
     const frag = fragment();
     frag.ele('rdf:Description', {'rdf:about': 'http://localhost:3000/data/horaire/' + partie.id_partie})
         .ele('horaire:datetime_debut_partie').txt(partie.datetime_debut_partie).up()
@@ -52,4 +50,6 @@ exports.createHoraireFragment = function createHoraireFragment(partie) {
         .ele('horaire:joueur2', {'rdf:resource': 'http://localhost:3000/data/joueur/' + partie.id_joueur_2}).up()
         .end();
     return frag;
-};
+}
+
+module.exports = {createPageHoraire, createListeHoraires, createHoraireFragment};

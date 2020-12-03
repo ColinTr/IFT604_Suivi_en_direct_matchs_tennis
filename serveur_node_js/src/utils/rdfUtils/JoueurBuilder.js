@@ -1,7 +1,7 @@
 const {create, fragment} = require('xmlbuilder2');
 const database = require('../database');
 
-exports.createPageJoueur = function createPageJoueur(idJoueur) {
+function createPageJoueur(idJoueur) {
     return new Promise((resolve, reject) => {
         database.trouverJoueurViaIdJoueur(idJoueur)
             .then(joueur => {
@@ -21,9 +21,9 @@ exports.createPageJoueur = function createPageJoueur(idJoueur) {
                 reject(errMsg);
             });
     });
-};
+}
 
-exports.createListeJoueurs = function createListeJoueurs() {
+function createListeJoueurs() {
     return new Promise((resolve, reject) => {
         const root = create({version: '1.0'})
             .ele('rdf:RDF', {
@@ -50,9 +50,9 @@ exports.createListeJoueurs = function createListeJoueurs() {
                 reject(errMsg);
             });
     });
-};
+}
 
-exports.createJoueurFragment = function createJoueurFragment(joueur) {
+function createJoueurFragment(joueur) {
     return new Promise((resolve, reject) => {
         database.recupererToutesLesPartiesDuJoueur(joueur.id_joueur)
             .then(listeParties => {
@@ -78,4 +78,6 @@ exports.createJoueurFragment = function createJoueurFragment(joueur) {
                 reject(errMsg);
             });
     });
-};
+}
+
+module.exports = {createPageJoueur, createListeJoueurs, createJoueurFragment};

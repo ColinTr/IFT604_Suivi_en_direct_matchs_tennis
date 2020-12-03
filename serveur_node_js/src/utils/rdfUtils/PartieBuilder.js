@@ -1,7 +1,7 @@
 const {create, fragment} = require('xmlbuilder2');
 const database = require('../database');
 
-exports.createPagePartie = function createPagePartie(idPartie) {
+function createPagePartie(idPartie) {
     return new Promise((resolve, reject) => {
         database.recupererPartieViaId(idPartie)
             .then(partie => {
@@ -17,9 +17,9 @@ exports.createPagePartie = function createPagePartie(idPartie) {
                 reject(errMsg);
             });
     });
-};
+}
 
-exports.createListeParties = function createListeParties() {
+function createListeParties() {
     return new Promise((resolve, reject) => {
         database.recupererToutesLesParties()
             .then(listeParties => {
@@ -37,9 +37,9 @@ exports.createListeParties = function createListeParties() {
                 reject(errMsg);
             });
     });
-};
+}
 
-exports.createJoueurFragment = function createPartieFragment(partie) {
+function createPartieFragment(partie) {
     const frag = fragment();
     frag.ele('rdf:Description', {'rdf:about': 'http://localhost:3000/data/partie/' + partie.id_partie})
         .ele('partie:datetime_debut_partie').txt(partie.datetime_debut_partie).up()
@@ -52,4 +52,6 @@ exports.createJoueurFragment = function createPartieFragment(partie) {
         .ele('partie:joueur1', {'rdf:resource': 'http://localhost:3000/data/joueur/' + partie.id_joueur_1}).up()
         .ele('partie:joueur2', {'rdf:resource': 'http://localhost:3000/data/joueur/' + partie.id_joueur_2}).up();
     return frag;
-};
+}
+
+module.exports = {createPagePartie, createListeParties, createPartieFragment};
