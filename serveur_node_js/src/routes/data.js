@@ -12,11 +12,12 @@ router.get('/', (req, res) => {
 
     if (accept === "text/html") {
         res.setHeader('Content-Type', 'text/html');
-        // TODO
+        res.sendFile(path.join(__dirname+'/../html/data.html'));
     } else if (accept === "application/rdf+xml") {
         res.setHeader('Content-Type', 'application/rdf+xml');
         // TODO
     } else {
+        console.log("here")
         return res.status(400).send("Type non reconnu").end();
     }
 });
@@ -87,9 +88,9 @@ router.get('/joueur', (req, res) => {
 /* Requete HTTP GET sur /data/horaire/:id_joueur */
 router.get('/joueur/:id_joueur', (req, res) => {
     const accept = req.headers.accept;
-    const id_partie = req.params.id_joueur;
+    const idJoueur = req.params.id_joueur;
 
-    if(id_partie === null) {
+    if(idJoueur === null) {
         return res.status(400).send("id_joueur manquant").end();
     }
 
@@ -98,7 +99,13 @@ router.get('/joueur/:id_joueur', (req, res) => {
         // TODO
     } else if (accept === "application/rdf+xml") {
         res.setHeader('Content-Type', 'application/rdf+xml');
-        // TODO
+        JoueurBuilder.createPageJoueur(idJoueur)
+            .then(pageJoueur => {
+                return res.send(pageJoueur).end;
+            })
+            .catch(errMsg => {
+                return res.status(400).send(errMsg).end;
+            });
     } else {
         return res.status(400).send("Type non reconnu").end();
     }
@@ -113,7 +120,13 @@ router.get('/partie', (req, res) => {
         // TODO
     } else if (accept === "application/rdf+xml") {
         res.setHeader('Content-Type', 'application/rdf+xml');
-        // TODO
+        PartieBuilder.createListeParties()
+            .then(listeParties => {
+                return res.send(listeParties).end;
+            })
+            .catch(errMsg => {
+                return res.status(400).send(errMsg).end;
+            });
     } else {
         return res.status(400).send("Type non reconnu").end();
     }
@@ -133,7 +146,13 @@ router.get('/partie/:id_partie', (req, res) => {
         // TODO
     } else if (accept === "application/rdf+xml") {
         res.setHeader('Content-Type', 'application/rdf+xml');
-        // TODO
+        PartieBuilder.createPagePartie(id_partie)
+            .then(pagePartie => {
+                return res.send(pagePartie).end;
+            })
+            .catch(errMsg => {
+                return res.status(400).send(errMsg).end;
+            });
     } else {
         return res.status(400).send("Type non reconnu").end();
     }

@@ -41,6 +41,7 @@ exports.createListeHoraires = function createListeHoraires() {
                         "xmlns:joueur": "http://localhost:3000/data/joueur"
                     });
                 listeParties.forEach(function(partie) {
+                    console.log("horaire");
                     root.ele('rdf:Description', {'rdf:about': 'http://localhost:3000/data/horaire/' + partie.id_partie})
                         .ele('horaire:datetime_debut_partie').txt(partie.datetime_debut_partie).up()
                         .ele('horaire:partie', {'rdf:resource': 'http://localhost:3000/data/partie/' + partie.id_partie}).up()
