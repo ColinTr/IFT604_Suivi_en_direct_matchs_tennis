@@ -5,6 +5,65 @@
     <title>Title</title>
 </head>
 <body>
-    <h1>DANS LE DATA HTML</h1>
+    <h1>API Documentation</h1>
+    <h2>Avertissement</h2>
+    <p>Le code ci-présenté n'est en aucun cas sécuritaire et ne devrait pas être utilisé pour une vrai application de commerce électronique.</p>
+    <h2>Fonctionnement</h2>
+    <div>
+        <p>Le serveur est conçu pour fonctionner de façon indépendante de tout client, selon l'architecture REST.</p>
+        <br>
+            Le serveur est programmé avec `Node.js` et le framework `express.js`. Pour le lancer, il faut d'abord récupérer les modules de nodes avec la commande à partir du dossier racine:
+            <br/>
+            <b>npm install</b>
+            <br/>
+            Puis, le serveur se lance avec la commande:
+            <br/>
+            <b>npm start</b>
+        </p>
+    </div>
+
+    <h2>Les URIs du client sémantique</h2>
+    <div>
+        <p>Un certain nombre de ressources est accessible via les URIs suivantes (toutes ces URIs supportent le html et le rdf+xml):</p>
+        <p>CHECK THIS : https://fr.wikipedia.org/wiki/RDF_Schema</p>
+        <table>
+            <thead>
+                <tr>
+                    <th> URI </th>
+                    <th> Description </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>http://localhost:3000/data</td>
+                    <td>Page explicitant comment utiliser notre API</td>
+                </tr>
+                <tr>
+                    <td>http://localhost:3000/data/horaire</td>
+                    <td>Tableau contenant l'horaire des parties</td>
+                </tr>
+                <tr>
+                    <td> http://localhost:3000/data/horaire/:id</td>
+                    <td>Page contenant l'horaire de la partie à l'id spécifié</td>
+                </tr>
+                <tr>
+                    <td>http://localhost:3000/data/partie</td>
+                    <td>Tableau contenant la liste des partie</td>
+                </tr>
+                <tr>
+                    <td>http://localhost:3000/data/partie/:id</td>
+                    <td>Page contenant les informations d'une partie à l'id spécifié</td>
+                </tr>
+                <tr>
+                    <td>http://localhost:3000/data/joueur</td>
+                    <td>Tableau contenant la liste des joueurs</td>
+                </tr>
+                <tr>
+                    <td>http://localhost:3000/data/joueur/:id</td>
+                    <td>Page contenant les informations d'un joueur</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
