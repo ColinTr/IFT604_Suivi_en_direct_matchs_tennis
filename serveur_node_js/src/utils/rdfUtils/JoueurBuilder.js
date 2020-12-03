@@ -11,8 +11,8 @@ function createPageJoueur(idJoueur) {
                         "xmlns:joueur": "http://localhost:3000/data/joueur"
                     });
                 createJoueurFragment(joueur)
-                    .then(frag => {
-                        root.import(frag);
+                    .then(fragment => {
+                        root.import(fragment);
                         resolve(root.end({prettyPrint: true}));
                     })
             })
@@ -36,14 +36,15 @@ function createListeJoueurs() {
                 listeJoueurs.forEach(function (joueur) {
                     promises.push(
                         createJoueurFragment(joueur)
-                            .then(frag => {
-                                root.import(frag);
+                            .then(fragment => {
+                                root.import(fragment);
                             })
                     )
                 });
-                Promise.allSettled(promises).then(() => {
-                    resolve(root.end({prettyPrint: true}));
-                });
+                Promise.allSettled(promises)
+                    .then(() => {
+                        resolve(root.end({prettyPrint: true}));
+                    });
             })
             .catch(errMsg => {
                 console.log(errMsg);

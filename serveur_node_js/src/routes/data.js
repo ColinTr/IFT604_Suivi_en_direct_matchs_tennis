@@ -15,7 +15,13 @@ router.get('/', (req, res) => {
         res.sendFile(path.join(__dirname+'/../html/data.html'));
     } else if (accept === "application/rdf+xml") {
         res.setHeader('Content-Type', 'application/rdf+xml');
-        // TODO
+        DataPageBuilder.createPageData()
+            .then(pageData => {
+                return res.send(pageData).end;
+            })
+            .catch(errMsg => {
+                return res.status(400).send(errMsg).end;
+            });
     } else {
         return res.status(400).send("Type non reconnu").end();
     }
