@@ -180,6 +180,19 @@ exports.recupererPartieViaId = function recupererPartieViaId(idPartie) {
     });
 };
 
+exports.recupererToutesLesParties = function recupererToutesLesParties() {
+    return new Promise((resolve, reject) => {
+        db.all(`SELECT * FROM partie`, (err, row) => {
+            if (err) {
+                reject(err.message);
+            } else {
+                // return the partie with idPartie found
+                resolve(row);
+            }
+        });
+    });
+};
+
 // ============================== Manche ==============================
 
 exports.creerManche = function creerManche(id_partie, score_jeux_joueur_1, score_jeux_joueur_2, nb_contestations_joueur_1, nb_contestations_joueur_2, etat_manche){

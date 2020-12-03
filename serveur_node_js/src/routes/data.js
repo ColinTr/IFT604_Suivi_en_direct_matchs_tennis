@@ -1,10 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
+const DataPageBuilder = require('../utils/rdfUtils/DataPageBuilder');
+const HoraireBuilder = require('../utils/rdfUtils/HoraireBuilder');
+const JoueurBuilder = require('../utils/rdfUtils/JoueurBuilder');
+const PartieBuilder = require('../utils/rdfUtils/PartieBuilder');
 
 /* Requete HTTP GET sur /data */
 router.get('/', (req, res) => {
     const accept = req.headers.accept;
+
     if (accept === "text/html") {
         res.setHeader('Content-Type', 'text/html');
         // TODO
@@ -19,12 +24,19 @@ router.get('/', (req, res) => {
 /* Requete HTTP GET sur /data/horaire */
 router.get('/horaire', (req, res) => {
     const accept = req.headers.accept;
+
     if (accept === "text/html") {
         res.setHeader('Content-Type', 'text/html');
         // TODO
     } else if (accept === "application/rdf+xml") {
         res.setHeader('Content-Type', 'application/rdf+xml');
-        // TODO
+        HoraireBuilder.createListeHoraires()
+            .then(pageHoraire => {
+                return res.send(pageHoraire).end;
+            })
+            .catch(errMsg => {
+                return res.status(400).send(errMsg).end;
+            });
     } else {
         return res.status(400).send("Type non reconnu").end();
     }
@@ -34,6 +46,7 @@ router.get('/horaire', (req, res) => {
 router.get('/horaire/:id_partie', (req, res) => {
     const accept = req.headers.accept;
     const id_partie = req.params.id_partie;
+
     if(id_partie === null) {
         return res.status(400).send("id_partie manquant").end();
     }
@@ -42,8 +55,15 @@ router.get('/horaire/:id_partie', (req, res) => {
         res.setHeader('Content-Type', 'text/html');
         // TODO
     } else if (accept === "application/rdf+xml") {
+        console.log("here");
         res.setHeader('Content-Type', 'application/rdf+xml');
-        // TODO
+        HoraireBuilder.createPageHoraire(id_partie)
+            .then(pageHoraire => {
+                return res.send(pageHoraire).end;
+            })
+            .catch(errMsg => {
+                return res.status(400).send(errMsg).end;
+            });
     } else {
         return res.status(400).send("Type non reconnu").end();
     }
@@ -52,6 +72,7 @@ router.get('/horaire/:id_partie', (req, res) => {
 /* Requete HTTP GET sur /data/joueur */
 router.get('/joueur', (req, res) => {
     const accept = req.headers.accept;
+
     if (accept === "text/html") {
         res.setHeader('Content-Type', 'text/html');
         // TODO
@@ -66,7 +87,8 @@ router.get('/joueur', (req, res) => {
 /* Requete HTTP GET sur /data/horaire/:id_joueur */
 router.get('/joueur/:id_joueur', (req, res) => {
     const accept = req.headers.accept;
-    const id_partie = req.params.id_partie;
+    const id_partie = req.params.id_joueur;
+
     if(id_partie === null) {
         return res.status(400).send("id_joueur manquant").end();
     }
@@ -85,6 +107,7 @@ router.get('/joueur/:id_joueur', (req, res) => {
 /* Requete HTTP GET sur /data/partie */
 router.get('/partie', (req, res) => {
     const accept = req.headers.accept;
+
     if (accept === "text/html") {
         res.setHeader('Content-Type', 'text/html');
         // TODO
@@ -100,6 +123,7 @@ router.get('/partie', (req, res) => {
 router.get('/partie/:id_partie', (req, res) => {
     const accept = req.headers.accept;
     const id_partie = req.params.id_partie;
+
     if(id_partie === null) {
         return res.status(400).send("id_partie manquant").end();
     }
