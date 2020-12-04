@@ -1,0 +1,29 @@
+html
+    head
+        title= title
+    body
+        h1= partie.id_partie
+
+        table(style='width:100%', border='1')
+            thead
+                tr
+                    th datetime_debut_partie
+                    th datetime_fin_partie
+                    th score_manche_joueur_1
+                    th score_manche_joueur_2
+                    th duree_partie
+                    th etat_partie
+                    th horaire
+                    th joueur1
+                    th joueur2
+            tbody
+                tr
+                    td #{partie.datetime_debut_partie}
+                    td #{partie.datetime_fin_partie}
+                    td #{partie.score_manche_joueur_1}
+                    td #{partie.score_manche_joueur_2}
+                    td #{partie.duree_partie}
+                    td #{partie.etat_partie}
+                    td http://localhost:3000/data/horaire/#{partie.id_partie}
+                    td http://localhost:3000/data/joueur/#{partie.id_joueur_1}
+                    td http://localhost:3000/data/joueur/#{partie.id_joueur_2}

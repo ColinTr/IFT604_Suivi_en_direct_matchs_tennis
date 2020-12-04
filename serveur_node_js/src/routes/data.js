@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
+const database = require('../utils/database');
 const DataPageBuilder = require('../utils/rdfUtils/DataPageBuilder');
 const HoraireBuilder = require('../utils/rdfUtils/HoraireBuilder');
 const JoueurBuilder = require('../utils/rdfUtils/JoueurBuilder');
@@ -154,7 +155,15 @@ router.get('/partie/:id_partie', (req, res) => {
 
     if (accept === "text/html") {
         res.setHeader('Content-Type', 'text/html');
-        // TODO
+
+        database.recupererPartieViaId(id_partie)
+            .then((partie)=>{
+                res.render('partie', { title: 'Hey', partie: partie});
+
+            })
+            .catch((errMsg)=>{
+                return res.status(400).send(errMsg).end;
+            });
     } else if (accept === "application/rdf+xml") {
         res.setHeader('Content-Type', 'application/rdf+xml');
         PartieBuilder.createPagePartie(id_partie)
