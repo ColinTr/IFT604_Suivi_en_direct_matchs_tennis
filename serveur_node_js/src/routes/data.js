@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 
     if (accept === "text/html") {
         res.setHeader('Content-Type', 'text/html');
-        res.sendFile(path.join(__dirname + '/../html/data.html'));
+        res.sendFile(path.join(__dirname + '/../views/data.html'));
     } else if (accept === "application/rdf+xml") {
         res.setHeader('Content-Type', 'application/rdf+xml');
         DataPageBuilder.createPageData()
@@ -25,7 +25,7 @@ router.get('/', (req, res) => {
                 return res.status(400).send(errMsg).end;
             });
     } else {
-        return res.status(400).send("Type non reconnu").end();
+        return res.status(400).send("MIME-TYPE de l'entête Accept non reconnu").end();
     }
 });
 
@@ -54,7 +54,7 @@ router.get('/horaire', (req, res) => {
                 return res.status(400).send(errMsg).end;
             });
     } else {
-        return res.status(400).send("Type non reconnu").end();
+        return res.status(400).send("MIME-TYPE de l'entête Accept non reconnu").end();
     }
 });
 
@@ -93,7 +93,7 @@ router.get('/horaire/:id_partie', (req, res) => {
                 return res.status(400).send(errMsg).end;
             });
     } else {
-        return res.status(400).send("Type non reconnu").end();
+        return res.status(400).send("MIME-TYPE de l'entête Accept non reconnu").end();
     }
 });
 
@@ -129,7 +129,7 @@ router.get('/joueur', (req, res) => {
                 return res.status(400).send(errMsg).end;
             });
     } else {
-        return res.status(400).send("Type non reconnu").end();
+        return res.status(400).send("MIME-TYPE de l'entête Accept non reconnu").end();
     }
 });
 
@@ -174,7 +174,7 @@ router.get('/joueur/:id_joueur', (req, res) => {
                 return res.status(400).send(errMsg).end;
             });
     } else {
-        return res.status(400).send("Type non reconnu").end();
+        return res.status(400).send("MIME-TYPE de l'entête Accept non reconnu").end();
     }
 });
 
@@ -203,7 +203,7 @@ router.get('/partie', (req, res) => {
                 return res.status(400).send(errMsg).end;
             });
     } else {
-        return res.status(400).send("Type non reconnu").end();
+        return res.status(400).send("MIME-TYPE de l'entête Accept non reconnu").end();
     }
 });
 
@@ -241,7 +241,7 @@ router.get('/partie/:id_partie', (req, res) => {
                 return res.status(400).send(errMsg).end;
             });
     } else {
-        return res.status(400).send("Type non reconnu").end();
+        return res.status(400).send("MIME-TYPE de l'entête Accept non reconnu").end();
     }
 });
 
