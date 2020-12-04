@@ -1,0 +1,33 @@
+html
+    head
+        title="Liste de toutes les parties"
+    body
+        h1="Liste de toutes les parties"
+
+        table(align="center", border='1')
+            thead
+                tr
+                    th datetime_debut_partie
+                    th datetime_fin_partie
+                    th score_manche_joueur_1
+                    th score_manche_joueur_2
+                    th duree_partie
+                    th etat_partie
+                    th horaire
+                    th joueur1
+                    th joueur2
+            tbody
+                each partie in listeParties
+                    tr
+                        td #{partie.datetime_debut_partie}
+                        td #{partie.datetime_fin_partie}
+                        td #{partie.score_manche_joueur_1}
+                        td #{partie.score_manche_joueur_2}
+                        td #{partie.duree_partie}
+                        td #{partie.etat_partie}
+                        td
+                            a(href='http://localhost:3000/data/horaire/#{partie.id_partie}') http://localhost:3000/data/horaire/#{partie.id_partie}
+                        td
+                            a(href='http://localhost:3000/data/joueur/#{partie.id_joueur_1}') http://localhost:3000/data/joueur/#{partie.id_joueur_1}
+                        td
+                            a(href='http://localhost:3000/data/joueur/#{partie.id_joueur_2}') http://localhost:3000/data/joueur/#{partie.id_joueur_2}

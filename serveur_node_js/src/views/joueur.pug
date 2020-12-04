@@ -1,0 +1,28 @@
+html
+    head
+        title="Détails du joueur d'id " + joueur.id_joueur
+    body
+        h1="Détails du joueur d'id " + joueur.id_joueur
+
+        table(align="center", border='1')
+            thead
+                tr
+                    th nom
+                    th prenom
+                    th age
+                    th rang
+                    th pays
+                    th parties
+            tbody
+                tr
+                    td #{joueur.nom}
+                    td #{joueur.prenom}
+                    td #{joueur.age}
+                    td #{joueur.rang}
+                    td #{joueur.pays}
+                    td
+                        table
+                            each partie in listeParties
+                                tr
+                                    td
+                                        a(href='http://localhost:3000/data/horaire/#{partie.id_partie}') http://localhost:3000/data/horaire/#{partie.id_partie}

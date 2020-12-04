@@ -1,0 +1,30 @@
+html
+    head
+        title="Liste de tous les joueurs"
+    body
+        h1="Liste de tous les joueurs"
+
+        table(align="center", border='1')
+            thead
+                tr
+                    th nom
+                    th prenom
+                    th age
+                    th rang
+                    th pays
+                    th parties
+            tbody
+                each joueur in listeJoueurs
+                    tr
+                        td #{joueur.nom}
+                        td #{joueur.prenom}
+                        td #{joueur.age}
+                        td #{joueur.rang}
+                        td #{joueur.pays}
+                        td
+                            table
+                                each partie in listeParties
+                                    if partie.id_joueur_1 === joueur.id_joueur || partie.id_joueur_2 === joueur.id_joueur
+                                        tr
+                                            td
+                                                a(href='http://localhost:3000/data/horaire/#{partie.id_partie}') http://localhost:3000/data/horaire/#{partie.id_partie}

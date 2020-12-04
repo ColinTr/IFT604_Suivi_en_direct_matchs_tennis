@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 
     if (accept === "text/html") {
         res.setHeader('Content-Type', 'text/html');
-        res.sendFile(path.join(__dirname+'/../html/data.html'));
+        res.sendFile(path.join(__dirname + '/../html/data.html'));
     } else if (accept === "application/rdf+xml") {
         res.setHeader('Content-Type', 'application/rdf+xml');
         DataPageBuilder.createPageData()
@@ -21,6 +21,7 @@ router.get('/', (req, res) => {
                 return res.send(pageData).end;
             })
             .catch(errMsg => {
+                console.log(errMsg);
                 return res.status(400).send(errMsg).end;
             });
     } else {
@@ -34,7 +35,14 @@ router.get('/horaire', (req, res) => {
 
     if (accept === "text/html") {
         res.setHeader('Content-Type', 'text/html');
-        // TODO
+        database.recupererToutesLesParties()
+            .then(listeParties => {
+                res.render('listeHoraires', {listeParties: listeParties});
+            })
+            .catch(errMsg => {
+                console.log(errMsg);
+                return res.status(400).send(errMsg).end;
+            });
     } else if (accept === "application/rdf+xml") {
         res.setHeader('Content-Type', 'application/rdf+xml');
         HoraireBuilder.createListeHoraires()
@@ -42,6 +50,7 @@ router.get('/horaire', (req, res) => {
                 return res.send(pageHoraire).end;
             })
             .catch(errMsg => {
+                console.log(errMsg);
                 return res.status(400).send(errMsg).end;
             });
     } else {
@@ -54,13 +63,20 @@ router.get('/horaire/:id_partie', (req, res) => {
     const accept = req.headers.accept;
     const id_partie = req.params.id_partie;
 
-    if(id_partie === null) {
+    if (id_partie === null) {
         return res.status(400).send("id_partie manquant").end();
     }
 
     if (accept === "text/html") {
         res.setHeader('Content-Type', 'text/html');
-        // TODO
+        database.recupererPartieViaId(id_partie)
+            .then(partie => {
+                res.render('horaire', {partie: partie});
+            })
+            .catch(errMsg => {
+                console.log(errMsg);
+                return res.status(400).send(errMsg).end;
+            });
     } else if (accept === "application/rdf+xml") {
         console.log("here");
         res.setHeader('Content-Type', 'application/rdf+xml');
@@ -69,6 +85,7 @@ router.get('/horaire/:id_partie', (req, res) => {
                 return res.send(pageHoraire).end;
             })
             .catch(errMsg => {
+                console.log(errMsg);
                 return res.status(400).send(errMsg).end;
             });
     } else {
@@ -82,7 +99,21 @@ router.get('/joueur', (req, res) => {
 
     if (accept === "text/html") {
         res.setHeader('Content-Type', 'text/html');
-        // TODO
+        database.recupererTousLesJoueurs()
+            .then(listeJoueurs => {
+                database.recupererToutesLesParties()
+                    .then(listeParties => {
+                        res.render('listeJoueurs', {listeJoueurs: listeJoueurs, listeParties: listeParties});
+                    })
+                    .catch(errMsg => {
+                        console.log(errMsg);
+                        return res.status(400).send(errMsg).end;
+                    });
+            })
+            .catch(errMsg => {
+                console.log(errMsg);
+                return res.status(400).send(errMsg).end;
+            });
     } else if (accept === "application/rdf+xml") {
         res.setHeader('Content-Type', 'application/rdf+xml');
         JoueurBuilder.createListeJoueurs()
@@ -90,6 +121,7 @@ router.get('/joueur', (req, res) => {
                 return res.send(pageHoraire).end;
             })
             .catch(errMsg => {
+                console.log(errMsg);
                 return res.status(400).send(errMsg).end;
             });
     } else {
@@ -102,13 +134,27 @@ router.get('/joueur/:id_joueur', (req, res) => {
     const accept = req.headers.accept;
     const id_joueur = req.params.id_joueur;
 
-    if(id_joueur === null) {
+    if (id_joueur === null) {
         return res.status(400).send("id_joueur manquant").end();
     }
 
     if (accept === "text/html") {
         res.setHeader('Content-Type', 'text/html');
-        // TODO
+        database.trouverJoueurViaIdJoueur(id_joueur)
+            .then(joueur => {
+                database.recupererToutesLesPartiesDuJoueur(joueur.id_joueur)
+                    .then(listeParties => {
+                        res.render('joueur', {joueur: joueur, listeParties: listeParties});
+                    })
+                    .catch(errMsg => {
+                        console.log(errMsg);
+                        return res.status(400).send(errMsg).end;
+                    });
+            })
+            .catch(errMsg => {
+                console.log(errMsg);
+                return res.status(400).send(errMsg).end;
+            });
     } else if (accept === "application/rdf+xml") {
         res.setHeader('Content-Type', 'application/rdf+xml');
         JoueurBuilder.createPageJoueur(id_joueur)
@@ -116,6 +162,7 @@ router.get('/joueur/:id_joueur', (req, res) => {
                 return res.send(pageJoueur).end;
             })
             .catch(errMsg => {
+                console.log(errMsg);
                 return res.status(400).send(errMsg).end;
             });
     } else {
@@ -129,7 +176,14 @@ router.get('/partie', (req, res) => {
 
     if (accept === "text/html") {
         res.setHeader('Content-Type', 'text/html');
-        // TODO
+        database.recupererToutesLesParties()
+            .then((listeParties) => {
+                res.render('listeParties', {listeParties: listeParties});
+            })
+            .catch(errMsg => {
+                console.log(errMsg);
+                return res.status(400).send(errMsg).end;
+            });
     } else if (accept === "application/rdf+xml") {
         res.setHeader('Content-Type', 'application/rdf+xml');
         PartieBuilder.createListeParties()
@@ -137,6 +191,7 @@ router.get('/partie', (req, res) => {
                 return res.send(listeParties).end;
             })
             .catch(errMsg => {
+                console.log(errMsg);
                 return res.status(400).send(errMsg).end;
             });
     } else {
@@ -149,19 +204,18 @@ router.get('/partie/:id_partie', (req, res) => {
     const accept = req.headers.accept;
     const id_partie = req.params.id_partie;
 
-    if(id_partie === null) {
+    if (id_partie === null) {
         return res.status(400).send("id_partie manquant").end();
     }
 
     if (accept === "text/html") {
         res.setHeader('Content-Type', 'text/html');
-
         database.recupererPartieViaId(id_partie)
-            .then((partie)=>{
-                res.render('partie', { title: 'Hey', partie: partie});
-
+            .then(partie => {
+                res.render('partie', {partie: partie});
             })
-            .catch((errMsg)=>{
+            .catch(errMsg => {
+                console.log(errMsg);
                 return res.status(400).send(errMsg).end;
             });
     } else if (accept === "application/rdf+xml") {
@@ -171,6 +225,7 @@ router.get('/partie/:id_partie', (req, res) => {
                 return res.send(pagePartie).end;
             })
             .catch(errMsg => {
+                console.log(errMsg);
                 return res.status(400).send(errMsg).end;
             });
     } else {

@@ -1,29 +1,19 @@
 html
     head
-        title="Détails de la partie d'id " + partie.id_partie
+        title="Horaires de la partie d'id " + partie.id_partie
     body
-        h1="Détails de la partie d'id " + partie.id_partie
+        h1="Horaires de la partie d'id " + partie.id_partie
 
         table(align="center", border='1')
             thead
                 tr
                     th datetime_debut_partie
-                    th datetime_fin_partie
-                    th score_manche_joueur_1
-                    th score_manche_joueur_2
-                    th duree_partie
-                    th etat_partie
-                    th horaire
+                    th partie
                     th joueur1
                     th joueur2
             tbody
                 tr
                     td #{partie.datetime_debut_partie}
-                    td #{partie.datetime_fin_partie}
-                    td #{partie.score_manche_joueur_1}
-                    td #{partie.score_manche_joueur_2}
-                    td #{partie.duree_partie}
-                    td #{partie.etat_partie}
                     td
                         a(href='http://localhost:3000/data/horaire/#{partie.id_partie}') http://localhost:3000/data/horaire/#{partie.id_partie}
                     td

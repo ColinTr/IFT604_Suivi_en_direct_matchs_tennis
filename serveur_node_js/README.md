@@ -17,7 +17,7 @@ La base de données est une base SQLite qui se présente sous forme de fichier, 
  
 ### Requêtes supportées :
 Toutes les URIs du tableau ci-dessous supportent le HTML et le RDF.<br/>
-Conformément aux consignes, les requêtes sur ces URIs doivent comporter la clé "<b>Accept</b>" dans leur header avec les valeurs "<b>text/html</b>" ou "<b>application/rdf+xml</b>".<br/>
+Conformément aux consignes, les requêtes sur ces URIs doivent comporter la clé "<b>Accept</b>" dans leur header avec la valeur "<b>text/html</b>" ou "<b>application/rdf+xml</b>".<br/>
 La réponse de ce serveur express aura quand à elle la clé "Content-Type" dans son header avec les mêmes valeurs "text/html" ou "application/rdf+xml"
 
 ### Liste des URIs disponibles :
@@ -39,4 +39,4 @@ Afin de tester, la BDD comporte les identifiants suivants : <br/>
  \- id_partie : 83<br/>
  \- id_joueur : 1 ou 2<br/>
  On peut donc envoyer une requête sur http://localhost:3000/data/horaire/83 ou http://localhost:3000/data/joueur/1<br/>
-Comme expliqué ci-dessus, ces requêtes devront posséder une header avec la clé "<b>Accept</b>" et les valeurs "<b>text/html</b>" ou "<b>application/rdf+xml</b>".
+Comme expliqué ci-dessus, ces requêtes devront posséder un header avec la clé "<b>Accept</b>" et la valeur "<b>text/html</b>" ou "<b>application/rdf+xml</b>".

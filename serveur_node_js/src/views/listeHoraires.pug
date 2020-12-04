@@ -1,0 +1,23 @@
+html
+    head
+        title="Liste de tous les horaires"
+    body
+        h1="Liste de tous les horaires"
+
+        table(align="center", border='1')
+            thead
+                tr
+                    th datetime_debut_partie
+                    th partie
+                    th joueur1
+                    th joueur2
+            tbody
+                each partie in listeParties
+                    tr
+                        td #{partie.datetime_debut_partie}
+                        td
+                            a(href='http://localhost:3000/data/horaire/#{partie.id_partie}') http://localhost:3000/data/horaire/#{partie.id_partie}
+                        td
+                            a(href='http://localhost:3000/data/joueur/#{partie.id_joueur_1}') http://localhost:3000/data/joueur/#{partie.id_joueur_1}
+                        td
+                            a(href='http://localhost:3000/data/joueur/#{partie.id_joueur_2}') http://localhost:3000/data/joueur/#{partie.id_joueur_2}
