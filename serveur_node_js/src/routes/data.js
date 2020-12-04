@@ -71,7 +71,11 @@ router.get('/horaire/:id_partie', (req, res) => {
         res.setHeader('Content-Type', 'text/html');
         database.recupererPartieViaId(id_partie)
             .then(partie => {
-                res.render('horaire', {partie: partie});
+                if(partie !== undefined) {
+                    return res.render('horaire', {partie: partie});
+                } else {
+                    return res.status(400).send("Aucune partie avec l'id spécifié").end();
+                }
             })
             .catch(errMsg => {
                 console.log(errMsg);
@@ -103,7 +107,7 @@ router.get('/joueur', (req, res) => {
             .then(listeJoueurs => {
                 database.recupererToutesLesParties()
                     .then(listeParties => {
-                        res.render('listeJoueurs', {listeJoueurs: listeJoueurs, listeParties: listeParties});
+                        return res.render('listeJoueurs', {listeJoueurs: listeJoueurs, listeParties: listeParties});
                     })
                     .catch(errMsg => {
                         console.log(errMsg);
@@ -142,14 +146,18 @@ router.get('/joueur/:id_joueur', (req, res) => {
         res.setHeader('Content-Type', 'text/html');
         database.trouverJoueurViaIdJoueur(id_joueur)
             .then(joueur => {
-                database.recupererToutesLesPartiesDuJoueur(joueur.id_joueur)
-                    .then(listeParties => {
-                        res.render('joueur', {joueur: joueur, listeParties: listeParties});
-                    })
-                    .catch(errMsg => {
-                        console.log(errMsg);
-                        return res.status(400).send(errMsg).end;
-                    });
+                if(joueur !== undefined) {
+                    database.recupererToutesLesPartiesDuJoueur(joueur.id_joueur)
+                        .then(listeParties => {
+                            return res.render('joueur', {joueur: joueur, listeParties: listeParties});
+                        })
+                        .catch(errMsg => {
+                            console.log(errMsg);
+                            return res.status(400).send(errMsg).end;
+                        });
+                } else {
+                    return res.status(400).send("Aucun joueur avec l'id spécifié").end();
+                }
             })
             .catch(errMsg => {
                 console.log(errMsg);
@@ -178,7 +186,7 @@ router.get('/partie', (req, res) => {
         res.setHeader('Content-Type', 'text/html');
         database.recupererToutesLesParties()
             .then((listeParties) => {
-                res.render('listeParties', {listeParties: listeParties});
+                return res.render('listeParties', {listeParties: listeParties});
             })
             .catch(errMsg => {
                 console.log(errMsg);
@@ -212,7 +220,11 @@ router.get('/partie/:id_partie', (req, res) => {
         res.setHeader('Content-Type', 'text/html');
         database.recupererPartieViaId(id_partie)
             .then(partie => {
-                res.render('partie', {partie: partie});
+                if(partie !== undefined) {
+                    return res.render('partie', {partie: partie});
+                } else {
+                    return res.status(400).send("Aucune partie avec l'id spécifié").end();
+                }
             })
             .catch(errMsg => {
                 console.log(errMsg);

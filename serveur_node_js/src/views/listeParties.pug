@@ -24,7 +24,13 @@ html
                         td #{partie.score_manche_joueur_1}
                         td #{partie.score_manche_joueur_2}
                         td #{partie.duree_partie}
-                        td #{partie.etat_partie}
+                        td
+                            if partie.etat_partie === 0
+                                div partie non commencée
+                            else if partie.etat_partie === 1
+                                div partie en cours
+                            else if partie.etat_partie === 2
+                                div partie terminée
                         td
                             a(href='http://localhost:3000/data/horaire/#{partie.id_partie}') http://localhost:3000/data/horaire/#{partie.id_partie}
                         td

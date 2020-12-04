@@ -5,6 +5,10 @@ function createPagePartie(idPartie) {
     return new Promise((resolve, reject) => {
         database.recupererPartieViaId(idPartie)
             .then(partie => {
+                if (partie === undefined) {
+                    return resolve("Aucune partie avec l'id spécifié")
+                }
+
                 const root = create({version: '1.0'})
                     .ele('rdf:RDF', {
                         "xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",

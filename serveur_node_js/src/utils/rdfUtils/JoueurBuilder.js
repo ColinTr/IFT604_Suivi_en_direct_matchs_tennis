@@ -5,6 +5,10 @@ function createPageJoueur(idJoueur) {
     return new Promise((resolve, reject) => {
         database.trouverJoueurViaIdJoueur(idJoueur)
             .then(joueur => {
+                if (joueur === undefined) {
+                    return resolve("Aucun joueur avec l'id spécifié")
+                }
+
                 const root = create({version: '1.0'})
                     .ele('rdf:RDF', {
                         "xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
