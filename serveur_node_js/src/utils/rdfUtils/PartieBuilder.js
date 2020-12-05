@@ -47,7 +47,7 @@ function createPartieFragment(partie) {
     const frag = fragment();
     frag.ele('rdf:Description', {'rdf:about': 'http://localhost:3000/data/partie/' + partie.id_partie})
         .ele('partie:datetime_debut_partie').txt(partie.datetime_debut_partie).up()
-        .ele('partie:datetime_debut_partie').txt(partie.datetime_fin_partie).up()
+        .ele('partie:datetime_fin_partie').txt(partie.datetime_fin_partie).up()
         .ele('partie:score_manche_joueur_1').txt(partie.score_manche_joueur_1).up()
         .ele('partie:score_manche_joueur_2').txt(partie.score_manche_joueur_2).up()
         .ele('partie:duree_partie').txt(partie.duree_partie).up()

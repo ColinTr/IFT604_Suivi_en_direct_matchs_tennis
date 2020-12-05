@@ -40,3 +40,8 @@ Afin de tester, la BDD comporte les identifiants suivants : <br/>
  \- id_joueur : 1 ou 2<br/>
  On peut donc envoyer une requête sur http://localhost:3000/data/horaire/83 ou http://localhost:3000/data/joueur/1<br/>
 Comme expliqué ci-dessus, ces requêtes devront posséder un header avec la clé "<b>Accept</b>" et la valeur "<b>text/html</b>" ou "<b>application/rdf+xml</b>".
+
+### Exemple de résultat
+Il est possible de valider la syntaxe rdf/xml renvoyée par l'API à l'aide d'un outil comme www.w3.org/RDF/Validator/<br>
+Voici un exemple de graphe que l'on a obtenu avec l'ensemble des données de l'application récupérées via le chemin http://localhost:3000/data en format rdf+xml :
+![graph_of_all_of_the_data](./full_data_graph.png)
