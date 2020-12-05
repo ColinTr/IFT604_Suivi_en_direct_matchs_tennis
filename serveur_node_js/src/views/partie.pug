@@ -18,11 +18,11 @@ html
                     th joueur2
             tbody
                 tr
-                    td #{partie.datetime_debut_partie}
-                    td #{partie.datetime_fin_partie}
-                    td #{partie.score_manche_joueur_1}
-                    td #{partie.score_manche_joueur_2}
-                    td #{partie.duree_partie}
+                    td= partie.datetime_debut_partie
+                    td= partie.datetime_fin_partie
+                    td= partie.score_manche_joueur_1
+                    td= partie.score_manche_joueur_2
+                    td= partie.duree_partie
                     td
                         if partie.etat_partie === 0
                             div partie non commencée
@@ -31,8 +31,8 @@ html
                         else if partie.etat_partie === 2
                             div partie terminée
                     td
-                        a(href='http://localhost:3000/data/horaire/#{partie.id_partie}') http://localhost:3000/data/horaire/#{partie.id_partie}
+                        a(href='http://localhost:3000/data/horaire/' + partie.id_partie)= 'http://localhost:3000/data/horaire/' + partie.id_partie
                     td
-                        a(href='http://localhost:3000/data/joueur/#{partie.id_joueur_1}') http://localhost:3000/data/joueur/#{partie.id_joueur_1}
+                        a(href='http://localhost:3000/data/joueur/' + partie.id_joueur_1)= 'http://localhost:3000/data/joueur/' + partie.id_joueur_1
                     td
-                        a(href='http://localhost:3000/data/joueur/#{partie.id_joueur_2}') http://localhost:3000/data/joueur/#{partie.id_joueur_2}
+                        a(href='http://localhost:3000/data/joueur/' + partie.id_joueur_2)= 'http://localhost:3000/data/joueur/' + partie.id_joueur_2

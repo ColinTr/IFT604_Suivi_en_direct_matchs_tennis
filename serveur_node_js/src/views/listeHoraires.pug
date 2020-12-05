@@ -14,10 +14,10 @@ html
             tbody
                 each partie in listeParties
                     tr
-                        td #{partie.datetime_debut_partie}
+                        td= partie.datetime_debut_partie
                         td
-                            a(href='http://localhost:3000/data/partie/#{partie.id_partie}') http://localhost:3000/data/partie/#{partie.id_partie}
+                            a(href='http://localhost:3000/data/partie/' + partie.id_partie)= 'http://localhost:3000/data/partie/' + partie.id_partie
                         td
-                            a(href='http://localhost:3000/data/joueur/#{partie.id_joueur_1}') http://localhost:3000/data/joueur/#{partie.id_joueur_1}
+                            a(href='http://localhost:3000/data/joueur/'+ partie.id_joueur_1)= 'http://localhost:3000/data/joueur/' + partie.id_joueur_1
                         td
-                            a(href='http://localhost:3000/data/joueur/#{partie.id_joueur_2}') http://localhost:3000/data/joueur/#{partie.id_joueur_2}
+                            a(href='http://localhost:3000/data/joueur/'+ partie.id_joueur_2)= 'http://localhost:3000/data/joueur/' + partie.id_joueur_2
