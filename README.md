@@ -1,5 +1,6 @@
 # Introduction
-Ce projet a été réalisé dans le cadre du cours IFT717 - Applications Internet & Mobilité.<br/>
+
+Ce projet a été réalisé dans le cadre du cours IFT604 - Applications Internet & Mobilité.<br/>
 Notre groupe est constitué de :
  - Colin Troisemaine
  - Quentin Levieux
